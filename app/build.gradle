@@ -39,4 +39,5 @@ dependencies {
     compile 'android.arch.lifecycle:extensions:1.0.0'
     compile 'com.squareup.moshi:moshi:1.5.0'
     compile 'com.squareup.moshi:moshi-kotlin:1.5.0'
+    compile 'org.jsoup:jsoup:1.11.2' // Java html parser
 }
