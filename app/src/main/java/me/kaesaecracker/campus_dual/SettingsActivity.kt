@@ -28,8 +28,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        setSupportActionBar(findViewById(R.id.toolbar) as Toolbar)
     }
 
     override fun onMenuItemSelected(featureId: Int, item: MenuItem): Boolean {

@@ -1,15 +1,18 @@
 <resources>
+    <!-- GENERAL -->
     <string name="app_name">Campus-Dual</string>
 
-    <!-- Strings related to login -->
+    <!-- LOGIN -->
+    <string name="title_activity_login">Login</string>
     <string name="prompt_user">sNummer</string>
     <string name="prompt_password">Passwort</string>
     <string name="action_sign_in">Einloggen</string>
     <string name="error_field_required">Dies ist ein Pflichtfeld</string>
+
+    <!-- MAIN -->
+    <string name="title_activity_main">Campus-Dual</string>
+
+    <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
-
-    <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 </resources>
