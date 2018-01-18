@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     tools:context="me.kaesaecracker.campus_dual.MainActivity">
 
-    <ListView
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_webview" />
+
+    <!--<ListView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -18,5 +23,5 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0" />-->
 </android.support.constraint.ConstraintLayout>

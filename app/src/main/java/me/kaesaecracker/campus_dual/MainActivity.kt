@@ -10,14 +10,18 @@ import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.TextView
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.String
-import android.R.attr.name
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.item_lesson.*
+import android.webkit.WebView
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+import android.preference.PreferenceManager
+import android.content.SharedPreferences
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -27,11 +31,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     var lessonList: Array<Lesson>? = arrayOf()
+
     inner class LessonArrayAdapter(context: Context) : ArrayAdapter<Lesson>(context, R.layout.item_lesson) {
         private val mInflator: LayoutInflater = LayoutInflater.from(context)
 
         override fun getItemId(index: Int) = index.toLong()
-        override fun getCount():Int = lessonList?.size ?: 0
+        override fun getCount(): Int = lessonList?.size ?: 0
         override fun getItem(index: Int) = lessonList!![index]
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -58,13 +63,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private var viewModel: MyViewModel? = null
+    //private var viewModel: MyViewModel? = null
+    private var webView: WebView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // crashlytics
+        Fabric.with(this, Crashlytics())
+        // layout
         setContentView(R.layout.activity_main)
 
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = sharedPref.edit();
+        editor.putString("pref_userId", "3003072")
+        editor.putString("pref_password", "Nefertiti9!")
+        editor.commit()
+
+
+        webView = findViewById(R.id.main_webview)
+        webView!!.settings.javaScriptEnabled = true
+
+        val url = ("http://li1810-192.members.linode.com/cd_api/GetScheduleHtmlWithAuth.php?userId="
+                + sharedPref.getString("pref_userId", "") + "&password=" + sharedPref.getString("pref_password", ""))
+        webView!!.loadUrl(url)
+
+        /****
         viewModel = ViewModelProviders.of(this).get(MyViewModel::class.java)
-        viewModel!!.getLessons().observe(this, Observer { lessons -> lessonList = lessons?.toTypedArray() })
+        viewModel!!.getLessons().observe(this, Observer { lessons -> lessonList = lessons?.toTypedArray() })*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -83,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_settings -> {
@@ -92,7 +118,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_refresh -> {
-                viewModel!!.refreshLessons()
+                //viewModel!!.refreshLessons()
+                webView!!.reload()
             }
 
             R.id.action_logout -> {

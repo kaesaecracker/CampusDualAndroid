@@ -1,0 +1,44 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Login Settings"
+        android:key="pref_key_login_settings">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="auto_login"
+            android:summaryOff="App startet beim Login"
+            android:summaryOn="App startet beim Stundenplan"
+            android:title="Auto-Login" />
+
+        <Preference
+            android:key="pref_static_field_key"
+            android:selectable="false"
+            android:summary="If your user or password are wrong, an empty schedule may still load."/>
+
+        <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+        <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+        <EditTextPreference
+            android:capitalize="words"
+            android:defaultValue="s"
+            android:inputType="textNoSuggestions"
+            android:key="pref_userId"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="Matrikelnummer (ohne 's')" />
+        <EditTextPreference
+            android:inputType="textNoSuggestions"
+            android:key="pref_password"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:title="Passwort" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Tracking Settings"
+        android:key="pref_key_tracking_settings">
+        <Preference
+            android:key="pref_static_field_key"
+            android:selectable="false"
+            android:summary="This app uses Crashlytics to report crashes automatically. You cannot disable this at the time."/>
+    </PreferenceCategory>
+</PreferenceScreen>
