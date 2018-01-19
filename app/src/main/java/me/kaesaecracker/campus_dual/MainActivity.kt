@@ -1,10 +1,9 @@
 package me.kaesaecracker.campus_dual
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
@@ -16,80 +15,36 @@ import me.eugeniomarletti.extras.intent.base.String
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.webkit.WebView
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-import android.preference.PreferenceManager
-import android.content.SharedPreferences
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 
 
 
-
+// TODO use ViewModel
+// TODO maybe use Lifecycle
+// TODO look up how to properly store passswords
+// TODO pull to refresh
 class MainActivity : AppCompatActivity() {
+    private val binding: `null`.databinding.ActivityMainBinding? = null
+
     object IntentOptions {
         var Intent.loginUser by IntentExtra.String()
         var Intent.loginPassword by IntentExtra.String()
     }
-
-    var lessonList: Array<Lesson>? = arrayOf()
-
-    inner class LessonArrayAdapter(context: Context) : ArrayAdapter<Lesson>(context, R.layout.item_lesson) {
-        private val mInflator: LayoutInflater = LayoutInflater.from(context)
-
-        override fun getItemId(index: Int) = index.toLong()
-        override fun getCount(): Int = lessonList?.size ?: 0
-        override fun getItem(index: Int) = lessonList!![index]
-
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            var convertView = convertView
-
-            // Get the data item for this position
-            val lesson = getItem(position) as Lesson
-
-            // Check if an existing view is being reused, otherwise inflate the view
-            if (convertView == null) {
-                convertView = mInflator.inflate(R.layout.item_lesson, parent, false)
-            }
-
-            // Lookup view for data population
-            val title = convertView!!.findViewById<TextView>(R.id.lesson_title)
-            val room = convertView.findViewById<TextView>(R.id.lesson_room)
-
-            // Populate the data into the template view using the data object
-            title.text = lesson.title
-            room.text = lesson.room
-
-            // Return the completed view to render on screen
-            return convertView
-        }
-    }
-
-    //private var viewModel: MyViewModel? = null
-    private var webView: WebView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // crashlytics
         Fabric.with(this, Crashlytics())
         // layout
-        setContentView(R.layout.activity_main)
+        setContentView(   R.layout.activity_main)
 
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val editor = sharedPref.edit();
-        editor.putString("pref_userId", "3003072")
-        editor.putString("pref_password", "Nefertiti9!")
-        editor.commit()
+        val userId = sharedPref.getString("pref_userId", "")
+        val password = sharedPref.getString("pref_password", "")
 
-
-        webView = findViewById(R.id.main_webview)
-        webView!!.settings.javaScriptEnabled = true
-
-        val url = ("http://li1810-192.members.linode.com/cd_api/GetScheduleHtmlWithAuth.php?userId="
-                + sharedPref.getString("pref_userId", "") + "&password=" + sharedPref.getString("pref_password", ""))
-        webView!!.loadUrl(url)
-
-        /****
-        viewModel = ViewModelProviders.of(this).get(MyViewModel::class.java)
-        viewModel!!.getLessons().observe(this, Observer { lessons -> lessonList = lessons?.toTypedArray() })*/
+        // TODO livedata for schedule
+        // TODO arrayadapter for lesson
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -100,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             tintMenuIcon(this@MainActivity, menuItem, android.R.color.white)
         }
 
-        menuItem = menu!!.findItem(R.id.action_settings)
+        menuItem = menu.findItem(R.id.action_settings)
         if (menuItem != null) {
             tintMenuIcon(this@MainActivity, menuItem, android.R.color.white)
         }
@@ -118,8 +73,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_refresh -> {
-                //viewModel!!.refreshLessons()
-                webView!!.reload()
+                TODO("implement refresh")
             }
 
             R.id.action_logout -> {
