@@ -56,6 +56,7 @@ dependencies {
     //compile 'com.squareup.moshi:moshi-kotlin:1.5.0'
     //compile 'org.jsoup:jsoup:1.11.2' // Java html parser
     compile 'com.beust:klaxon:2.0.11' // https://github.com/cbeust/klaxon
+    compile "org.jetbrains.anko:anko-commons:+" //Logger
 
     // TODO use exact version numbers
     // https://github.com/kittinunf/Fuel
