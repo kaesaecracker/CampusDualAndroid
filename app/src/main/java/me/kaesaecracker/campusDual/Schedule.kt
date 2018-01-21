@@ -14,28 +14,32 @@ import android.widget.TextView
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.result.Result
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
+import com.google.firebase.crash.FirebaseCrash
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
 class ScheduleAdapter(context: Context, days: Array<Day>)
-    : ArrayAdapter<Day>(context, 0, days), AnkoLogger {
+    : ArrayAdapter<Day>(context, 0, days) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        info("getView")
+        FirebaseCrash.log("getView")
 
         val day = getItem(position)
 
+        FirebaseCrash.log("lessons this day: " + day.lessons.size)
+
         // initialize layout if needed
-        var convertViewVar = convertView ?: LayoutInflater.from(context)
-                .inflate(R.layout.item_schoolday, parent, false)
+        var convertViewVar = convertView
+                ?: LayoutInflater.from(context).inflate(R.layout.item_schoolday, parent, false)
 
         // find views
         val dateView = convertViewVar.findViewById<TextView>(R.id.schedule_date)
         val weekDayView = convertViewVar.findViewById<TextView>(R.id.schedule_day)
         val lessonsView = convertViewVar.findViewById<LinearLayout>(R.id.schedule_lessons)
+
+        // remove old lessons
+        lessonsView.removeAllViews()
 
         // set data
         dateView.text = day.date
@@ -67,7 +71,7 @@ class ScheduleAdapter(context: Context, days: Array<Day>)
     }
 }
 
-class ScheduleViewModel : ViewModel(), AnkoLogger {
+class ScheduleViewModel : ViewModel() {
     var userId: String? = null
     var password: String? = null
 
@@ -86,7 +90,7 @@ class ScheduleViewModel : ViewModel(), AnkoLogger {
 
     val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
     fun loadSchooldays(userId: String? = this.userId, password: String? = this.password) {
-        info("loadSchooldays; userId='$userId'; password='$password'")
+        FirebaseCrash.log("loadSchooldays; userId='$userId'; password='$password'")
 
         // TODO response header handling
         Fuel.Companion.post(apiBaseUrl + "GetScheduleJsonWithAuth.php", listOf(
@@ -96,15 +100,14 @@ class ScheduleViewModel : ViewModel(), AnkoLogger {
             when (result) {
                 is Result.Failure -> {
                     // TODO do something useful
-                    info("fuel response failure")
-                    info("request: $request")
-                    info("response: $response")
-                    info("result: $result")
+                    FirebaseCrash.log("fuel response failure")
+                    FirebaseCrash.log("request: $request")
+                    FirebaseCrash.log("response: $response")
+                    FirebaseCrash.log("result: $result")
                 }
 
                 is Result.Success -> {
-                    info("fuel response success")
-                    info(result.value)
+                    FirebaseCrash.log("fuel response success")
 
                     val days = parseSchedule(result.value.array())
                     schooldays!!.value = days.toList()
@@ -139,7 +142,7 @@ class ScheduleViewModel : ViewModel(), AnkoLogger {
         val lessons = ArrayList<Lesson>()
         if (jsonLessons == null) return lessons
 
-        info { "Lesson count in json: " + jsonLessons.length() }
+        //info { "Lesson count in json: " + jsonLessons.length() }
 
         for (lessonIndex in 0 until jsonLessons.length()) {
             val jsonLesson = jsonLessons[lessonIndex] as JSONObject

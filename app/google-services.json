@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "787627122572",
+    "firebase_url": "https://campusdual-dff8f.firebaseio.com",
+    "project_id": "campusdual-dff8f",
+    "storage_bucket": "campusdual-dff8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787627122572:android:e8b3200414162435",
+        "android_client_info": {
+          "package_name": "me.kaesaecracker.campus_dual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787627122572-hlhqt1kqlf15vpn5dv6i74jdu3eee14r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "me.kaesaecracker.campus_dual",
+            "certificate_hash": "4104bd4377d1e9cbee6fdcc3b4c93bccbf916d7d"
+          }
+        },
+        {
+          "client_id": "787627122572-420s9fm7jk4atj56tkv1uohksv8uratm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV0Scg7KjDpxYS4Q_OPML9QNdoZ_kMJz0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787627122572-420s9fm7jk4atj56tkv1uohksv8uratm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,19 +13,18 @@ import android.view.*
 import android.widget.ListView
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.String
-import com.crashlytics.android.Crashlytics
-import io.fabric.sdk.android.Fabric
-import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crash.FirebaseCrash
 
 // FIXME Crash if user and password are not set (empty server response)
 // TODO maybe use Lifecycle
 // TODO look up how to properly store passwords
 // TODO pull to refresh
-class MainActivity : AppCompatActivity(), AnkoLogger {
+class MainActivity : AppCompatActivity() {
     //region variables
     private var viewModel: ScheduleViewModel? = null
     private var sharedPref: SharedPreferences? = null
+    private var mFirebaseAnalytics: FirebaseAnalytics? = null
     //endregion
 
     //region helper objects and classes
@@ -38,10 +37,10 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     //region onSomething
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        info("onCreate")
+        FirebaseCrash.log("onCreate")
 
-        // crashlytics
-        Fabric.with(this, Crashlytics())
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         // layout
         setContentView(R.layout.activity_main)
@@ -51,13 +50,17 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
 
+        if (userId == "" || password == ""){
+
+        }
+
         // set viewproviders
         viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
-            info("schedule: $it")
+            FirebaseCrash.log("schedule: $it")
 
             if (it != null){
-                info("it != null")
+                FirebaseCrash.log("it != null")
 
                 val adapter = ScheduleAdapter(this, it.toTypedArray())
                 val listView = findViewById<ListView>(R.id.main_schedule)
@@ -72,7 +75,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     //region Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        info("onCreateOptionsMenu")
+        FirebaseCrash.log("onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_tollbar_menu, menu)
 
         var menuItem = menu!!.findItem(R.id.action_refresh)
@@ -89,7 +92,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        info("onOptionsItemSelected")
+        FirebaseCrash.log("onOptionsItemSelected")
         when (item!!.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java).apply {}
@@ -121,7 +124,7 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
     }
 
     private fun tintMenuIcon(context: Context, item: MenuItem, @ColorRes color: Int) {
-        info("tintMenuIcon")
+        FirebaseCrash.log("tintMenuIcon")
 
         val normalDrawable = item.icon
         val wrapDrawable = DrawableCompat.wrap(normalDrawable)
