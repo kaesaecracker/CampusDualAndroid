@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.kaesaecracker.campus_dual">
+    package="me.kaesaecracker.campusDual">
 
     <!-- CRASHALYTICS -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="me.kaesaecracker.campusDual.MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,15 +22,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="me.kaesaecracker.campusDual.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName="me.kaesaecracker.campusDual.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.kaesaecracker.campus_dual.MainActivity" />
+                android:value="me.kaesaecracker.campusDual.MainActivity" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="me.kaesaecracker.campusDual.LoginActivity"
             android:label="@string/title_activity_login" />
 
         <!-- CRASHALYTICS -->

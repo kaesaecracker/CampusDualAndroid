@@ -1,4 +1,4 @@
-package me.kaesaecracker.campus_dual
+package me.kaesaecracker.campusDual
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
