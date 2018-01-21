@@ -1,4 +1,4 @@
-package me.kaesaecracker.campus_dual
+package me.kaesaecracker.campusDual
 
 import org.junit.Test
 

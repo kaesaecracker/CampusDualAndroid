@@ -1,16 +1,16 @@
-package me.kaesaecracker.campus_dual
+package me.kaesaecracker.campusDual
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.*
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import android.widget.ListView
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.String
 import com.crashlytics.android.Crashlytics
@@ -20,9 +20,14 @@ import org.jetbrains.anko.info
 
 // TODO use ViewModel
 // TODO maybe use Lifecycle
-// TODO look up how to properly store passswords
+// TODO look up how to properly store passwords
 // TODO pull to refresh
 class MainActivity : AppCompatActivity(), AnkoLogger {
+    //region variables
+    private var viewModel: ScheduleViewModel? = null
+    private var sharedPref: SharedPreferences? = null
+    //endregion
+
     //region helper objects and classes
     object IntentOptions {
         var Intent.loginUser by IntentExtra.String()
@@ -42,24 +47,26 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         setContentView(R.layout.activity_main)
 
         // get login data
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val userId = sharedPref.getString("pref_userId", "")
-        val password = sharedPref.getString("pref_password", "")
+        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        val userId = sharedPref!!.getString("pref_userId", "")
+        val password = sharedPref!!.getString("pref_password", "")
+
+        // set viewproviders
+        viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
+            info("schedule: $it")
+
+            if (it != null){
+                info("it != null")
+
+                val adapter = ScheduleAdapter(this, it.toTypedArray())
+                val listView = findViewById<ListView>(R.id.main_schedule)
+                listView.adapter = adapter
+            }
+        })
 
         // TODO livedata for schedule
         // TODO arrayadapter for lesson
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    override fun onResume(){
-        super.onResume()
-        info("onResume")
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    override fun onPause() {
-        super.onPause()
-        info("onPause")
     }
     //endregion
 
@@ -91,7 +98,12 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
             }
 
             R.id.action_refresh -> {
-                TODO("implement refresh")
+                viewModel!!.userId = sharedPref!!.getString("pref_userId", "")
+                viewModel!!.password = sharedPref!!.getString("pref_password", "")
+
+                viewModel!!.loadSchooldays()
+
+                //TODO("implement refresh")
             }
 
             R.id.action_logout -> {
@@ -118,12 +130,4 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         item.icon = wrapDrawable
     }
     //endregion
-
-    fun observeSchoolday() {
-        val schoolday = SchooldayLiveData(this)
-        schoolday.observe(this, Observer {
-            // TODO refresh ui
-            info("new schoolday: $schoolday")
-        })
-    }
 }
