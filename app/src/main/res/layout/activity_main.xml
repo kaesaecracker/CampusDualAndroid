@@ -10,9 +10,10 @@
         tools:context="me.kaesaecracker.campusDual.MainActivity">
 
         <ListView
+            android:id="@+id/main_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/main_schedule">
+            app:layout_constraintTop_toTopOf="parent">
 
         </ListView>
 

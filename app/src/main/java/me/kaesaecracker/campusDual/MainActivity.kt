@@ -18,7 +18,7 @@ import io.fabric.sdk.android.Fabric
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 
-// TODO use ViewModel
+// FIXME Crash if user and password are not set (empty server response)
 // TODO maybe use Lifecycle
 // TODO look up how to properly store passwords
 // TODO pull to refresh
