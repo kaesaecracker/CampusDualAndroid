@@ -42,6 +42,7 @@ dependencies {
     // My libraries
     compile 'me.eugeniomarletti:android-extras-delegates:1.0.5'
     compile 'android.arch.lifecycle:extensions:1.0.0'
+    compile 'com.android.support:customtabs:26.1.0'
 
     // TODO use exact version numbers
     // https://github.com/kittinunf/Fuel

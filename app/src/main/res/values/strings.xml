@@ -11,6 +11,8 @@
 
     <!-- MAIN -->
     <string name="title_activity_main">Campus-Dual</string>
+    <string name="issues_url">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
+    <string name="releases_url">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
