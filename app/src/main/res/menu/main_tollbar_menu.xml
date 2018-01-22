@@ -6,13 +6,24 @@
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh_black_24dp"
         android:title="Refresh"
-        android:iconTint="@android:color/white"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_issues"
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:title="Bug Tracker"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_releases"
+        android:icon="@drawable/ic_new_releases_black_24dp"
+        android:title="Releases"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="Settings"
-        android:iconTint="@android:color/white"
         app:showAsAction="ifRoom" />
 
     <!--
