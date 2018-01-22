@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CampusDual.iml" filepath="$PROJECT_DIR$/CampusDual.iml" />
       <module fileurl="file://C:\Users\Vinzenz\StudioProjects\CampusDualApp\CampusDual.iml" filepath="C:\Users\Vinzenz\StudioProjects\CampusDualApp\CampusDual.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CampusDualApp.iml" filepath="$PROJECT_DIR$/CampusDualApp.iml" />
       <module fileurl="file://C:\Users\Vinzenz\AndroidStudioProjects\CampusDual\CampusDualApp.iml" filepath="C:\Users\Vinzenz\AndroidStudioProjects\CampusDual\CampusDualApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

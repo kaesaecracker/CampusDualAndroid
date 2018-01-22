@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity() {
                 //TODO("implement refresh")
             }
 
+            /****
             R.id.action_logout -> {
                 val intent = Intent(this, LoginActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NO_HISTORY
@@ -117,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
                 return true
-            }
+            }*/
         }
 
         return false
