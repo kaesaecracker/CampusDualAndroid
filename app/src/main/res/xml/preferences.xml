@@ -18,7 +18,6 @@
         <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
         <EditTextPreference
             android:capitalize="words"
-            android:defaultValue="s"
             android:inputType="textNoSuggestions"
             android:key="pref_userId"
             android:maxLines="1"
@@ -39,6 +38,6 @@
         <Preference
             android:key="pref_static_field_key"
             android:selectable="false"
-            android:summary="This app uses Crashlytics to report crashes automatically. You cannot disable this at the time."/>
+            android:summary="Ich nutze Google Firebase um Abstürze auswerten zu können. Momentan kann man dies noch nicht deaktivieren."/>
     </PreferenceCategory>
 </PreferenceScreen>
