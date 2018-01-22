@@ -5,16 +5,17 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.result.Result
 import com.google.firebase.crash.FirebaseCrash
+import khttp.post
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -76,6 +77,8 @@ class ScheduleViewModel : ViewModel() {
     var password: String? = null
 
     private var schooldays: MutableLiveData<List<Day>>? = null
+    var snackbarMessage: MutableLiveData<String> = MutableLiveData()
+
     fun getSchooldays(userId: String, password: String): LiveData<List<Day>> {
         this.userId = userId
         this.password = password
@@ -94,27 +97,29 @@ class ScheduleViewModel : ViewModel() {
     val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
     fun loadSchooldays(userId: String? = this.userId, password: String? = this.password) {
         FirebaseCrash.log("loadSchooldays; userId='$userId'; password='$password'")
+        this.userId = userId
+        this.password = password
 
-        // TODO response header handling
-        Fuel.Companion.post(apiBaseUrl + "GetScheduleJsonWithAuth.php", listOf(
-                Pair("userId", this.userId),
-                Pair("password", this.password)
-        )).responseJson { request, response, result ->
-            when (result) {
-                is Result.Failure -> {
-                    // TODO do something useful
-                    FirebaseCrash.log("fuel response failure")
-                    FirebaseCrash.log("request: $request")
-                    FirebaseCrash.log("response: $response")
-                    FirebaseCrash.log("result: $result")
+        doAsync {
+            val r = post(apiBaseUrl + "GetScheduleJsonWithAuth.php", params = mapOf(
+                    "userId" to (userId ?: ""),
+                    "password" to (password ?: "")
+            ))
+
+            if (r.headers["API_STATUS"] == null || r.headers["API_STATUS"]!!.trim() != "200") {
+                i("log", "Bad API status " + r.headers.toString())
+
+                uiThread {
+                    i("log", "test test test")
+                    snackbarMessage.postValue("Login fehlgeschlagen - hast du deine Daten in den Einstellungen eingetragen?")
                 }
 
-                is Result.Success -> {
-                    FirebaseCrash.log("fuel response success")
+                return@doAsync
+            }
 
-                    val days = parseSchedule(result.value.array())
-                    schooldays!!.value = days.toList()
-                }
+            val days = parseSchedule(r.jsonArray)
+            uiThread {
+                schooldays!!.value = days.toList()
             }
         }
     }
@@ -123,8 +128,6 @@ class ScheduleViewModel : ViewModel() {
         val schedule = ArrayList<Day>()
         for (dayIndex in 0 until jsonSchedule.length()) {
             val jsonDay = jsonSchedule.getJSONObject(dayIndex)
-
-            //jsonDay.keys().forEach { info { it + "="+jsonDay.get(it)::class.simpleName } }
 
             var date = ""
             var weekDay = ""
