@@ -15,10 +15,11 @@
         android:iconTint="@android:color/white"
         app:showAsAction="ifRoom" />
 
+    <!--
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_power_settings_new_black_24dp"
         android:title="Logout"
         android:iconTint="@android:color/white"
-        app:showAsAction="never" />
+        app:showAsAction="never" />-->
 </menu>

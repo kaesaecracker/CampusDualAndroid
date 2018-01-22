@@ -82,7 +82,10 @@ class ScheduleViewModel : ViewModel() {
 
         if (schooldays == null) {
             schooldays = MutableLiveData()
-            loadSchooldays(userId, password)
+
+            if (userId != "" && password != "") {
+                loadSchooldays(userId, password)
+            }
         }
 
         return schooldays!!
