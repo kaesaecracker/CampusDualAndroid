@@ -1,6 +1,7 @@
 package me.kaesaecracker.campusDual
 
-import android.arch.lifecycle.*
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,14 +10,18 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
 import android.support.customtabs.CustomTabsIntent
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.util.Log.i
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ListView
-import me.eugeniomarletti.extras.intent.IntentExtra
-import me.eugeniomarletti.extras.intent.base.String
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crash.FirebaseCrash
+import me.eugeniomarletti.extras.intent.IntentExtra
+import me.eugeniomarletti.extras.intent.base.String
 
 // FIXME Crash if user and password are not set (empty server response)
 // TODO maybe use Lifecycle
@@ -52,10 +57,6 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
 
-        if (userId == "" || password == "") {
-
-        }
-
         // set viewproviders
         viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
@@ -68,6 +69,13 @@ class MainActivity : AppCompatActivity() {
                 val listView = findViewById<ListView>(R.id.main_schedule)
                 listView.adapter = adapter
             }
+        })
+
+        i("log", "viewmodel:" +viewModel.toString())
+        viewModel!!.snackbarMessage.observe(this, Observer {
+            FirebaseCrash.log("observavle triggered")
+            i("log", "snackBarMessage received")
+            Snackbar.make(findViewById(R.id.main_root), it ?: "", Snackbar.LENGTH_LONG).show()
         })
 
         // TODO livedata for schedule

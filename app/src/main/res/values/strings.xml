@@ -17,4 +17,5 @@
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
     <string name="pref_header_general">General</string>
+    <string name="login_invalid">Username or password are incorrect.</string>
 </resources>
