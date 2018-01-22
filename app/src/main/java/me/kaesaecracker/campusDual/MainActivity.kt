@@ -1,20 +1,27 @@
 package me.kaesaecracker.campusDual
 
-import android.arch.lifecycle.*
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
+import android.support.customtabs.CustomTabsIntent
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.*
+import android.util.Log.i
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ListView
-import me.eugeniomarletti.extras.intent.IntentExtra
-import me.eugeniomarletti.extras.intent.base.String
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crash.FirebaseCrash
+import me.eugeniomarletti.extras.intent.IntentExtra
+import me.eugeniomarletti.extras.intent.base.String
 
 // FIXME Crash if user and password are not set (empty server response)
 // TODO maybe use Lifecycle
@@ -50,22 +57,25 @@ class MainActivity : AppCompatActivity() {
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
 
-        if (userId == "" || password == ""){
-
-        }
-
         // set viewproviders
         viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
             FirebaseCrash.log("schedule: $it")
 
-            if (it != null){
+            if (it != null) {
                 FirebaseCrash.log("it != null")
 
                 val adapter = ScheduleAdapter(this, it.toTypedArray())
                 val listView = findViewById<ListView>(R.id.main_schedule)
                 listView.adapter = adapter
             }
+        })
+
+        i("log", "viewmodel:" +viewModel.toString())
+        viewModel!!.snackbarMessage.observe(this, Observer {
+            FirebaseCrash.log("observavle triggered")
+            i("log", "snackBarMessage received")
+            Snackbar.make(findViewById(R.id.main_root), it ?: "", Snackbar.LENGTH_LONG).show()
         })
 
         // TODO livedata for schedule
@@ -78,15 +88,10 @@ class MainActivity : AppCompatActivity() {
         FirebaseCrash.log("onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_tollbar_menu, menu)
 
-        var menuItem = menu!!.findItem(R.id.action_refresh)
-        if (menuItem != null) {
-            tintMenuIcon(this@MainActivity, menuItem, android.R.color.white)
-        }
-
-        menuItem = menu.findItem(R.id.action_settings)
-        if (menuItem != null) {
-            tintMenuIcon(this@MainActivity, menuItem, android.R.color.white)
-        }
+        tintMenuIcon(this@MainActivity, menu, R.id.action_refresh, android.R.color.white)
+        tintMenuIcon(this@MainActivity, menu, R.id.action_settings, android.R.color.white)
+        tintMenuIcon(this@MainActivity, menu, R.id.action_issues, android.R.color.white)
+        tintMenuIcon(this@MainActivity, menu, R.id.action_releases, android.R.color.white)
 
         return true
     }
@@ -109,29 +114,44 @@ class MainActivity : AppCompatActivity() {
                 //TODO("implement refresh")
             }
 
-            /****
-            R.id.action_logout -> {
-                val intent = Intent(this, LoginActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-                }
+            R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
+            R.id.action_issues -> openChromeCustomTab(getString(R.string.issues_url))
 
-                startActivity(intent)
-                finish()
-                return true
-            }*/
+        /****
+        R.id.action_logout -> {
+        val intent = Intent(this, LoginActivity::class.java).apply {
+        flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+        }
+
+        startActivity(intent)
+        finish()
+        return true
+        }*/
         }
 
         return false
     }
 
-    private fun tintMenuIcon(context: Context, item: MenuItem, @ColorRes color: Int) {
+    private fun tintMenuIcon(context: Context, menu: Menu?, id: Int, @ColorRes color: Int) {
         FirebaseCrash.log("tintMenuIcon")
+        val item = menu!!.findItem(id)
+        if (item != null) {
+            val normalDrawable = item.icon
+            val wrapDrawable = DrawableCompat.wrap(normalDrawable)
+            DrawableCompat.setTint(wrapDrawable, context.resources.getColor(color))
 
-        val normalDrawable = item.icon
-        val wrapDrawable = DrawableCompat.wrap(normalDrawable)
-        DrawableCompat.setTint(wrapDrawable, context.resources.getColor(color))
+            item.icon = wrapDrawable
+        }
+    }
+    //endregion
 
-        item.icon = wrapDrawable
+    //region helper methods
+    fun openChromeCustomTab(url: String) {
+        val builder = CustomTabsIntent.Builder()
+        // todo set toolbar color and/or setting custom actions before invoking build()
+
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this, Uri.parse(url))
     }
     //endregion
 }
