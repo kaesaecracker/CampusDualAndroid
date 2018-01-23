@@ -86,9 +86,7 @@ class ScheduleViewModel : ViewModel() {
         if (schooldays == null) {
             schooldays = MutableLiveData()
 
-            if (userId != "" && password != "") {
-                loadSchooldays(userId, password)
-            }
+            loadSchooldays(userId, password)
         }
 
         return schooldays!!
@@ -110,7 +108,6 @@ class ScheduleViewModel : ViewModel() {
                 i("log", "Bad API status " + r.headers.toString())
 
                 uiThread {
-                    i("log", "test test test")
                     snackbarMessage.postValue("Login fehlgeschlagen - hast du deine Daten in den Einstellungen eingetragen?")
                 }
 

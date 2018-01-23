@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.snackbarMessage.observe(this, Observer {
             FirebaseCrash.log("observavle triggered")
             i("log", "snackBarMessage received")
-            Snackbar.make(findViewById(R.id.main_root), it ?: "", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.main_root), it ?: "Error showing message", Snackbar.LENGTH_LONG).show()
         })
 
         // TODO livedata for schedule
