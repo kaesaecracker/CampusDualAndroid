@@ -30,14 +30,12 @@ android {
         versionBuild = versionProps['VERSION_BUILD'].toInteger()
         versionCodeNr = versionProps['VERSION_CODE'].toInteger()
 
-        // build number + version code gets incremented every run
+        // build number gets incremented every run
         versionBuild = versionBuild + 1
-        versionCodeNr = versionCodeNr + 1
         if (!versionPropsFile.canWrite()) {
             throw new FileNotFoundException("Could not write version.properties!")
         } else {
             versionProps['VERSION_BUILD'] = versionBuild.toString()
-            versionProps['VERSION_CODE'] = versionCodeNr.toString()
             versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
         }
     }
