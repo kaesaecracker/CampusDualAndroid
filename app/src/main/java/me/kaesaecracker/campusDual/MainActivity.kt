@@ -11,8 +11,8 @@ import android.preference.PreferenceManager
 import android.support.annotation.ColorRes
 import android.support.customtabs.CustomTabsIntent
 import android.support.design.widget.Snackbar
-import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.util.Log.i
 import android.view.Menu
@@ -49,34 +49,50 @@ class MainActivity : AppCompatActivity() {
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
-        // layout
-        setContentView(R.layout.activity_main)
-
-        // get login data
+        // get viewmodel + login data
+        viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
 
-        // set viewproviders
-        viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        // layout
+        setContentView(R.layout.activity_main)
+        val mainRootView = findViewById<SwipeRefreshLayout>(R.id.main_root)
+        mainRootView.isRefreshing = true
+        var scheduleAdapter = ScheduleAdapter(this, mutableListOf())
+        val mainScheduleView = findViewById<ListView>(R.id.main_schedule)
+        mainScheduleView.adapter = scheduleAdapter
+
+        // actual schedule
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
             FirebaseCrash.log("schedule: $it")
 
             if (it != null) {
                 FirebaseCrash.log("it != null")
 
-                val adapter = ScheduleAdapter(this, it.toTypedArray())
-                val listView = findViewById<ListView>(R.id.main_schedule)
-                listView.adapter = adapter
+                // TODO just refresh the data
+                scheduleAdapter = ScheduleAdapter(this, it as MutableList<Day>)
+                mainScheduleView.adapter = scheduleAdapter
             }
+
+            mainRootView.isRefreshing = false
         })
 
-        i("log", "viewmodel:" +viewModel.toString())
+        // snackbar message
         viewModel!!.snackbarMessage.observe(this, Observer {
             FirebaseCrash.log("observavle triggered")
             i("log", "snackBarMessage received")
-            Snackbar.make(findViewById(R.id.main_root), it ?: "", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.main_root), it ?: "Error showing message", Snackbar.LENGTH_LONG).show()
         })
+
+        // refresh
+        mainRootView.setOnRefreshListener {
+            i("log", "swipe to refresh triggered")
+
+            mainRootView.isRefreshing = true
+            viewModel!!.refreshScheduleOnline()
+        }
+
 
         // TODO livedata for schedule
         // TODO arrayadapter for lesson
@@ -109,9 +125,9 @@ class MainActivity : AppCompatActivity() {
                 viewModel!!.userId = sharedPref!!.getString("pref_userId", "")
                 viewModel!!.password = sharedPref!!.getString("pref_password", "")
 
-                viewModel!!.loadSchooldays()
-
-                //TODO("implement refresh")
+                val mainRootView = findViewById<SwipeRefreshLayout>(R.id.main_root)
+                mainRootView.isRefreshing = true
+                viewModel!!.refreshScheduleOnline()
             }
 
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
