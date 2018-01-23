@@ -1,8 +1,10 @@
+// Android plugin
 apply plugin: 'com.android.application'
-
+// Kotlin plugin
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+// Firebase plugin
+apply plugin: 'com.google.firebase.firebase-crash'
 
 allprojects {
     repositories {
@@ -12,23 +14,54 @@ allprojects {
 
 android {
     compileSdkVersion 26
+
+    // Auto version numbering
+    def versionPropsFile = file('version.properties')
+    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr
+    if (!versionPropsFile.canRead()) {
+        throw new FileNotFoundException("Could not read version.properties!")
+    } else {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        versionMajor = versionProps['VERSION_MAJOR'].toInteger()
+        versionMinor = versionProps['VERSION_MINOR'].toInteger()
+        versionRevision = versionProps['VERSION_REVISION'].toInteger()
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+        versionCodeNr = versionProps['VERSION_CODE'].toInteger()
+
+        // build number + version code gets incremented every run
+        versionBuild = versionBuild + 1
+        versionCodeNr = versionCodeNr + 1
+        if (!versionPropsFile.canWrite()) {
+            throw new FileNotFoundException("Could not write version.properties!")
+        } else {
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps['VERSION_CODE'] = versionCodeNr.toString()
+            versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
+        }
+    }
+
+
     defaultConfig {
         applicationId "me.kaesaecracker.campus_dual"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode versionCodeNr
+        versionName "$versionMajor.$versionMinor.$versionRevision.$versionBuild"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            useProguard false
+        }
+
+        release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    dataBinding {
-        enabled = true
     }
 }
 
@@ -58,8 +91,6 @@ dependencies {
     compile 'com.android.support:customtabs:26.1.0'
     compile 'com.github.jkcclemens:khttp:0.1.0'
     compile 'org.jetbrains.anko:anko-common:0.10.4'
-
-    // TODO use exact version numbers
 }
 
 apply plugin: 'com.google.gms.google-services'
