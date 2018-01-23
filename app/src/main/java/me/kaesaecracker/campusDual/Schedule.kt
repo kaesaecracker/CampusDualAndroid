@@ -20,8 +20,14 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
 
-class ScheduleAdapter(context: Context, days: Array<Day>)
+class ScheduleAdapter(context: Context, days: MutableList<Day>)
     : ArrayAdapter<Day>(context, 0, days) {
+
+    private var mDays = days
+
+    override fun getItem(position: Int): Day {
+        return mDays[position]
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         FirebaseCrash.log("getView")
@@ -86,15 +92,15 @@ class ScheduleViewModel : ViewModel() {
         if (schooldays == null) {
             schooldays = MutableLiveData()
 
-            loadSchooldays(userId, password)
+            refreshScheduleOnline(userId, password)
         }
 
         return schooldays!!
     }
 
     val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
-    fun loadSchooldays(userId: String? = this.userId, password: String? = this.password) {
-        FirebaseCrash.log("loadSchooldays; userId='$userId'; password='$password'")
+    fun refreshScheduleOnline(userId: String? = this.userId, password: String? = this.password) {
+        FirebaseCrash.log("refreshScheduleOnline; userId='$userId'; password='$password'")
         this.userId = userId
         this.password = password
 
