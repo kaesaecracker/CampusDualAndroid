@@ -93,7 +93,7 @@ class ScheduleViewModel : ViewModel() {
         return schooldays!!
     }
 
-    val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
+    val apiBaseUrl = "https://cdapi.mattishub.xyz/"
     fun refreshScheduleOnline(userId: String? = this.userId, password: String? = this.password) {
         this.userId = userId
         this.password = password
