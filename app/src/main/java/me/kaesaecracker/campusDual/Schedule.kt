@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.firebase.crash.FirebaseCrash
 import khttp.post
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -30,11 +29,7 @@ class ScheduleAdapter(context: Context, days: MutableList<Day>)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        FirebaseCrash.log("getView")
-
         val day = getItem(position)
-
-        FirebaseCrash.log("lessons this day: " + day.lessons.size)
 
         // initialize layout if needed
         var convertViewVar = convertView
@@ -98,9 +93,8 @@ class ScheduleViewModel : ViewModel() {
         return schooldays!!
     }
 
-    val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
+    val apiBaseUrl = "https://cdapi.mattishub.xyz/"
     fun refreshScheduleOnline(userId: String? = this.userId, password: String? = this.password) {
-        FirebaseCrash.log("refreshScheduleOnline; userId='$userId'; password='$password'")
         this.userId = userId
         this.password = password
 
@@ -169,7 +163,6 @@ class ScheduleViewModel : ViewModel() {
     }
 
 }
-
 
 data class Day(
         val date: String,

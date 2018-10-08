@@ -18,8 +18,6 @@ import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.crash.FirebaseCrash
 import me.eugeniomarletti.extras.intent.IntentExtra
 import me.eugeniomarletti.extras.intent.base.String
 
@@ -31,7 +29,6 @@ class MainActivity : AppCompatActivity() {
     //region variables
     private var viewModel: ScheduleViewModel? = null
     private var sharedPref: SharedPreferences? = null
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
     //endregion
 
     //region helper objects and classes
@@ -44,10 +41,6 @@ class MainActivity : AppCompatActivity() {
     //region onSomething
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseCrash.log("onCreate")
-
-        // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         // get viewmodel + login data
         viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
@@ -65,11 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         // actual schedule
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
-            FirebaseCrash.log("schedule: $it")
-
             if (it != null) {
-                FirebaseCrash.log("it != null")
-
                 // TODO just refresh the data
                 scheduleAdapter = ScheduleAdapter(this, it as MutableList<Day>)
                 mainScheduleView.adapter = scheduleAdapter
@@ -80,7 +69,6 @@ class MainActivity : AppCompatActivity() {
 
         // snackbar message
         viewModel!!.snackbarMessage.observe(this, Observer {
-            FirebaseCrash.log("observavle triggered")
             i("log", "snackBarMessage received")
             Snackbar.make(findViewById(R.id.main_root), it ?: "Error showing message", Snackbar.LENGTH_LONG).show()
         })
@@ -101,7 +89,6 @@ class MainActivity : AppCompatActivity() {
 
     //region Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        FirebaseCrash.log("onCreateOptionsMenu")
         menuInflater.inflate(R.menu.main_tollbar_menu, menu)
 
         tintMenuIcon(this@MainActivity, menu, R.id.action_refresh, android.R.color.white)
@@ -113,7 +100,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        FirebaseCrash.log("onOptionsItemSelected")
         when (item!!.itemId) {
             R.id.action_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java).apply {}
@@ -149,7 +135,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun tintMenuIcon(context: Context, menu: Menu?, id: Int, @ColorRes color: Int) {
-        FirebaseCrash.log("tintMenuIcon")
         val item = menu!!.findItem(id)
         if (item != null) {
             val normalDrawable = item.icon
