@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     // Auto version numbering
     def versionPropsFile = file('version.properties')
@@ -33,6 +33,9 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         applicationId "me.kaesaecracker.campus_dual"
@@ -58,7 +61,7 @@ android {
 
 
 dependencies {
-    def support_version = "26.1.0"
+    def support_version = "27.1.1"
 
     // google and kotlin stuff
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -71,7 +74,7 @@ dependencies {
     // My libraries
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-    implementation 'com.android.support:customtabs:26.1.0'
+    implementation "com.android.support:customtabs:$support_version"
     implementation 'com.github.jkcclemens:khttp:0.1.0'
     implementation 'org.jetbrains.anko:anko-common:0.10.4'
 }
