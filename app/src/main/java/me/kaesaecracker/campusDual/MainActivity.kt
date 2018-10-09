@@ -1,19 +1,19 @@
 package me.kaesaecracker.campusDual
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.annotation.ColorRes
-import android.support.customtabs.CustomTabsIntent
-import android.support.design.widget.Snackbar
-import android.support.v4.graphics.drawable.DrawableCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
+import androidx.annotation.ColorRes
+import androidx.browser.customtabs.CustomTabsIntent
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         // layout
         setContentView(R.layout.activity_main)
-        val mainRootView = findViewById<SwipeRefreshLayout>(R.id.main_root)
+        val mainRootView = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.main_root)
         mainRootView.isRefreshing = true
         var scheduleAdapter = ScheduleAdapter(this, mutableListOf())
         val mainScheduleView = findViewById<ListView>(R.id.main_schedule)
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel!!.userId = sharedPref!!.getString("pref_userId", "")
                 viewModel!!.password = sharedPref!!.getString("pref_password", "")
 
-                val mainRootView = findViewById<SwipeRefreshLayout>(R.id.main_root)
+                val mainRootView = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.main_root)
                 mainRootView.isRefreshing = true
                 viewModel!!.refreshScheduleOnline()
             }
