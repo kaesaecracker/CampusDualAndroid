@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.support.constraint.ConstraintLayout
+import android.util.Log.d
 import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
-import khttp.post
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
@@ -93,32 +95,41 @@ class ScheduleViewModel : ViewModel() {
         return schooldays!!
     }
 
-    val apiBaseUrl = "https://cdapi.mattishub.xyz/"
     fun refreshScheduleOnline(userId: String? = this.userId, password: String? = this.password) {
         this.userId = userId
         this.password = password
 
-        doAsync {
-            val r = post(apiBaseUrl + "GetScheduleJsonWithAuth.php", params = mapOf(
-                    "userId" to (userId ?: ""),
-                    "password" to (password ?: "")
-            ))
+        FuelManager.instance.basePath = "https://cdapi.mattishub.xyz/"
+        "/GetScheduleJsonWithAuth.php".httpGet(
+                listOf("userId" to (userId ?: ""),
+                        "password" to (password ?: "")))
+                .header("Content-Type" to "application/json")
+                .allowRedirects(true)
+                .responseJson { _, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            toast("Login fehlgeschlagen - " + result.error.exception.localizedMessage)
+                            d("log", "Failure: " + result.error.localizedMessage)
+                        }
 
-            if (r.headers["API_STATUS"] == null || r.headers["API_STATUS"]!!.trim() != "200") {
-                i("log", "Bad API status " + r.headers.toString())
+                        is Result.Success -> {
+                            if (!response.headers.containsKey("API_STATUS")
+                                    || !response.headers.get("API_STATUS")!!.contains("200")) {
+                                i("log", "Bad API status " + response.headers.toString())
+                                toast("Login fehlgeschlagen - hast du deine Daten in den Einstellungen eingetragen?")
+                                return@responseJson
+                            }
 
-                uiThread {
-                    snackbarMessage.postValue("Login fehlgeschlagen - hast du deine Daten in den Einstellungen eingetragen?")
+                            val days = parseSchedule(result.get().array())
+                            schooldays!!.value = days.toList()
+                        }
+                    }
+
                 }
+    }
 
-                return@doAsync
-            }
-
-            val days = parseSchedule(r.jsonArray)
-            uiThread {
-                schooldays!!.value = days.toList()
-            }
-        }
+    private fun toast(s: String) {
+        snackbarMessage.postValue(s)
     }
 
     private fun parseSchedule(jsonSchedule: JSONArray): List<Day> {
