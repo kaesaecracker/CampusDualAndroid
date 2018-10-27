@@ -108,7 +108,7 @@ class ScheduleViewModel : ViewModel() {
                 d("log", "got response")
 
                 val (schedule, err) = result
-                if (err != null) toast("Failure: " + err.message)
+                if (err != null) toast("Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.")
 
                 schooldays!!.value = schedule
             }
