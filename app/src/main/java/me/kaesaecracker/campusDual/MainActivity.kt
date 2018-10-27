@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
             if (it != null) {
                 // TODO just refresh the data
-                scheduleAdapter = ScheduleAdapter(this, it as MutableList<Day>)
+                scheduleAdapter = ScheduleAdapter(this, it as MutableList<Lesson>)
                 mainScheduleView.adapter = scheduleAdapter
             }
 
