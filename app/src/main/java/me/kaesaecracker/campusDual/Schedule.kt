@@ -5,24 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.content.Context
 import android.util.Log.*
-import androidx.constraintlayout.widget.ConstraintLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.TextView
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.json.JSONArray
-import org.json.JSONObject
-import java.time.LocalDateTime
-import java.time.ZoneOffset
+import kotlinx.coroutines.experimental.async
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
@@ -34,6 +27,12 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
         return mDays[position]
     }
 
+    fun epochToDateTimeString(epochSeconds: Int, formatString: String): String {
+        val date = Date(epochSeconds * 1000L)
+        val format = SimpleDateFormat(formatString, Locale("de", "de"))
+        return format.format(date)
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val lesson = getItem(position)
 
@@ -41,9 +40,12 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
         val convertViewVar = convertView
                 ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
 
-        // time
+        // time and date
         val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
-        timeView.text = lesson.start
+        timeView.text = epochToDateTimeString(lesson.start.toInt(), "HH:mm") +
+                "-" + epochToDateTimeString(lesson.end.toInt(), "HH:mm")
+        val dateView = convertViewVar.findViewById<TextView>(R.id.lesson_date)
+        dateView.text = epochToDateTimeString(lesson.start.toInt(), "EE dd.MM")
 
         // room
         val roomView = convertViewVar.findViewById<TextView>(R.id.lesson_room)
@@ -89,37 +91,33 @@ class ScheduleViewModel : ViewModel() {
         this.userId = userId
         this.password = password
 
-        val urlBase = "https://selfservice.campus-dual.de/room/json"
+        async {
+            val urlBase = "https://selfservice.campus-dual.de/room/json"
 
-        val startEpoch = System.currentTimeMillis()
-        val endEpoch = startEpoch + 1.21e+6
+            val startEpoch = System.currentTimeMillis() / 1000
+            val endEpoch = Math.round(startEpoch + 1.21e+6)
 
-        val request = urlBase.httpGet(listOf(
-                "userid" to userId,
-                "hash" to password,
-                "start" to startEpoch,
-                "end" to endEpoch
-        ))
+            val request = urlBase.httpGet(listOf(
+                    "userid" to userId,
+                    "hash" to password,
+                    "start" to startEpoch,
+                    "end" to endEpoch
+            ))
 
-        request.responseObject(ScheduleDeserializer()) { _, _, result ->
-            d("log", "got response")
+            request.responseObject(ScheduleDeserializer()) { _, _, result ->
+                d("log", "got response")
 
-            val (schedule, err) = result
-            if (err != null || schedule == null) {
-                toast("Error")
-                w("log", err)
-                return@responseObject
+                val (schedule, err) = result
+                if (err != null) toast("Failure: " + err.message)
+
+                schooldays!!.value = schedule
             }
-
-            toast("Success")
-            schooldays!!.value = schedule
         }
-
-        d("log", "done")
     }
 
     private fun toast(s: String) {
         snackbarMessage.postValue(s)
+        d("log", "toast: $s")
     }
 }
 
