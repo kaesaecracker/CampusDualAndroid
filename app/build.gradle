@@ -7,7 +7,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
-
     // Auto version numbering
     def versionPropsFile = file('version.properties')
     def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr
@@ -32,11 +31,9 @@ android {
             versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
         }
     }
-
     lintOptions {
         abortOnError false
     }
-
     defaultConfig {
         applicationId "me.kaesaecracker.campus_dual"
         minSdkVersion 21
@@ -45,7 +42,6 @@ android {
         versionName "$versionMajor.$versionMinor.$versionRevision.$versionBuild"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         debug {
             minifyEnabled false
@@ -57,12 +53,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 
 dependencies {
     // google and kotlin stuff
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
@@ -71,10 +71,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20'
+
     // My libraries
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
-    implementation "com.github.kittinunf.fuel:fuel-android:1.15.1"
-    implementation 'com.github.kittinunf.fuel:fuel-gson:1.16.0'
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
+    implementation 'com.github.kittinunf.fuel:fuel-gson:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
 }
 
