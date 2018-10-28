@@ -12,14 +12,11 @@ import androidx.annotation.ColorRes
 import androidx.browser.customtabs.CustomTabsIntent
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
-import me.eugeniomarletti.extras.intent.IntentExtra
-import me.eugeniomarletti.extras.intent.base.String
 
 // FIXME Crash if user and password are not set (empty server response)
 // TODO maybe use Lifecycle
@@ -29,13 +26,6 @@ class MainActivity : AppCompatActivity() {
     //region variables
     private var viewModel: ScheduleViewModel? = null
     private var sharedPref: SharedPreferences? = null
-    //endregion
-
-    //region helper objects and classes
-    object IntentOptions {
-        var Intent.loginUser by IntentExtra.String()
-        var Intent.loginPassword by IntentExtra.String()
-    }
     //endregion
 
     //region onSomething

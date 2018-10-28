@@ -29,14 +29,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kaesaecracker.campusDual.MainActivity" />
         </activity>
-        <activity
-            android:name="me.kaesaecracker.campusDual.LoginActivity"
-            android:label="@string/title_activity_login" />
-
-        <!-- CRASHALYTICS -->
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="1388771473233a0fa5fc88878d59498462f7e394" />
 
     </application>
 
