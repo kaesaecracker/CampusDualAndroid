@@ -42,10 +42,16 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
 
         // time and date
         val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
-        timeView.text = epochToDateTimeString(lesson.start.toInt(), "HH:mm") +
-                "-" + epochToDateTimeString(lesson.end.toInt(), "HH:mm")
         val dateView = convertViewVar.findViewById<TextView>(R.id.lesson_date)
-        dateView.text = epochToDateTimeString(lesson.start.toInt(), "EE dd.MM")
+        if (lesson.start != "" && lesson.end != "") {
+            timeView.text =
+                    epochToDateTimeString(lesson.start.toInt(), "HH:mm") +
+                    "-" + epochToDateTimeString(lesson.end.toInt(), "HH:mm")
+            dateView.text = epochToDateTimeString(lesson.start.toInt(), "EE dd.MM")
+        } else {
+            dateView.text = "<error>"
+            timeView.text = "<error>"
+        }
 
         // room
         val roomView = convertViewVar.findViewById<TextView>(R.id.lesson_room)
@@ -94,8 +100,11 @@ class ScheduleViewModel : ViewModel() {
         async {
             val urlBase = "https://selfservice.campus-dual.de/room/json"
 
-            val startEpoch = System.currentTimeMillis() / 1000
-            val endEpoch = Math.round(startEpoch + 1.21e+6)
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DATE, +11)
+            val startEpoch = calendar.timeInMillis / 1000
+            calendar.add(Calendar.MONTH, 1)
+            val endEpoch = calendar.timeInMillis / 1000
 
             val request = urlBase.httpGet(listOf(
                     "userid" to userId,
