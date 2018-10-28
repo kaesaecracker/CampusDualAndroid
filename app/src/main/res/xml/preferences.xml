@@ -1,8 +1,4 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="auto_login"
-        android:title="Auto-Login" />
     <EditTextPreference
         android:capitalize="words"
         android:inputType="textNoSuggestions"
@@ -18,6 +14,6 @@
         android:maxLines="1"
         android:singleLine="true"
         android:summary="Nicht mehr das Passwort! Anleitung und Erklärung auf:
-https://mattishub.xyz/cdhash.txt"
+https://mattishub.xyz/cdhash"
         android:title="Hash" />
 </PreferenceScreen>
