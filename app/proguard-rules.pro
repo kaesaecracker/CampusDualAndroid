@@ -14,7 +14,11 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
+
+# GSON specifics
+-keepattributes Signature
+-keep class me.kaesaecracker.campusDual.Lesson  { *; }
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.

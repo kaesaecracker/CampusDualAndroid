@@ -1,70 +1,70 @@
 package me.kaesaecracker.campusDual
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.util.Log.i
+import android.util.Log.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.LinearLayout
 import android.widget.TextView
-import com.google.firebase.crash.FirebaseCrash
-import khttp.post
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import org.json.JSONArray
-import org.json.JSONObject
+import com.github.kittinunf.fuel.core.ResponseDeserializable
+import com.github.kittinunf.fuel.httpGet
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.experimental.async
+import java.text.SimpleDateFormat
 import java.util.*
 
-class ScheduleAdapter(context: Context, days: Array<Day>)
-    : ArrayAdapter<Day>(context, 0, days) {
+class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
+    : ArrayAdapter<Lesson>(context, 0, days) {
+
+    private var mDays = days
+
+    override fun getItem(position: Int): Lesson {
+        return mDays[position]
+    }
+
+    fun epochToDateTimeString(epochSeconds: Int, formatString: String): String {
+        val date = Date(epochSeconds * 1000L)
+        val format = SimpleDateFormat(formatString, Locale("de", "de"))
+        return format.format(date)
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        FirebaseCrash.log("getView")
-
-        val day = getItem(position)
-
-        FirebaseCrash.log("lessons this day: " + day.lessons.size)
+        val lesson = getItem(position)
 
         // initialize layout if needed
-        var convertViewVar = convertView
-                ?: LayoutInflater.from(context).inflate(R.layout.item_schoolday, parent, false)
+        val convertViewVar = convertView
+                ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
 
-        // find views
-        val dateView = convertViewVar.findViewById<TextView>(R.id.schedule_date)
-        val weekDayView = convertViewVar.findViewById<TextView>(R.id.schedule_day)
-        val lessonsView = convertViewVar.findViewById<LinearLayout>(R.id.schedule_lessons)
-
-        // remove old lessons
-        lessonsView.removeAllViews()
-
-        // set data
-        dateView.text = day.date
-        weekDayView.text = day.weekDay
-        for (lesson in day.lessons) {
-            val container = LayoutInflater.from(context).inflate(R.layout.item_lesson, null) as ConstraintLayout
-            lessonsView.addView(container)
-
-            // time
-            val timeView = container.findViewById<TextView>(R.id.lesson_time)
-            timeView.text = lesson.time
-
-            // room
-            val roomView = container.findViewById<TextView>(R.id.lesson_room)
-            roomView.text = lesson.room
-
-            // prof
-            val profView = container.findViewById<TextView>(R.id.lesson_prof)
-            profView.text = lesson.instructor
-
-            // title
-            val titleView = container.findViewById<TextView>(R.id.lesson_title)
-            titleView.text = lesson.title
+        // time and date
+        val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
+        val dateView = convertViewVar.findViewById<TextView>(R.id.lesson_date)
+        if (lesson.start != "" && lesson.end != "") {
+            timeView.text =
+                    epochToDateTimeString(lesson.start.toInt(), "HH:mm") +
+                    "-" + epochToDateTimeString(lesson.end.toInt(), "HH:mm")
+            dateView.text = epochToDateTimeString(lesson.start.toInt(), "EE dd.MM")
+        } else {
+            dateView.text = "<error>"
+            timeView.text = "<error>"
         }
+
+        // room
+        val roomView = convertViewVar.findViewById<TextView>(R.id.lesson_room)
+        roomView.text = lesson.room
+
+        // prof
+        val profView = convertViewVar.findViewById<TextView>(R.id.lesson_prof)
+        profView.text = lesson.instructor
+
+        // title
+        val titleView = convertViewVar.findViewById<TextView>(R.id.lesson_title)
+        titleView.text = lesson.title
+
 
         // todo event handlers?
 
@@ -76,107 +76,74 @@ class ScheduleViewModel : ViewModel() {
     var userId: String? = null
     var password: String? = null
 
-    private var schooldays: MutableLiveData<List<Day>>? = null
+    private var schooldays: MutableLiveData<List<Lesson>>? = null
     var snackbarMessage: MutableLiveData<String> = MutableLiveData()
 
-    fun getSchooldays(userId: String, password: String): LiveData<List<Day>> {
+    fun getSchooldays(userId: String, password: String): LiveData<List<Lesson>> {
         this.userId = userId
         this.password = password
 
         if (schooldays == null) {
             schooldays = MutableLiveData()
 
-            if (userId != "" && password != "") {
-                loadSchooldays(userId, password)
-            }
+            refreshScheduleOnline(userId, password)
         }
 
         return schooldays!!
     }
 
-    val apiBaseUrl = "http://li1810-192.members.linode.com/cd_api/"
-    fun loadSchooldays(userId: String? = this.userId, password: String? = this.password) {
-        FirebaseCrash.log("loadSchooldays; userId='$userId'; password='$password'")
+    fun refreshScheduleOnline(userId: String? = this.userId, password: String? = this.password) {
+        d("log", "refresh")
         this.userId = userId
         this.password = password
 
-        doAsync {
-            val r = post(apiBaseUrl + "GetScheduleJsonWithAuth.php", params = mapOf(
-                    "userId" to (userId ?: ""),
-                    "password" to (password ?: "")
+        async {
+            val urlBase = "https://selfservice.campus-dual.de/room/json"
+
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DATE, +11)
+            val startEpoch = calendar.timeInMillis / 1000
+            calendar.add(Calendar.MONTH, 1)
+            val endEpoch = calendar.timeInMillis / 1000
+
+            val request = urlBase.httpGet(listOf(
+                    "userid" to userId,
+                    "hash" to password,
+                    "start" to startEpoch,
+                    "end" to endEpoch
             ))
 
-            if (r.headers["API_STATUS"] == null || r.headers["API_STATUS"]!!.trim() != "200") {
-                i("log", "Bad API status " + r.headers.toString())
+            request.responseObject(ScheduleDeserializer()) { _, _, result ->
+                d("log", "got response")
 
-                uiThread {
-                    i("log", "test test test")
-                    snackbarMessage.postValue("Login fehlgeschlagen - hast du deine Daten in den Einstellungen eingetragen?")
-                }
+                val (schedule, err) = result
+                if (err != null) toast("Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.")
 
-                return@doAsync
-            }
-
-            val days = parseSchedule(r.jsonArray)
-            uiThread {
-                schooldays!!.value = days.toList()
+                schooldays!!.value = schedule
             }
         }
     }
 
-    private fun parseSchedule(jsonSchedule: JSONArray): List<Day> {
-        val schedule = ArrayList<Day>()
-        for (dayIndex in 0 until jsonSchedule.length()) {
-            val jsonDay = jsonSchedule.getJSONObject(dayIndex)
-
-            var date = ""
-            var weekDay = ""
-            var lessons: JSONArray? = null
-            for (key in jsonDay.keys()) {
-                if (key.trim() == "date") date = jsonDay.getString(key)
-                if (key.trim() == "weekDay") weekDay = jsonDay.getString(key)
-                if (key.trim() == "lessons") lessons = jsonDay.getJSONArray(key)
-            }
-
-            schedule.add(Day(date, weekDay, parseLessons(lessons)))
-        }
-
-        return schedule
+    private fun toast(s: String) {
+        snackbarMessage.postValue(s)
+        d("log", "toast: $s")
     }
-
-    private fun parseLessons(jsonLessons: JSONArray?): List<Lesson> {
-        val lessons = ArrayList<Lesson>()
-        if (jsonLessons == null) return lessons
-
-        //info { "Lesson count in json: " + jsonLessons.length() }
-
-        for (lessonIndex in 0 until jsonLessons.length()) {
-            val jsonLesson = jsonLessons[lessonIndex] as JSONObject
-
-            // get lesson properties
-            val name = jsonLesson["name"] as String
-            val prof = jsonLesson["prof"] as String
-            val room = jsonLesson["room"] as String
-            val time = jsonLesson["time"] as String
-
-            lessons.add(Lesson(name, time, room, prof))
-        }
-
-        return lessons.toList()
-    }
-
 }
 
 
-data class Day(
-        val date: String,
-        val weekDay: String,
-        val lessons: List<Lesson>
-)
+class ScheduleDeserializer : ResponseDeserializable<List<Lesson>> {
+    override fun deserialize(content: String) = Gson().fromJson<List<Lesson>>(content, object : TypeToken<List<Lesson>>() {}.type)!!
+}
 
-data class Lesson(
-        val title: String,
-        val time: String,
-        val room: String,
-        val instructor: String
-)
+data class Lesson(val title: String = "",
+                  val start: String = "",
+                  val end: String = "",
+                  val allDay: Boolean = false,
+                  val description: String = "",
+                  val color: String = "",
+                  val editable: Boolean = false,
+                  val room: String = "",
+                  val sroom: String = "",
+                  val instructor: String = "",
+                  val sinstructor: String = "",
+                  val remarks: String = "")

@@ -1,58 +1,83 @@
+// Android plugin
 apply plugin: 'com.android.application'
 
+// Kotlin plugin
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 
-allprojects {
-    repositories {
-        maven { url 'https://jitpack.io' }
-    }
-}
-
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
+    // Auto version numbering
+    def versionPropsFile = file('version.properties')
+    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr
+    if (!versionPropsFile.canRead()) {
+        throw new FileNotFoundException("Could not read version.properties!")
+    } else {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        versionMajor = versionProps['VERSION_MAJOR'].toInteger()
+        versionMinor = versionProps['VERSION_MINOR'].toInteger()
+        versionRevision = versionProps['VERSION_REVISION'].toInteger()
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+        versionCodeNr = versionProps['VERSION_CODE'].toInteger()
+
+        // build number gets incremented every run
+        versionBuild = versionBuild + 1
+        if (!versionPropsFile.canWrite()) {
+            throw new FileNotFoundException("Could not write version.properties!")
+        } else {
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
     defaultConfig {
         applicationId "me.kaesaecracker.campus_dual"
         minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 28
+        versionCode versionCodeNr
+        versionName "$versionMajor.$versionMinor.$versionRevision.$versionBuild"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            useProguard false
+        }
+
+        release {
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    dataBinding {
-        enabled = true
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:26.1.0'
-    implementation 'com.google.firebase:firebase-crash:11.0.4'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    // google and kotlin stuff
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20'
 
     // My libraries
-    compile 'me.eugeniomarletti:android-extras-delegates:1.0.5'
-    compile 'android.arch.lifecycle:extensions:1.0.0'
-    compile 'com.android.support:customtabs:26.1.0'
-    compile 'com.github.jkcclemens:khttp:0.1.0'
-    compile 'org.jetbrains.anko:anko-common:0.10.4'
-
-    // TODO use exact version numbers
+    implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
+    implementation 'com.github.kittinunf.fuel:fuel-gson:1.15.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 apply plugin: 'com.google.gms.google-services'
