@@ -50,6 +50,7 @@ android {
 
         release {
             minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -70,7 +71,6 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20'
 
     // My libraries
