@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import androidx.annotation.ColorRes
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         mainScheduleView.adapter = scheduleAdapter
 
         // actual schedule
-        viewModel!!.getSchooldays(userId, password).observe(this, Observer { it ->
+        viewModel!!.getSchooldays(userId ?: "", password ?: "").observe(this, Observer { it ->
             if (it != null) {
                 // TODO just refresh the data
                 scheduleAdapter = ScheduleAdapter(this, it as MutableList<Lesson>)
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         // snackbar message
         viewModel!!.snackbarMessage.observe(this, Observer {
             i("log", "snackBarMessage received")
-            Snackbar.make(findViewById(R.id.main_root), it ?: "Error showing message", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(findViewById(R.id.main_root), it
+                    ?: "Error showing message", Snackbar.LENGTH_LONG).show()
         })
 
         // refresh
@@ -109,16 +111,16 @@ class MainActivity : AppCompatActivity() {
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
             R.id.action_issues -> openChromeCustomTab(getString(R.string.issues_url))
 
-        /****
-        R.id.action_logout -> {
-        val intent = Intent(this, LoginActivity::class.java).apply {
-        flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-        }
+            /****
+            R.id.action_logout -> {
+            val intent = Intent(this, LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NO_HISTORY
+            }
 
-        startActivity(intent)
-        finish()
-        return true
-        }*/
+            startActivity(intent)
+            finish()
+            return true
+            }*/
         }
 
         return false
@@ -129,7 +131,12 @@ class MainActivity : AppCompatActivity() {
         if (item != null) {
             val normalDrawable = item.icon
             val wrapDrawable = DrawableCompat.wrap(normalDrawable)
-            DrawableCompat.setTint(wrapDrawable, context.resources.getColor(color))
+            if (Build.VERSION.SDK_INT >= 23) {
+                DrawableCompat.setTint(wrapDrawable, context.resources.getColor(color, context.theme))
+            } else {
+                @Suppress("DEPRECATION")
+                DrawableCompat.setTint(wrapDrawable, context.resources.getColor(color))
+            }
 
             item.icon = wrapDrawable
         }
@@ -137,7 +144,7 @@ class MainActivity : AppCompatActivity() {
     //endregion
 
     //region helper methods
-    fun openChromeCustomTab(url: String) {
+    private fun openChromeCustomTab(url: String) {
         val builder = CustomTabsIntent.Builder()
         // todo set toolbar color and/or setting custom actions before invoking build()
 
