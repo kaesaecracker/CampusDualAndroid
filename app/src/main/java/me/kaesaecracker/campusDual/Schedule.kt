@@ -10,13 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,65 +27,55 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
         return mDays[position]
     }
 
-    fun epochToDateTimeString(epochSeconds: Int, formatString: String): String {
-        val date = Date(epochSeconds * 1000L)
-        val format = SimpleDateFormat(formatString, Locale("de", "de"))
-        return format.format(date)
-    }
-
-    private val timeFormat: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale("de"))
-    private val dateFormat: SimpleDateFormat = SimpleDateFormat("dd.MM", Locale("de"))
+    private val locale = Locale.getDefault()
+    private val timeFormat = SimpleDateFormat("HH:mm", locale)
+    private val dateFormat = SimpleDateFormat("dd.MM", locale)
+    private val weekdayFormat = SimpleDateFormat("EEEE", locale)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val lesson = getItem(position)
 
         // initialize layout if needed
-        val convertViewVar = convertView
+        val thisView = convertView
                 ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
 
-        val previousIsDifferentDate = fun():Boolean {
-            val previous = getItem(position -1)
-            val prevDate = previous.getStartDate()
-            val currDate = lesson.getStartDate()
+        val previousIsDifferentDate = fun(): Boolean {
+            val previous = getItem(position - 1)
             val prevCal = Calendar.getInstance()
-            prevCal.time = prevDate
+            prevCal.time = previous.startDate
             val currCal = Calendar.getInstance()
-            currCal.time = currDate
+            currCal.time = lesson.startDate
             return prevCal.get(Calendar.DAY_OF_YEAR) != currCal.get(Calendar.DAY_OF_YEAR)
         }
 
-        val dayHeaderView = convertViewVar.findViewById<View>(R.id.lesson_dayheader)
+        val dayHeaderView = thisView.findViewById<View>(R.id.lesson_dayheader)
         if (position == 0 || previousIsDifferentDate()) {
             val dayHeaderWeekdayView = dayHeaderView.findViewById<TextView>(R.id.dayheader_weekday)
-            dayHeaderWeekdayView.text = SimpleDateFormat("EEEE", Locale("de"))
-                    .format(lesson.getStartDate())
+            dayHeaderWeekdayView.text = weekdayFormat.format(lesson.startDate)
 
             val dayHeaderDateView = dayHeaderView.findViewById<TextView>(R.id.dayheader_date)
-            dayHeaderDateView.text = dateFormat.format(lesson.getStartDate())
+            dayHeaderDateView.text = dateFormat.format(lesson.startDate)
             dayHeaderView.visibility = View.VISIBLE
         } else {
             dayHeaderView.visibility = View.GONE
         }
 
         // time and date
-        val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
-        timeView.text = timeFormat.format(lesson.getStartDate()) +
-                "-" + timeFormat.format(lesson.getEndDate())
+        val timeView = thisView.findViewById<TextView>(R.id.lesson_time)
+        timeView.text = timeFormat.format(lesson.startDate) +
+                "-" + timeFormat.format(lesson.endDate)
         // room
-        val roomView = convertViewVar.findViewById<TextView>(R.id.lesson_room)
+        val roomView = thisView.findViewById<TextView>(R.id.lesson_room)
         roomView.text = lesson.room
 
         // prof
-        val profView = convertViewVar.findViewById<TextView>(R.id.lesson_prof)
+        val profView = thisView.findViewById<TextView>(R.id.lesson_prof)
         profView.text = lesson.instructor
 
         // title
-        val titleView = convertViewVar.findViewById<TextView>(R.id.lesson_title)
+        val titleView = thisView.findViewById<TextView>(R.id.lesson_title)
         titleView.text = lesson.title
 
-
-        // todo event handlers?
-
-        return convertViewVar
+        return thisView
     }
 }
 
@@ -136,7 +124,12 @@ class ScheduleViewModel : ViewModel() {
                 d("log", "got response")
 
                 val (schedule, err) = result
-                if (err != null) toast("Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.")
+                if (err != null) {
+                    toast("Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.")
+                    w("log", err)
+                } else {
+                    toast("${schedule?.size ?: "0"} Stunden geladen")
+                }
 
                 schooldays!!.value = schedule
             }
@@ -166,11 +159,23 @@ data class Lesson(val title: String = "",
                   val instructor: String = "",
                   val sinstructor: String = "",
                   val remarks: String = "") {
-    fun getStartDate(): Date {
-        return Date(this.start.toLong() * 1000)
-    }
+    private var _startDate: Date? = null
+    private var _endDate: Date? = null
 
-    fun getEndDate(): Date {
-        return Date(this.end.toLong() * 1000)
-    }
+    val startDate: Date
+        get() {
+            if (_startDate == null) {
+                _startDate = Date(this.start.toLong() * 1000)
+            }
+
+            return _startDate!!
+        }
+    val endDate: Date
+        get() {
+            if (_endDate == null) {
+                _endDate = Date(this.end.toLong() * 1000)
+            }
+
+            return _endDate!!
+        }
 }
