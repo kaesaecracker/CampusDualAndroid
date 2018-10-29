@@ -5,32 +5,24 @@
     <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh_black_24dp"
-        android:title="Refresh"
+        android:title="@string/refreshbtn_hint"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_issues"
         android:icon="@drawable/ic_bug_report_black_24dp"
-        android:title="Bug Tracker"
+        android:title="@string/bugsbtn_hint"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/action_releases"
         android:icon="@drawable/ic_new_releases_black_24dp"
-        android:title="Releases"
+        android:title="@string/releasebtn_hint"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_black_24dp"
-        android:title="Settings"
+        android:title="@string/title_activity_settings"
         app:showAsAction="ifRoom" />
-
-    <!--
-    <item
-        android:id="@+id/action_logout"
-        android:icon="@drawable/ic_power_settings_new_black_24dp"
-        android:title="Logout"
-        android:iconTint="@android:color/white"
-        app:showAsAction="never" />-->
 </menu>
