@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
+import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,6 +35,8 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
         return format.format(date)
     }
 
+    private val timeFormat: SimpleDateFormat = SimpleDateFormat("HH:mm", Locale("de"))
+    private val dateFormat: SimpleDateFormat = SimpleDateFormat("dd.MM", Locale("de"))
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val lesson = getItem(position)
 
@@ -40,19 +44,34 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
         val convertViewVar = convertView
                 ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
 
-        // time and date
-        val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
-        val dateView = convertViewVar.findViewById<TextView>(R.id.lesson_date)
-        if (lesson.start != "" && lesson.end != "") {
-            timeView.text =
-                    epochToDateTimeString(lesson.start.toInt(), "HH:mm") +
-                    "-" + epochToDateTimeString(lesson.end.toInt(), "HH:mm")
-            dateView.text = epochToDateTimeString(lesson.start.toInt(), "EE dd.MM")
-        } else {
-            dateView.text = "<error>"
-            timeView.text = "<error>"
+        val previousIsDifferentDate = fun():Boolean {
+            val previous = getItem(position -1)
+            val prevDate = previous.getStartDate()
+            val currDate = lesson.getStartDate()
+            val prevCal = Calendar.getInstance()
+            prevCal.time = prevDate
+            val currCal = Calendar.getInstance()
+            currCal.time = currDate
+            return prevCal.get(Calendar.DAY_OF_YEAR) != currCal.get(Calendar.DAY_OF_YEAR)
         }
 
+        val dayHeaderView = convertViewVar.findViewById<View>(R.id.lesson_dayheader)
+        if (position == 0 || previousIsDifferentDate()) {
+            val dayHeaderWeekdayView = dayHeaderView.findViewById<TextView>(R.id.dayheader_weekday)
+            dayHeaderWeekdayView.text = SimpleDateFormat("EEEE", Locale("de"))
+                    .format(lesson.getStartDate())
+
+            val dayHeaderDateView = dayHeaderView.findViewById<TextView>(R.id.dayheader_date)
+            dayHeaderDateView.text = dateFormat.format(lesson.getStartDate())
+            dayHeaderView.visibility = View.VISIBLE
+        } else {
+            dayHeaderView.visibility = View.GONE
+        }
+
+        // time and date
+        val timeView = convertViewVar.findViewById<TextView>(R.id.lesson_time)
+        timeView.text = timeFormat.format(lesson.getStartDate()) +
+                "-" + timeFormat.format(lesson.getEndDate())
         // room
         val roomView = convertViewVar.findViewById<TextView>(R.id.lesson_room)
         roomView.text = lesson.room
@@ -146,4 +165,12 @@ data class Lesson(val title: String = "",
                   val sroom: String = "",
                   val instructor: String = "",
                   val sinstructor: String = "",
-                  val remarks: String = "")
+                  val remarks: String = "") {
+    fun getStartDate(): Date {
+        return Date(this.start.toLong() * 1000)
+    }
+
+    fun getEndDate(): Date {
+        return Date(this.end.toLong() * 1000)
+    }
+}

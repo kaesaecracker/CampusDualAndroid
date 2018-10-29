@@ -71,12 +71,11 @@ dependencies {
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
 
     // My libraries
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
-    implementation 'com.github.kittinunf.fuel:fuel-gson:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
 }
 
