@@ -1,7 +1,5 @@
 package me.kaesaecracker.campusDual
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,32 +7,30 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import androidx.annotation.ColorRes
-import androidx.browser.customtabs.CustomTabsIntent
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.appcompat.app.AppCompatActivity
+import android.util.Log.d
 import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
-// FIXME Crash if user and password are not set (empty server response)
-// TODO maybe use Lifecycle
-// TODO look up how to properly store passwords
-// TODO pull to refresh
 class MainActivity : AppCompatActivity() {
-    //region variables
+
     private var viewModel: ScheduleViewModel? = null
     private var sharedPref: SharedPreferences? = null
-    //endregion
 
-    //region onSomething
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // get viewmodel + login data
-        viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, ScheduleViewModelFactory(applicationContext)).get(ScheduleViewModel::class.java)
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
@@ -43,26 +39,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val mainRootView = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.main_root)
         mainRootView.isRefreshing = true
-        var scheduleAdapter = ScheduleAdapter(this, mutableListOf())
+        val scheduleAdapter = ScheduleAdapter(this, mutableListOf())
         val mainScheduleView = findViewById<ListView>(R.id.main_schedule)
         mainScheduleView.adapter = scheduleAdapter
 
         // actual schedule
         viewModel!!.getSchooldays(userId ?: "", password ?: "").observe(this, Observer { it ->
-            if (it != null) {
-                // TODO just refresh the data
-                scheduleAdapter = ScheduleAdapter(this, it as MutableList<Lesson>)
-                mainScheduleView.adapter = scheduleAdapter
-            }
-
+            scheduleAdapter.clear()
+            if (it != null) scheduleAdapter.addAll(it)
             mainRootView.isRefreshing = false
         })
 
         // snackbar message
         viewModel!!.snackbarMessage.observe(this, Observer {
-            i("log", "snackBarMessage received")
+            i("log", "snackBarMessage received: $it")
             Snackbar.make(findViewById(R.id.main_root), it
-                    ?: "Error showing message", Snackbar.LENGTH_LONG).show()
+                    ?: getString(R.string.error_showing_toast), Snackbar.LENGTH_INDEFINITE).show()
         })
 
         // refresh
@@ -72,14 +64,8 @@ class MainActivity : AppCompatActivity() {
             mainRootView.isRefreshing = true
             viewModel!!.refreshScheduleOnline()
         }
-
-
-        // TODO livedata for schedule
-        // TODO arrayadapter for lesson
     }
-    //endregion
 
-    //region Menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_tollbar_menu, menu)
 
@@ -110,17 +96,6 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
             R.id.action_issues -> openChromeCustomTab(getString(R.string.issues_url))
-
-            /****
-            R.id.action_logout -> {
-            val intent = Intent(this, LoginActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NO_HISTORY
-            }
-
-            startActivity(intent)
-            finish()
-            return true
-            }*/
         }
 
         return false
@@ -141,15 +116,16 @@ class MainActivity : AppCompatActivity() {
             item.icon = wrapDrawable
         }
     }
-    //endregion
 
-    //region helper methods
     private fun openChromeCustomTab(url: String) {
+        d("log", "chrome custom tab $url")
         val builder = CustomTabsIntent.Builder()
-        // todo set toolbar color and/or setting custom actions before invoking build()
+
+        builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+        builder.setSecondaryToolbarColor(resources.getColor(R.color.colorAccent))
+        builder.setShowTitle(true)
 
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
     }
-    //endregion
 }

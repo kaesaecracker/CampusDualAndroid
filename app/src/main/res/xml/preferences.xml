@@ -6,14 +6,13 @@
         android:maxLines="1"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:summary="(ohne 's')"
-        android:title="Matrikelnummer" />
+        android:summary="@string/settings_matrikel_sub"
+        android:title="@string/settings_matrikel" />
     <EditTextPreference
         android:inputType="textNoSuggestions"
         android:key="pref_password"
         android:maxLines="1"
         android:singleLine="true"
-        android:summary="Nicht mehr das Passwort! Anleitung und Erklärung auf:
-https://mattishub.xyz/cdhash"
-        android:title="Hash" />
+        android:summary="@string/settings_hash_sub"
+        android:title="@string/settings_hash" />
 </PreferenceScreen>

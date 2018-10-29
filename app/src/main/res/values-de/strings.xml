@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="refreshbtn_hint">Aktualisieren</string>
+    <string name="bugsbtn_hint">Fehler melden</string>
+    <string name="releasebtn_hint">Updates</string>
+    <string name="load_failed_check_login">Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.</string>
+    <string name="lessons_loaded">Stunden geladen</string>
+    <string name="error_showing_toast">Anzeigen der Nachricht fehlgeschlagen</string>
+    <string name="settings_matrikel">Matrikelnummer</string>
+    <string name="settings_matrikel_sub">(ohne s</string>
+    <string name="settings_hash">Hash</string>
+    <string name="settings_hash_sub">Nicht das Passwort! Anleitung und Erklärung auf: https://mattishub.xyz/cdhash</string>
+</resources>

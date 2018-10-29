@@ -17,6 +17,9 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
 import java.text.SimpleDateFormat
 import java.util.*
+import android.app.Application
+import androidx.lifecycle.ViewModelProvider
+
 
 class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
     : ArrayAdapter<Lesson>(context, 0, days) {
@@ -28,8 +31,8 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
     }
 
     private val locale = Locale.getDefault()
-    private val timeFormat = SimpleDateFormat("HH:mm", locale)
-    private val dateFormat = SimpleDateFormat("dd.MM", locale)
+    private val timeFormat = SimpleDateFormat(context.resources.getString(R.string.time_format), locale)
+    private val dateFormat = SimpleDateFormat(context.resources.getString(R.string.date_format), locale)
     private val weekdayFormat = SimpleDateFormat("EEEE", locale)
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val lesson = getItem(position)
@@ -61,8 +64,8 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
 
         // time and date
         val timeView = thisView.findViewById<TextView>(R.id.lesson_time)
-        timeView.text = timeFormat.format(lesson.startDate) +
-                "-" + timeFormat.format(lesson.endDate)
+        timeView.text = timeFormat.format(lesson.startDate) + "-" + timeFormat.format(lesson.endDate)
+
         // room
         val roomView = thisView.findViewById<TextView>(R.id.lesson_room)
         roomView.text = lesson.room
@@ -79,7 +82,13 @@ class ScheduleAdapter(context: Context, days: MutableList<Lesson>)
     }
 }
 
-class ScheduleViewModel : ViewModel() {
+class ScheduleViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return ScheduleViewModel(context) as T
+    }
+}
+
+class ScheduleViewModel(val context: Context) : ViewModel() {
     var userId: String? = null
     var password: String? = null
 
@@ -105,7 +114,7 @@ class ScheduleViewModel : ViewModel() {
         this.password = password
 
         async {
-            val urlBase = "https://selfservice.campus-dual.de/room/json"
+            val urlBase = context.resources.getString(R.string.backend_url)
 
             val calendar = Calendar.getInstance()
             calendar.add(Calendar.DATE, +11)
@@ -125,10 +134,11 @@ class ScheduleViewModel : ViewModel() {
 
                 val (schedule, err) = result
                 if (err != null) {
-                    toast("Laden von CD fehlgeschlagen. Prüfe deine Login-Daten.")
+                    toast(context.resources.getString(R.string.load_failed_check_login))
                     w("log", err)
                 } else {
-                    toast("${schedule?.size ?: "0"} Stunden geladen")
+                    toast((schedule?.size?.toString() ?: "0") + " "
+                            + context.resources.getString(R.string.lessons_loaded))
                 }
 
                 schooldays!!.value = schedule
