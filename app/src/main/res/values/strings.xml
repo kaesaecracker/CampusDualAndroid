@@ -1,12 +1,25 @@
 <resources>
     <!-- GENERAL -->
-    <string name="app_name">Campus-Dual</string>
+    <string name="app_name" translatable="false">Campus-Dual</string>
 
     <!-- MAIN -->
-    <string name="title_activity_main">Campus-Dual</string>
-    <string name="issues_url">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
-    <string name="releases_url">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
+    <string name="title_activity_main" translatable="false">Campus-Dual</string>
+    <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
+    <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
 
     <!-- SETTINGS -->
-    <string name="title_activity_settings">Einstellungen</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="refreshbtn_hint">Refresh</string>
+    <string name="bugsbtn_hint">Issue Tracker</string>
+    <string name="releasebtn_hint">Releases</string>
+    <string name="date_format" translatable="false">dd.MM.</string>
+    <string name="time_format" translatable="false">HH:mm</string>
+    <string name="backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
+    <string name="load_failed_check_login">Loading failed. Please check your login information.</string>
+    <string name="lessons_loaded">lessons loaded</string>
+    <string name="error_showing_toast">Could not show message</string>
+    <string name="settings_matrikel">Matriculation Number</string>
+    <string name="settings_matrikel_sub">(without s)</string>
+    <string name="settings_hash">Hash</string>
+    <string name="settings_hash_sub">Not your password! Help: https://mattishub.xyz/j/cdhash</string>
 </resources>
