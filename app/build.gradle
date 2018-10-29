@@ -79,8 +79,6 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 }
 
-apply plugin: 'com.google.gms.google-services'
-
 kotlin {
     experimental {
         coroutines "enable"
