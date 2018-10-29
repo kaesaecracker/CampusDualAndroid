@@ -4,8 +4,8 @@
 
     <!-- MAIN -->
     <string name="title_activity_main" translatable="false">Campus-Dual</string>
-    <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
-    <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
+    <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/issues</string>
+    <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/releases</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
