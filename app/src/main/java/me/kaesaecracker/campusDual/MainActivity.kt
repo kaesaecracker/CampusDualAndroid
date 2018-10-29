@@ -35,8 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_tollbar_menu, menu)
-
-        tintMenuIcon(this@MainActivity, menu, R.id.action_refresh, android.R.color.white)
+ nm
         tintMenuIcon(this@MainActivity, menu, R.id.action_settings, android.R.color.white)
         tintMenuIcon(this@MainActivity, menu, R.id.action_issues, android.R.color.white)
         tintMenuIcon(this@MainActivity, menu, R.id.action_releases, android.R.color.white)
