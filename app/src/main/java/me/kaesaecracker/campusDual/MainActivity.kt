@@ -2,67 +2,34 @@ package me.kaesaecracker.campusDual
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log.d
-import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ListView
+import android.widget.FrameLayout
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
-
-    private var viewModel: ScheduleViewModel? = null
-    private var sharedPref: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // get viewmodel + login data
-        viewModel = ViewModelProviders.of(this, ScheduleViewModelFactory(applicationContext)).get(ScheduleViewModel::class.java)
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
-        val userId = sharedPref!!.getString("pref_userId", "")
-        val password = sharedPref!!.getString("pref_password", "")
-
         // layout
         setContentView(R.layout.activity_main)
-        val mainRootView = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.main_root)
-        mainRootView.isRefreshing = true
-        val scheduleAdapter = ScheduleAdapter(this, mutableListOf())
-        val mainScheduleView = findViewById<ListView>(R.id.main_schedule)
-        mainScheduleView.adapter = scheduleAdapter
+        if (findViewById<FrameLayout>(R.id.main_container) != null) {
+            if (savedInstanceState != null) return
 
-        // actual schedule
-        viewModel!!.getSchooldays(userId ?: "", password ?: "").observe(this, Observer { it ->
-            scheduleAdapter.clear()
-            if (it != null) scheduleAdapter.addAll(it)
-            mainRootView.isRefreshing = false
-        })
+            val scheduleFragment = ScheduleFragment()
+            scheduleFragment.arguments = intent.extras
 
-        // snackbar message
-        viewModel!!.snackbarMessage.observe(this, Observer {
-            i("log", "snackBarMessage received: $it")
-            Snackbar.make(findViewById(R.id.main_root), it
-                    ?: getString(R.string.error_showing_toast), Snackbar.LENGTH_INDEFINITE).show()
-        })
-
-        // refresh
-        mainRootView.setOnRefreshListener {
-            i("log", "swipe to refresh triggered")
-
-            mainRootView.isRefreshing = true
-            viewModel!!.refreshScheduleOnline()
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.main_container, scheduleFragment)
+                    .commit()
         }
     }
 
@@ -83,15 +50,6 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, SettingsActivity::class.java).apply {}
                 startActivity(intent)
                 return true
-            }
-
-            R.id.action_refresh -> {
-                viewModel!!.userId = sharedPref!!.getString("pref_userId", "")
-                viewModel!!.password = sharedPref!!.getString("pref_password", "")
-
-                val mainRootView = findViewById<androidx.swiperefreshlayout.widget.SwipeRefreshLayout>(R.id.main_root)
-                mainRootView.isRefreshing = true
-                viewModel!!.refreshScheduleOnline()
             }
 
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
