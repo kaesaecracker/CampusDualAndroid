@@ -1,7 +1,5 @@
 package me.kaesaecracker.campusDual
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,18 +8,21 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log.d
-import androidx.annotation.ColorRes
-import androidx.browser.customtabs.CustomTabsIntent
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log.i
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ListView
+import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
-    
+
     private var viewModel: ScheduleViewModel? = null
     private var sharedPref: SharedPreferences? = null
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // get viewmodel + login data
-        viewModel = ViewModelProviders.of(this).get(ScheduleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, ScheduleViewModelFactory(applicationContext)).get(ScheduleViewModel::class.java)
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val userId = sharedPref!!.getString("pref_userId", "")
         val password = sharedPref!!.getString("pref_password", "")
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         viewModel!!.snackbarMessage.observe(this, Observer {
             i("log", "snackBarMessage received: $it")
             Snackbar.make(findViewById(R.id.main_root), it
-                    ?: "Error showing message", Snackbar.LENGTH_INDEFINITE).show()
+                    ?: getString(R.string.error_showing_toast), Snackbar.LENGTH_INDEFINITE).show()
         })
 
         // refresh
