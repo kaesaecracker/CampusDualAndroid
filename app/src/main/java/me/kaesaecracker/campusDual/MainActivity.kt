@@ -145,8 +145,12 @@ class MainActivity : AppCompatActivity() {
 
     //region helper methods
     private fun openChromeCustomTab(url: String) {
+        d("log", "chrome custom tab $url")
         val builder = CustomTabsIntent.Builder()
-        // todo set toolbar color and/or setting custom actions before invoking build()
+
+        builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+        builder.setSecondaryToolbarColor(resources.getColor(R.color.colorAccent))
+        builder.setShowTitle(true)
 
         val customTabsIntent = builder.build()
         customTabsIntent.launchUrl(this, Uri.parse(url))
