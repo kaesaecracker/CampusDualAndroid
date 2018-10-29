@@ -2,20 +2,11 @@
     <!-- GENERAL -->
     <string name="app_name">Campus-Dual</string>
 
-    <!-- LOGIN -->
-    <string name="title_activity_login">Login</string>
-    <string name="prompt_user">sNummer</string>
-    <string name="prompt_password">Passwort</string>
-    <string name="action_sign_in">Einloggen</string>
-    <string name="error_field_required">Dies ist ein Pflichtfeld</string>
-
     <!-- MAIN -->
     <string name="title_activity_main">Campus-Dual</string>
     <string name="issues_url">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
     <string name="releases_url">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
 
     <!-- SETTINGS -->
-    <string name="title_activity_settings">Settings</string>
-    <string name="pref_header_general">General</string>
-    <string name="login_invalid">Username or password are incorrect.</string>
+    <string name="title_activity_settings">Einstellungen</string>
 </resources>
