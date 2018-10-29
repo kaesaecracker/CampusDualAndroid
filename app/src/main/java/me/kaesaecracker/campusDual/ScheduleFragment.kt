@@ -22,6 +22,7 @@ import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
 import java.text.SimpleDateFormat
@@ -146,14 +147,11 @@ class ScheduleFragment : Fragment() {
     }
 
     private class ScheduleViewModel(val context: Context) : ViewModel() {
-        private var schooldays: MutableLiveData<List<Lesson>>? = null
+        private var schooldays: MutableLiveData<List<Lesson>> = MutableLiveData()
         var snackbarMessage: MutableLiveData<String> = MutableLiveData()
 
-        fun refreshOnline(userId: String, password: String):MutableLiveData<List<Lesson>> {
+        fun refreshOnline(userId: String, password: String): MutableLiveData<List<Lesson>> {
             Log.d("log", "refresh")
-            if (schooldays == null) {
-                schooldays = MutableLiveData()
-            }
 
             async {
                 val urlBase = context.resources.getString(R.string.backend_url)
@@ -183,17 +181,47 @@ class ScheduleFragment : Fragment() {
                                 + context.resources.getString(R.string.lessons_loaded))
                     }
 
-                    schooldays!!.value = schedule
+                    schooldays.value = schedule
+                    prepareWidgetData(schedule)
                 }
             }
 
-            return schooldays!!
+            return schooldays
+        }
+
+        private fun prepareWidgetData(schedule: List<Lesson>?) {
+            // make sure there is data
+            if (schedule == null || schedule.isEmpty()) return
+
+            var dayList: List<Lesson> = listOf(schedule[0])
+
+            val firstDate = schedule[0].startDate
+            val firstCalendar = Calendar.getInstance()
+            firstCalendar.time = firstDate
+
+            for (lesson in schedule.subList(1, schedule.size - 1)) {
+                val lessonCalendar = Calendar.getInstance()
+                lessonCalendar.time = lesson.startDate
+
+                if (lessonCalendar.get(Calendar.DAY_OF_YEAR) == firstCalendar.get(Calendar.DAY_OF_YEAR)) {
+                    dayList += lesson
+                }
+            }
+
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            val gson = GsonBuilder().create()!!
+            val dataString = gson.myJson<List<Lesson>>(dayList)
+            prefs.edit()
+                    .putString("widget_data", dataString)
+                    .apply()
         }
 
         private fun toast(s: String) {
             snackbarMessage.postValue(s)
             Log.d("log", "toast: $s")
         }
+
+        inline fun <reified T> Gson.myJson(o: Any) = this.toJson(o, object: TypeToken<T>() {}.type)
     }
 
 
