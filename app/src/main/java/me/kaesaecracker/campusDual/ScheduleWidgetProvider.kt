@@ -10,8 +10,6 @@ import android.widget.RemoteViews
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import android.content.ComponentName
-import me.kaesaecracker.campusDual.R.layout.widget
 import android.app.PendingIntent
 import android.content.Intent
 
@@ -91,9 +89,8 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 view.setTextViewText(R.id.widget_currentLesson_title, current.title)
                 view.setTextViewText(R.id.widget_currentLesson_room, current.room)
                 view.setTextViewText(R.id.widget_currentLesson_time, current.endDate.toString(context.getString(R.string.time_format)))
-            } else {
-                view.setViewVisibility(R.id.widget_currentLesson, View.GONE)
-                view.setViewVisibility(R.id.widget_lineBottom, View.GONE)
+
+                view.setViewVisibility(R.id.widget_currentLesson, View.VISIBLE)
             }
 
             // set next data
@@ -102,9 +99,9 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 view.setTextViewText(R.id.widget_nextLesson_title, next.title)
                 view.setTextViewText(R.id.widget_nextLesson_room, next.room)
                 view.setTextViewText(R.id.widget_nextLesson_time, next.startDate.toString(context.getString(R.string.time_format)))
-            } else {
-                view.setViewVisibility(R.id.widget_lineBottom, View.GONE)
-                view.setViewVisibility(R.id.widget_nextLesson, View.GONE)
+
+                view.setViewVisibility(R.id.widget_nextLesson, View.VISIBLE)
+                if (current != null) view.setViewVisibility(R.id.widget_lineBottom, View.VISIBLE)
             }
 
             // set onclick

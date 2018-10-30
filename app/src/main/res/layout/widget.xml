@@ -33,10 +33,10 @@
                 android:id="@+id/widget_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_below="@+id/widget_weekday"
+                android:layout_alignParentStart="true"
                 android:text="11.11."
-                android:textColor="@color/icons"/>
+                android:textColor="@color/icons" />
 
             <TextView
                 android:id="@+id/widget_lessonCount"
@@ -58,20 +58,22 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/widget_tomorrowBanner"
             android:layout_width="fill_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/widget_header"
             android:background="@color/colorPrimaryDark"
-            android:id="@+id/widget_lineTop"
-            android:layout_below="@+id/widget_header"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/widget_currentLesson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/widget_lineTop"
+            android:layout_below="@+id/widget_tomorrowBanner"
             android:background="@color/icons"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/widget_currentLesson_description"
@@ -85,13 +87,19 @@
 
             <TextView
                 android:id="@+id/widget_currentLesson_time"
-                android:text="00:00-00:00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/widget_currentLesson_description"
-                android:gravity="end" />
+                android:gravity="end"
+                android:text="00:00-00:00" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_toStartOf="@+id/widget_currentLesson_time"
+                android:text="@string/widget_timeCurrent" />
 
             <TextView
                 android:id="@+id/widget_currentLesson_room"
@@ -114,11 +122,12 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/widget_lineBottom"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
+            android:layout_below="@+id/widget_currentLesson"
             android:background="@color/colorAccent"
-            android:id="@+id/widget_lineBottom"
-            android:layout_below="@+id/widget_currentLesson"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/widget_nextLesson"
@@ -127,7 +136,16 @@
             android:layout_below="@+id/widget_lineBottom"
             android:background="@color/icons"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_toStartOf="@+id/widget_nextLesson_time"
+                android:text="@string/widget_timeNext" />
 
             <TextView
                 android:id="@+id/widget_nextLesson_description"
@@ -141,13 +159,12 @@
 
             <TextView
                 android:id="@+id/widget_nextLesson_time"
-                android:text="00:00-00:00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@+id/widget_nextLesson_description"
-                android:gravity="end" />
+                android:gravity="end"
+                android:text="00:00-00:00" />
 
             <TextView
                 android:id="@+id/widget_nextLesson_room"

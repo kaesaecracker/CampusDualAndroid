@@ -22,7 +22,10 @@
     <string name="settings_matrikel_sub">(without s)</string>
     <string name="settings_hash">Hash</string>
     <string name="settings_hash_sub">Not your password! Help: https://mattishub.xyz/j/cdhash</string>
-    <string name="widget_lessonCount">Stunden:</string>
+    <string name="widget_lessonCount">Lesson(s)</string>
     <string name="widget_current">Current</string>
     <string name="widget_next">Next</string>
+    <string name="widget_timeCurrent">till</string>
+    <string name="widget_timeNext">from</string>
+    <string name="weekday_format" translatable="false">EEEE</string>
 </resources>
