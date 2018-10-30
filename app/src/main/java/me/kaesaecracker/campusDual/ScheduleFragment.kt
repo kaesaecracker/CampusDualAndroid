@@ -25,8 +25,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
-import java.text.SimpleDateFormat
-import java.util.*
+import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
+import org.joda.time.LocalDateTime
 
 class ScheduleFragment : Fragment() {
 
@@ -88,10 +89,6 @@ class ScheduleFragment : Fragment() {
             return mDays[position]
         }
 
-        private val locale = Locale.getDefault()
-        private val timeFormat = SimpleDateFormat(context.resources.getString(R.string.time_format), locale)
-        private val dateFormat = SimpleDateFormat(context.resources.getString(R.string.date_format), locale)
-        private val weekdayFormat = SimpleDateFormat("EEEE", locale)
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val lesson = getItem(position)
 
@@ -100,21 +97,18 @@ class ScheduleFragment : Fragment() {
                     ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
 
             val previousIsDifferentDate = fun(): Boolean {
-                val previous = getItem(position - 1)
-                val prevCal = Calendar.getInstance()
-                prevCal.time = previous.startDate
-                val currCal = Calendar.getInstance()
-                currCal.time = lesson.startDate
-                return prevCal.get(Calendar.DAY_OF_YEAR) != currCal.get(Calendar.DAY_OF_YEAR)
+                val previous = getItem(position - 1).startDate
+                val current = lesson.startDate
+                return previous.dayOfYear != current.dayOfYear
             }
 
             val dayHeaderView = thisView.findViewById<View>(R.id.lesson_dayheader)
             if (position == 0 || previousIsDifferentDate()) {
                 val dayHeaderWeekdayView = dayHeaderView.findViewById<TextView>(R.id.dayheader_weekday)
-                dayHeaderWeekdayView.text = weekdayFormat.format(lesson.startDate)
+                dayHeaderWeekdayView.text = lesson.startDate.toString(context.getString(R.string.weekday_format))
 
                 val dayHeaderDateView = dayHeaderView.findViewById<TextView>(R.id.dayheader_date)
-                dayHeaderDateView.text = dateFormat.format(lesson.startDate)
+                dayHeaderDateView.text = lesson.startDate.toString(context.getString(R.string.date_format)) // TODO global variable for format strings
                 dayHeaderView.visibility = View.VISIBLE
             } else {
                 dayHeaderView.visibility = View.GONE
@@ -122,7 +116,8 @@ class ScheduleFragment : Fragment() {
 
             // time and date
             val timeView = thisView.findViewById<TextView>(R.id.lesson_time)
-            timeView.text = timeFormat.format(lesson.startDate) + "-" + timeFormat.format(lesson.endDate)
+            timeView.text = lesson.startDate.toString(context.resources.getString(R.string.time_format), null) +
+                    "-" + lesson.endDate.toString(context.resources.getString(R.string.time_format), null)
 
             // room
             val roomView = thisView.findViewById<TextView>(R.id.lesson_room)
@@ -155,17 +150,18 @@ class ScheduleFragment : Fragment() {
                 Log.d("log", "refresh")
                 val urlBase = context.resources.getString(R.string.backend_url)
 
-                val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DATE, +12)
-                val startEpoch = calendar.timeInMillis / 1000
-                calendar.add(Calendar.MONTH, 1)
-                val endEpoch = calendar.timeInMillis / 1000
-
+                val today = DateTime(DateTimeZone.UTC)
+                        .withHourOfDay(0)
+                        .withMinuteOfHour(0)
+                        .withSecondOfMinute(0)
+                        .withMillisOfSecond(0)
+                        .plusDays(12)
+                val inWeeks = today.plusWeeks(4)
                 val request = urlBase.httpGet(listOf(
                         "userid" to userId,
                         "hash" to password,
-                        "start" to startEpoch,
-                        "end" to endEpoch
+                        "start" to today.getUnixTimestamp(),
+                        "end" to inWeeks.getUnixTimestamp()
                 ))
 
                 request.responseObject(ScheduleDeserializer()) { _, _, result ->
@@ -195,14 +191,8 @@ class ScheduleFragment : Fragment() {
             var dayList: List<Lesson> = listOf(schedule[0])
 
             val firstDate = schedule[0].startDate
-            val firstCalendar = Calendar.getInstance()
-            firstCalendar.time = firstDate
-
             for (lesson in schedule.subList(1, schedule.size - 1)) {
-                val lessonCalendar = Calendar.getInstance()
-                lessonCalendar.time = lesson.startDate
-
-                if (lessonCalendar.get(Calendar.DAY_OF_YEAR) == firstCalendar.get(Calendar.DAY_OF_YEAR)) {
+                if (lesson.startDate.dayOfYear == firstDate.dayOfYear) {
                     dayList += lesson
                 }
             }
@@ -240,21 +230,24 @@ class ScheduleFragment : Fragment() {
                       val instructor: String = "",
                       val sinstructor: String = "",
                       val remarks: String = "") {
-        private var _startDate: Date? = null
-        private var _endDate: Date? = null
 
-        val startDate: Date
+
+        private var _startDate: DateTime? = null
+        private var _endDate: DateTime? = null
+
+
+        val startDate: DateTime
             get() {
                 if (_startDate == null) {
-                    _startDate = Date(this.start.toLong() * 1000)
+                    _startDate = DateTime(this.start.toLong() * 1000, DateTimeZone.forOffsetHours(+1))
                 }
 
                 return _startDate!!
             }
-        val endDate: Date
+        val endDate: DateTime
             get() {
                 if (_endDate == null) {
-                    _endDate = Date(this.end.toLong() * 1000)
+                    _endDate = DateTime(this.end.toLong() * 1000, DateTimeZone.forOffsetHours(+1))
                 }
 
                 return _endDate!!
