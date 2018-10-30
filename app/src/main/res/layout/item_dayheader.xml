@@ -20,16 +20,19 @@
 
     <TextView
         android:id="@+id/dayheader_weekday"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:fontFeatureSettings="smcp"
+        android:lines="1"
         android:text="Weekday"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textColor="@color/icons"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,6 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:lines="1"
         android:text="TextView"
         android:textColor="@color/icons"
         app:layout_constraintBaseline_toBaselineOf="@+id/dayheader_weekday"

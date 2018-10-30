@@ -28,4 +28,11 @@
     <string name="widget_timeCurrent">till</string>
     <string name="widget_timeNext">from</string>
     <string name="weekday_format" translatable="false">EEEE</string>
+    <string name="sample_weekday" translatable="false">Someday</string>
+    <string name="sample_date" translatable="false">31.12.</string>
+    <string name="sample_time" translatable="false">12:34</string>
+    <string name="sample_lesson_title" translatable="false">Some very long title</string>
+    <string name="sample_lesson_room" translatable="false">1.337</string>
+    <string name="sample_timespan" translatable="false">12:34-15:06</string>
+    <string name="sample_lessons" translatable="false">5 Lesson(s)</string>
 </resources>
