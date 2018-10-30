@@ -21,6 +21,8 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 
     inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        if (appWidgetIds.isEmpty()) return
+
         i("log", "onUpdate in AppWidgetProvider")
 
         // There may be multiple widgets active, so update all of them
