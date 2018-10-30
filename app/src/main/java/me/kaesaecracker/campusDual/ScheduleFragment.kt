@@ -151,13 +151,12 @@ class ScheduleFragment : Fragment() {
         var snackbarMessage: MutableLiveData<String> = MutableLiveData()
 
         fun refreshOnline(userId: String, password: String): MutableLiveData<List<Lesson>> {
-            Log.d("log", "refresh")
-
             async {
+                Log.d("log", "refresh")
                 val urlBase = context.resources.getString(R.string.backend_url)
 
                 val calendar = Calendar.getInstance()
-                calendar.add(Calendar.DATE, +11)
+                calendar.add(Calendar.DATE, +12)
                 val startEpoch = calendar.timeInMillis / 1000
                 calendar.add(Calendar.MONTH, 1)
                 val endEpoch = calendar.timeInMillis / 1000
