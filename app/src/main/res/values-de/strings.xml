@@ -11,4 +11,6 @@
     <string name="settings_matrikel_sub">(ohne s</string>
     <string name="settings_hash">Hash</string>
     <string name="settings_hash_sub">Nicht das Passwort! Anleitung und Erklärung auf: https://mattishub.xyz/cdhash</string>
+    <string name="widget_lessonCount">Lessons:</string>
+    <string name="widget_current">Läuft</string>
 </resources>
