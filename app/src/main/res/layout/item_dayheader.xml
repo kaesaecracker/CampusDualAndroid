@@ -27,7 +27,7 @@
         android:layout_marginEnd="8dp"
         android:fontFeatureSettings="smcp"
         android:lines="1"
-        android:text="Weekday"
+        android:text="@string/sample_weekday"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textColor="@color/icons"
         android:textSize="24sp"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:lines="1"
-        android:text="TextView"
+        android:text="@string/sample_date"
         android:textColor="@color/icons"
         app:layout_constraintBaseline_toBaselineOf="@+id/dayheader_weekday"
         app:layout_constraintEnd_toEndOf="parent" />

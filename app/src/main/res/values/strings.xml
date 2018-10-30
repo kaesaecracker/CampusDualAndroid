@@ -35,4 +35,5 @@
     <string name="sample_lesson_room" translatable="false">1.337</string>
     <string name="sample_timespan" translatable="false">12:34-15:06</string>
     <string name="sample_lessons" translatable="false">5 Lesson(s)</string>
+    <string name="sample_lesson_prof" translatable="false">Rüdiger Hintermann</string>
 </resources>
