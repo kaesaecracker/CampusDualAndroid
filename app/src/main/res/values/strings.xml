@@ -4,8 +4,8 @@
 
     <!-- MAIN -->
     <string name="title_activity_main" translatable="false">Campus-Dual</string>
-    <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/issues</string>
-    <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualIssues/releases</string>
+    <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/issues</string>
+    <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/releases</string>
 
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
@@ -22,4 +22,7 @@
     <string name="settings_matrikel_sub">(without s)</string>
     <string name="settings_hash">Hash</string>
     <string name="settings_hash_sub">Not your password! Help: https://mattishub.xyz/j/cdhash</string>
+    <string name="widget_lessonCount">Stunden:</string>
+    <string name="widget_current">Current</string>
+    <string name="widget_next">Next</string>
 </resources>

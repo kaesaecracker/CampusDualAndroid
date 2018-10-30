@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="me.kaesaecracker.campusDual.MainActivity"
-            android:label="@string/title_activity_main">
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,14 +22,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.kaesaecracker.campusDual.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="me.kaesaecracker.campusDual.MainActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.kaesaecracker.campusDual.MainActivity" />
         </activity>
 
+        <receiver android:name=".ScheduleWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/schedule_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
