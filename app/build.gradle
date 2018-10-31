@@ -67,17 +67,20 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
+
+    // jetpack
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
+    implementation "android.arch.work:work-runtime-ktx:1.0.0-alpha10"
 
     // My libraries
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'joda-time:joda-time:2.10.1'
+    implementation 'net.danlew:android.joda:2.10.1'
 }
 
 kotlin {
