@@ -49,45 +49,55 @@
     <TextView
         android:id="@+id/lesson_time"
         android:layout_width="wrap_content"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="11:45 - 13:15"
+        android:lines="1"
+        android:text="@string/sample_timespan"
         android:textColor="@color/secondary_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/lesson_title"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/lesson_room"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="room"
+        android:layout_marginEnd="8dp"
+        android:lines="1"
+        android:text="@string/sample_lesson_room"
         android:textAllCaps="true"
         android:textColor="@color/secondary_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/lesson_prof"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView4" />
 
     <TextView
         android:id="@+id/lesson_prof"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="2dp"
-        android:text="prof"
+        android:lines="1"
+        android:text="@string/sample_lesson_prof"
         android:textColor="@color/secondary_text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
         app:layout_constraintStart_toEndOf="@+id/imageView5" />
 
     <TextView
         android:id="@+id/lesson_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:fontFeatureSettings="smcp"
-        android:text="title"
+        android:lines="1"
+        android:text="@string/sample_lesson_title"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/lesson_clockicon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lesson_dayheader" />
 </androidx.constraintlayout.widget.ConstraintLayout>
