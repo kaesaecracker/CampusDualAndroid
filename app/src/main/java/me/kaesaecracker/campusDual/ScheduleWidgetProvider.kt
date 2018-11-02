@@ -7,9 +7,6 @@ import android.preference.PreferenceManager
 import android.util.Log.*
 import android.view.View
 import android.widget.RemoteViews
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import android.app.PendingIntent
 import android.content.Intent
 
@@ -19,23 +16,19 @@ import android.content.Intent
  */
 class ScheduleWidgetProvider : AppWidgetProvider() {
 
-    inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         if (appWidgetIds.isEmpty()) return
 
         i("log", "onUpdate in AppWidgetProvider")
 
-        // There may be multiple widgets active, so update all of them
-        // build bundle
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val dataString = prefs.getString("widget_data", "") ?: ""
+        val dataString = prefs.getString(WidgetDataSettingsKey, "") ?: ""
         if (dataString.isEmpty()) {
             w("log", "returning because no data is availiable")
             return
         }
 
-        val gson = GsonBuilder().create()!!
-        val day = gson.fromJson<List<ScheduleFragment.Lesson>>(dataString)
+        val day = stringToDay(dataString)
         if (day == null) {
             w("log", "returning because day is null")
             return
@@ -58,30 +51,27 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
     companion object {
 
         internal fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager,
-                                     appWidgetId: Int, day: List<ScheduleFragment.Lesson>) {
-            i("log", "updating widget $appWidgetId with ${day.size} elements")
-            if (day.isEmpty()) return
+                                     appWidgetId: Int, day: Schoolday) {
+            i("log", "updating widget $appWidgetId with ${day.length} elements")
+            if (day.length == 0) return
 
             val view = RemoteViews(context.packageName, R.layout.widget)
 
-            val last = day.last()
-            val first = day.first()
-
             // put dayheader data from bundle
-            view.setTextViewText(R.id.widget_weekday, first.startDate.toString(context.getString(R.string.weekday_format)))
-            view.setTextViewText(R.id.widget_date, first.startDate.toString(context.getString(R.string.date_format)))
-            view.setTextViewText(R.id.widget_lessonCount, "${day.size} ${context.getString(R.string.widget_lessonCount)}")
-            view.setTextViewText(R.id.widget_fromTo, first.startDate.toString(context.getString(R.string.time_format)) +
-                    "-" + last.endDate.toString(context.getString(R.string.time_format)))
+            view.setTextViewText(R.id.widget_weekday, day.first.start.toString(context.getString(R.string.weekday_format)))
+            view.setTextViewText(R.id.widget_date, day.first.start.toString(context.getString(R.string.date_format)))
+            view.setTextViewText(R.id.widget_lessonCount, "${day.length} ${context.getString(R.string.widget_lessonCount)}")
+            view.setTextViewText(R.id.widget_fromTo, day.first.start.toString(context.getString(R.string.time_format)) +
+                    "-" + day.last.end.toString(context.getString(R.string.time_format)))
 
             // find cuurent and next lesson
-            var current: ScheduleFragment.Lesson? = null
-            var next: ScheduleFragment.Lesson? = null
-            for (lesson in day) {
-                if (current == null && lesson.startDate.isBeforeNow && lesson.endDate.isAfterNow)
+            var current: Lesson? = null
+            var next: Lesson? = null
+            for (lesson in day.lessons) {
+                if (current == null && lesson.start.isBeforeNow && lesson.end.isAfterNow)
                     current = lesson
 
-                if (next == null && lesson != current && lesson.startDate.isAfterNow)
+                if (next == null && lesson != current && lesson.start.isAfterNow)
                     next = lesson
             }
 
@@ -90,7 +80,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 d("log", "current lesson: ${current.title}")
                 view.setTextViewText(R.id.widget_currentLesson_title, current.title)
                 view.setTextViewText(R.id.widget_currentLesson_room, current.room)
-                view.setTextViewText(R.id.widget_currentLesson_time, current.endDate.toString(context.getString(R.string.time_format)))
+                view.setTextViewText(R.id.widget_currentLesson_time, current.end.toString(context.getString(R.string.time_format)))
 
                 view.setViewVisibility(R.id.widget_currentLesson, View.VISIBLE)
             }
@@ -100,7 +90,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 d("log", "next lesson: ${next.title}")
                 view.setTextViewText(R.id.widget_nextLesson_title, next.title)
                 view.setTextViewText(R.id.widget_nextLesson_room, next.room)
-                view.setTextViewText(R.id.widget_nextLesson_time, next.startDate.toString(context.getString(R.string.time_format)))
+                view.setTextViewText(R.id.widget_nextLesson_time, next.start.toString(context.getString(R.string.time_format)))
 
                 view.setViewVisibility(R.id.widget_nextLesson, View.VISIBLE)
                 if (current != null) view.setViewVisibility(R.id.widget_lineBottom, View.VISIBLE)

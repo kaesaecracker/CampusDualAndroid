@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
                     .add(R.id.main_container, scheduleFragment)
                     .commit()
         }
+
+        setupBackgroundWorker()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
