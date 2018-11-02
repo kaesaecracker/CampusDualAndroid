@@ -18,7 +18,8 @@
 
 # GSON specifics
 -keepattributes Signature
--keep class me.kaesaecracker.campusDual.Lesson  { *; }
+-keep,includedescriptorclasses class me.kaesaecracker.campusDual.JsonLesson  { *; }
+-keep class org.joda.time.tz.data.ZoneInfoMap { *; }
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
