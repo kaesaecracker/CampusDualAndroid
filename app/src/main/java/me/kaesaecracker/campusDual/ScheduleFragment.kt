@@ -27,7 +27,6 @@ import org.joda.time.DateTimeZone
 class ScheduleFragment : Fragment() {
 
     private var listView: ListView? = null
-    private var refreshLayout: SwipeRefreshLayout? = null
     private var adapter: ScheduleAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +40,9 @@ class ScheduleFragment : Fragment() {
         listView = this.view!!.findViewById(R.id.schedule_listView)
         adapter = ScheduleAdapter(context!!)
         listView!!.adapter = adapter
-        refreshLayout = this.view!!.findViewById(R.id.schedule_refreshLayout)
 
-        refreshLayout!!.setOnRefreshListener {
-            Log.i("log", "swipe to refresh triggered")
-            refreshOnline()
-        }
+        PreferenceManager.getDefaultSharedPreferences(context!!)
+                .registerOnSharedPreferenceChangeListener(preferenceListener)
 
         PreferenceManager.getDefaultSharedPreferences(context!!).registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             d("log", "pref change: $key")
@@ -58,24 +54,17 @@ class ScheduleFragment : Fragment() {
     }
 
     fun loadFromSettings() {
-        refreshLayout!!.isRefreshing = true
+        d("schedule", "loading from settings")
         adapter!!.clear()
 
         val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")
         val schedule = stringToSchedule(gsonString)
         if (schedule == null) {
             d("log", "could not deserialize schedule")
-            refreshLayout!!.isRefreshing = false
             return
         }
 
         adapter!!.addAll(schedule.toLessonList())
-        refreshLayout!!.isRefreshing = false
-    }
-
-    private fun refreshOnline() {
-        refreshLayout!!.isRefreshing = true
-        async { downloadAndSaveToSettings(context!!) }
     }
 
     private class ScheduleAdapter(context: Context, days: MutableList<Lesson> = mutableListOf())

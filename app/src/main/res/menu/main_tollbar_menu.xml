@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_settings"
@@ -9,10 +9,16 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/action_forceRefresh"
+        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:title="@string/forceRefreshBtn_hint"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_issues"
         android:icon="@drawable/ic_bug_report_black_24dp"
         android:title="@string/bugsbtn_hint"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_releases"
@@ -20,4 +26,9 @@
         android:title="@string/releasebtn_hint"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_playstore"
+        android:icon="@drawable/ic_new_releases_black_24dp"
+        android:title="@string/action_playstore"
+        app:showAsAction="never" />
 </menu>

@@ -39,4 +39,6 @@
     <string name="iconDescr_time">Time</string>
     <string name="iconDescr_date">Date</string>
     <string name="iconDescr_location">Room</string>
+    <string name="forceRefreshBtn_hint">Force Refresh</string>
+    <string name="action_playstore" translatable="false">Play Store</string>
 </resources>
