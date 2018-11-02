@@ -41,9 +41,6 @@ class ScheduleFragment : Fragment() {
         adapter = ScheduleAdapter(context!!)
         listView!!.adapter = adapter
 
-        PreferenceManager.getDefaultSharedPreferences(context!!)
-                .registerOnSharedPreferenceChangeListener(preferenceListener)
-
         PreferenceManager.getDefaultSharedPreferences(context!!).registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
             d("log", "pref change: $key")
             if (key == ScheduleSettingsKey)
