@@ -16,4 +16,8 @@
     <string name="widget_timeCurrent">bis</string>
     <string name="widget_next">Nächste</string>
     <string name="widget_timeNext">ab</string>
+    <string name="iconDescr_prof">Professor</string>
+    <string name="iconDescr_time">Uhrzeit</string>
+    <string name="iconDescr_date">Datum</string>
+    <string name="iconDescr_location">Raum</string>
 </resources>

@@ -13,7 +13,8 @@
         <ListView
             android:id="@+id/schedule_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbarStyle="insideOverlay">
 
         </ListView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
