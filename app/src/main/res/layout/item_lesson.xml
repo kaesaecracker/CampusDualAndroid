@@ -17,38 +17,42 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/lesson_profIcon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/iconDescr_prof"
+        android:tint="@color/secondary_text"
+        app:layout_constraintBottom_toBottomOf="@+id/lesson_prof"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lesson_title"
+        app:layout_constraintTop_toTopOf="@+id/lesson_prof"
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/lesson_pinIcon"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:contentDescription="TODO"
+        android:layout_height="20dp"
+        android:contentDescription="@string/iconDescr_location"
+        app:layout_constraintBottom_toBottomOf="@+id/lesson_room"
         app:layout_constraintStart_toStartOf="@+id/lesson_clockicon"
-        app:layout_constraintTop_toTopOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/lesson_room"
         app:srcCompat="@drawable/ic_location_on_black_24dp" />
 
     <ImageView
         android:id="@+id/lesson_clockicon"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="TODO"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/iconDescr_time"
+        android:tint="@color/secondary_text"
         app:layout_constraintBottom_toBottomOf="@+id/lesson_time"
         app:layout_constraintEnd_toStartOf="@+id/lesson_time"
+        app:layout_constraintTop_toTopOf="@+id/lesson_time"
         app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
     <TextView
         android:id="@+id/lesson_time"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:lines="1"
@@ -61,7 +65,7 @@
         android:id="@+id/lesson_room"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
         android:lines="1"
         android:text="@string/sample_lesson_room"
@@ -69,21 +73,21 @@
         android:textColor="@color/secondary_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/lesson_prof"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4" />
+        app:layout_constraintStart_toEndOf="@+id/lesson_pinIcon" />
 
     <TextView
         android:id="@+id/lesson_prof"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="2dp"
         android:lines="1"
         android:text="@string/sample_lesson_prof"
         android:textColor="@color/secondary_text"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-        app:layout_constraintEnd_toStartOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/imageView5" />
+        app:layout_constraintEnd_toStartOf="@+id/lesson_pinIcon"
+        app:layout_constraintStart_toEndOf="@+id/lesson_profIcon"
+        app:layout_constraintTop_toBottomOf="@+id/lesson_title" />
 
     <TextView
         android:id="@+id/lesson_title"
@@ -92,11 +96,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:fontFeatureSettings="smcp"
         android:lines="1"
         android:text="@string/sample_lesson_title"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/lesson_clockicon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lesson_dayheader" />
