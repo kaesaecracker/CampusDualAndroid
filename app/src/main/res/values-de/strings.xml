@@ -20,4 +20,5 @@
     <string name="iconDescr_time">Uhrzeit</string>
     <string name="iconDescr_date">Datum</string>
     <string name="iconDescr_location">Raum</string>
+    <string name="app_name">Stundenplan BA</string>
 </resources>

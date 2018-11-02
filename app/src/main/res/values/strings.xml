@@ -1,9 +1,8 @@
 <resources>
     <!-- GENERAL -->
-    <string name="app_name" translatable="false">Campus-Dual</string>
+    <string name="app_name">Schedule BA</string>
 
     <!-- MAIN -->
-    <string name="title_activity_main" translatable="false">Campus-Dual</string>
     <string name="issues_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/issues</string>
     <string name="releases_url" translatable="false">https://github.com/kaesaecracker/CampusDualAndroid/releases</string>
 
