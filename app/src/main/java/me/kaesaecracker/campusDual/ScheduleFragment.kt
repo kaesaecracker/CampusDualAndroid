@@ -1,9 +1,10 @@
 package me.kaesaecracker.campusDual
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log
 import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
@@ -12,22 +13,17 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
-import androidx.lifecycle.Observer
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.github.kittinunf.fuel.httpGet
-import com.google.android.material.snackbar.Snackbar
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.experimental.async
-import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 
 class ScheduleFragment : Fragment() {
 
     private var listView: ListView? = null
     private var adapter: ScheduleAdapter? = null
+    private val preferenceListener = { _: SharedPreferences?, key: String? ->
+        d("schedule", "pref change: $key")
+        if (key == ScheduleSettingsKey)
+            loadFromSettings()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -41,23 +37,22 @@ class ScheduleFragment : Fragment() {
         adapter = ScheduleAdapter(context!!)
         listView!!.adapter = adapter
 
-        PreferenceManager.getDefaultSharedPreferences(context!!).registerOnSharedPreferenceChangeListener { sharedPreferences, key ->
-            d("log", "pref change: $key")
-            if (key == ScheduleSettingsKey)
-                loadFromSettings()
-        }
+        PreferenceManager.getDefaultSharedPreferences(context!!)
+                .registerOnSharedPreferenceChangeListener(preferenceListener)
 
-        async { loadFromSettings() }
+        loadFromSettings()
+        async { downloadAndSaveToSettings(context!!) }
     }
 
     fun loadFromSettings() {
         d("schedule", "loading from settings")
+
         adapter!!.clear()
 
-        val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")
+        val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
         if (schedule == null) {
-            d("log", "could not deserialize schedule")
+            d("schedule", "could not deserialize schedule")
             return
         }
 
@@ -67,6 +62,7 @@ class ScheduleFragment : Fragment() {
     private class ScheduleAdapter(context: Context, days: MutableList<Lesson> = mutableListOf())
         : ArrayAdapter<Lesson>(context, 0, days) {
 
+        @SuppressLint("SetTextI18n")
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val lesson = getItem(position)!!
 
@@ -93,21 +89,15 @@ class ScheduleFragment : Fragment() {
             }
 
             // time and date
-            val timeView = thisView.findViewById<TextView>(R.id.lesson_time)
-            timeView.text = lesson.start.toString(context.resources.getString(R.string.time_format), null) +
+            thisView.findViewById<TextView>(R.id.lesson_time).text =
+                    lesson.start.toString(context.resources.getString(R.string.time_format), null) +
                     "-" + lesson.end.toString(context.resources.getString(R.string.time_format), null)
-
             // room
-            val roomView = thisView.findViewById<TextView>(R.id.lesson_room)
-            roomView.text = lesson.room
-
+            thisView.findViewById<TextView>(R.id.lesson_room).text = lesson.room
             // prof
-            val profView = thisView.findViewById<TextView>(R.id.lesson_prof)
-            profView.text = lesson.instructor
-
+            thisView.findViewById<TextView>(R.id.lesson_prof).text = lesson.instructor
             // title
-            val titleView = thisView.findViewById<TextView>(R.id.lesson_title)
-            titleView.text = lesson.title
+            thisView.findViewById<TextView>(R.id.lesson_title).text = lesson.title
 
             return thisView
         }
