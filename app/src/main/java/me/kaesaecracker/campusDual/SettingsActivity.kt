@@ -1,7 +1,7 @@
 package me.kaesaecracker.campusDual
 
 import android.os.Bundle
-import android.preference.*
+import android.preference.PreferenceActivity
 import android.view.MenuItem
 import androidx.core.app.NavUtils
 
