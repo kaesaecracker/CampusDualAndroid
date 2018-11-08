@@ -13,13 +13,14 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ScheduleFragment : Fragment() {
 
-    private var listView: ListView? = null
-    private var adapter: ScheduleAdapter? = null
+    private val listView: ListView by lazy { this.view!!.findViewById<ListView>(R.id.schedule_listView) }
+    private val adapter: ScheduleAdapter by lazy { ScheduleAdapter(context!!) }
     private val preferenceListener = { _: SharedPreferences?, key: String? ->
         d("schedule", "pref change: $key")
         if (key == ScheduleSettingsKey)
@@ -28,15 +29,15 @@ class ScheduleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        d("schedule", "onCreateView")
         return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
-        listView = this.view!!.findViewById(R.id.schedule_listView)
-        adapter = ScheduleAdapter(context!!)
-        listView!!.adapter = adapter
+        listView.adapter = adapter
 
         PreferenceManager.getDefaultSharedPreferences(context!!)
                 .registerOnSharedPreferenceChangeListener(preferenceListener)
@@ -48,8 +49,6 @@ class ScheduleFragment : Fragment() {
     fun loadFromSettings() {
         d("schedule", "loading from settings")
 
-        adapter!!.clear()
-
         val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
         if (schedule == null) {
@@ -57,7 +56,10 @@ class ScheduleFragment : Fragment() {
             return
         }
 
-        adapter!!.addAll(schedule.toLessonList())
+        GlobalScope.launch(Dispatchers.Main) {
+            adapter.clear()
+            adapter.addAll(schedule.toLessonList())
+        }
     }
 
     private class ScheduleAdapter(context: Context, days: MutableList<Lesson> = mutableListOf())
