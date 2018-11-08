@@ -33,7 +33,9 @@ class MainActivity : AppCompatActivity() {
             scheduleFragment = ScheduleFragment()
             scheduleFragment!!.arguments = intent.extras
 
-
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.main_container, scheduleFragment!!)
+                    .commit()
         }
     }
 
