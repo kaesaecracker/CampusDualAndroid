@@ -68,7 +68,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 class ScheduleWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
         Log.d("widget_service", "onGetViewFactory")
-        return WidgetRemoteViewsFactory(this.applicationContext, intent)
+        return WidgetRemoteViewsFactory(this.baseContext, intent)
     }
 
     private class WidgetRemoteViewsFactory(val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory {

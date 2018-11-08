@@ -1,16 +1,10 @@
 package me.kaesaecracker.campusDual
 
-import android.util.Log.d
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Context
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
-import android.content.Intent
 
 
 val AppTimeZone: DateTimeZone = DateTimeZone.forOffsetHours(+1)

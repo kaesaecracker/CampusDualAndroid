@@ -15,7 +15,8 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.graphics.drawable.DrawableCompat
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,18 +42,17 @@ class MainActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
 
-        if (hasFocus) async {
+        if (hasFocus) GlobalScope.launch {
             setupBackgroundWorker()
             forceRefreshWidget()
         }
     }
 
     fun forceRefreshWidget() {
-        val intent = Intent(applicationContext, ScheduleWidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        val ids = AppWidgetManager.getInstance(application).getAppWidgetIds(ComponentName(application, ScheduleWidgetProvider::class.java))
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-        sendBroadcast(intent)
+        val appWidgetManager = AppWidgetManager.getInstance(baseContext)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                ComponentName(baseContext, ScheduleWidgetProvider::class.java))
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_lessonList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_forceRefresh -> {
-                async {
+                GlobalScope.launch {
                     val success = downloadAndSaveToSettings(this@MainActivity.baseContext)
                     d("main", "Force sync: $success")
                     this@MainActivity.scheduleFragment?.loadFromSettings()
