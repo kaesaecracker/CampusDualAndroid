@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun forceRefreshWidget() {
-        val appWidgetManager = AppWidgetManager.getInstance(applicationContext)
+        val appWidgetManager = AppWidgetManager.getInstance(baseContext)
         val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                ComponentName(applicationContext, ScheduleWidgetProvider::class.java))
+                ComponentName(baseContext, ScheduleWidgetProvider::class.java))
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_lessonList)
     }
 
