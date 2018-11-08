@@ -46,11 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun forceRefreshWidget() {
-        val intent = Intent(applicationContext, ScheduleWidgetProvider::class.java)
-        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
-        val ids = AppWidgetManager.getInstance(application).getAppWidgetIds(ComponentName(application, ScheduleWidgetProvider::class.java))
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-        sendBroadcast(intent)
+        val appWidgetManager = AppWidgetManager.getInstance(applicationContext)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(
+                ComponentName(applicationContext, ScheduleWidgetProvider::class.java))
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_lessonList)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
