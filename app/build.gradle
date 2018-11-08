@@ -9,7 +9,7 @@ android {
     compileSdkVersion 28
     // Auto version numbering
     def versionPropsFile = file('version.properties')
-    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr
+    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr, versionBeta
     if (!versionPropsFile.canRead()) {
         throw new FileNotFoundException("Could not read version.properties!")
     } else {
@@ -21,6 +21,7 @@ android {
         versionRevision = versionProps['VERSION_REVISION'].toInteger()
         versionBuild = versionProps['VERSION_BUILD'].toInteger()
         versionCodeNr = versionProps['VERSION_CODE'].toInteger()
+        versionBeta = versionProps['VERSION_BETA'].toInteger()
 
         // build number gets incremented every run
         versionBuild = versionBuild + 1
@@ -31,17 +32,25 @@ android {
             versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
         }
     }
-    lintOptions {
-        abortOnError false
-    }
+
     defaultConfig {
         applicationId "me.kaesaecracker.campus_dual"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode versionCodeNr
-        versionName "$versionMajor.$versionMinor.$versionRevision.$versionBuild"
+
+        def versionNameBetaPart = ""
+        if (versionBeta > -1) {
+            versionNameBetaPart += "-beta"
+
+            if (versionBeta > 0)
+                versionNameBetaPart += ".$versionBeta"
+        }
+
+        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart ($versionBuild)"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -65,7 +74,7 @@ dependencies {
     // google and kotlin stuff
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
 
