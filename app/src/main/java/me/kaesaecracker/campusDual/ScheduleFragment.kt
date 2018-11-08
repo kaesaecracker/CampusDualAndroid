@@ -1,6 +1,5 @@
 package me.kaesaecracker.campusDual
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -12,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -40,7 +41,11 @@ class ScheduleFragment : Fragment() {
         d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
-        viewManager = LinearLayoutManager(context)
+        viewManager = LinearLayoutManager(context).apply {
+            isSmoothScrollbarEnabled = false
+            isItemPrefetchEnabled = true
+        }
+
         viewAdapter = ScheduleAdapter(context!!)
 
         recyclerView = this.view!!.findViewById<RecyclerView>(R.id.schedule_listView).apply {
@@ -68,13 +73,13 @@ class ScheduleFragment : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            viewAdapter.lessons.clear()
-            viewAdapter.lessons.addAll(schedule.toLessonList())
-            viewAdapter.notifyDataSetChanged()
+            d("schedule", "submitting new data to viewAdapter")
+            viewAdapter.submitList(schedule.toLessonList())
         }
     }
 
-    private class ScheduleAdapter(val context: Context, val lessons: MutableList<Lesson> = mutableListOf()) : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
+    private class ScheduleAdapter(val context: Context) :
+            ListAdapter<Lesson, ScheduleAdapter.ScheduleViewHolder>(LessonDiffCallback()) {
 
         class ScheduleViewHolder(view: ConstraintLayout) : RecyclerView.ViewHolder(view) {
             val titleView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_title) }
@@ -84,13 +89,18 @@ class ScheduleFragment : Fragment() {
             val dayHeader: ConstraintLayout by lazy { view.findViewById<ConstraintLayout>(R.id.lesson_dayheader) }
         }
 
+        class LessonDiffCallback : DiffUtil.ItemCallback<Lesson>() {
+            override fun areContentsTheSame(oldItem: Lesson, newItem: Lesson) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: Lesson, newItem: Lesson) = oldItem.startEpoch == newItem.startEpoch
+        }
+
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ScheduleViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.view_lesson, parent, false) as ConstraintLayout
             return ScheduleAdapter.ScheduleViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
-            val lesson = lessons[position]
+            val lesson = getItem(position)
             holder.titleView.text = lesson.title
             holder.profView.text = lesson.instructor
             holder.roomView.text = lesson.room
@@ -98,7 +108,7 @@ class ScheduleFragment : Fragment() {
                     "-" + lesson.end.toString(context.resources.getString(R.string.time_format), null)
 
             val previousIsDifferentDate = fun(): Boolean {
-                val previous = lessons[position - 1].start
+                val previous = getItem(position - 1).start
                 val current = lesson.start
                 return previous.dayOfYear != current.dayOfYear
             }
@@ -113,10 +123,6 @@ class ScheduleFragment : Fragment() {
             } else {
                 holder.dayHeader.visibility = View.GONE
             }
-        }
-
-        override fun getItemCount(): Int {
-            return lessons.size
         }
     }
 }
