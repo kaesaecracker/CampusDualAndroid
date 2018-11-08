@@ -1,5 +1,7 @@
 package me.kaesaecracker.campusDual
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -34,8 +36,23 @@ class MainActivity : AppCompatActivity() {
                     .add(R.id.main_container, scheduleFragment!!)
                     .commit()
         }
+    }
 
-        setupBackgroundWorker()
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+
+        if (hasFocus) async {
+            setupBackgroundWorker()
+            forceRefreshWidget()
+        }
+    }
+
+    fun forceRefreshWidget() {
+        val intent = Intent(applicationContext, ScheduleWidgetProvider::class.java)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        val ids = AppWidgetManager.getInstance(application).getAppWidgetIds(ComponentName(application, ScheduleWidgetProvider::class.java))
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+        sendBroadcast(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,6 +85,12 @@ class MainActivity : AppCompatActivity() {
 
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
             R.id.action_issues -> openChromeCustomTab(getString(R.string.issues_url))
+            R.id.action_playstore ->
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
+                } catch (anfe: android.content.ActivityNotFoundException) {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+                }
         }
 
         return false
