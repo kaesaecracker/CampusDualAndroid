@@ -9,18 +9,21 @@ import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ScheduleFragment : Fragment() {
 
-    private val listView: ListView by lazy { this.view!!.findViewById<ListView>(R.id.schedule_listView) }
-    private val adapter: ScheduleAdapter by lazy { ScheduleAdapter(context!!) }
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: ScheduleAdapter
+    private lateinit var viewManager: RecyclerView.LayoutManager
+
     private val preferenceListener = { _: SharedPreferences?, key: String? ->
         d("schedule", "pref change: $key")
         if (key == ScheduleSettingsKey)
@@ -37,7 +40,15 @@ class ScheduleFragment : Fragment() {
         d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
-        listView.adapter = adapter
+        viewManager = LinearLayoutManager(context)
+        viewAdapter = ScheduleAdapter(context!!)
+
+        recyclerView = this.view!!.findViewById<RecyclerView>(R.id.schedule_listView).apply {
+            setHasFixedSize(false)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+        recyclerView.adapter = viewAdapter
 
         PreferenceManager.getDefaultSharedPreferences(context!!)
                 .registerOnSharedPreferenceChangeListener(preferenceListener)
@@ -57,52 +68,55 @@ class ScheduleFragment : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.Main) {
-            adapter.clear()
-            adapter.addAll(schedule.toLessonList())
+            viewAdapter.lessons.clear()
+            viewAdapter.lessons.addAll(schedule.toLessonList())
+            viewAdapter.notifyDataSetChanged()
         }
     }
 
-    private class ScheduleAdapter(context: Context, days: MutableList<Lesson> = mutableListOf())
-        : ArrayAdapter<Lesson>(context, 0, days) {
+    private class ScheduleAdapter(val context: Context, val lessons: MutableList<Lesson> = mutableListOf()) : RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder>() {
 
-        @SuppressLint("SetTextI18n")
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-            val lesson = getItem(position)!!
+        class ScheduleViewHolder(view: ConstraintLayout) : RecyclerView.ViewHolder(view) {
+            val titleView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_title) }
+            val timeView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_time) }
+            val roomView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_room) }
+            val profView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_prof) }
+            val dayHeader: ConstraintLayout by lazy { view.findViewById<ConstraintLayout>(R.id.lesson_dayheader) }
+        }
 
-            // initialize layout if needed
-            val thisView = convertView
-                    ?: LayoutInflater.from(context).inflate(R.layout.item_lesson, parent, false)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ScheduleViewHolder {
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.view_lesson, parent, false) as ConstraintLayout
+            return ScheduleAdapter.ScheduleViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
+            val lesson = lessons[position]
+            holder.titleView.text = lesson.title
+            holder.profView.text = lesson.instructor
+            holder.roomView.text = lesson.room
+            holder.timeView.text = lesson.start.toString(context.resources.getString(R.string.time_format), null) +
+                    "-" + lesson.end.toString(context.resources.getString(R.string.time_format), null)
 
             val previousIsDifferentDate = fun(): Boolean {
-                val previous = getItem(position - 1)!!.start
+                val previous = lessons[position - 1].start
                 val current = lesson.start
                 return previous.dayOfYear != current.dayOfYear
             }
 
-            val dayHeaderView = thisView.findViewById<View>(R.id.lesson_dayheader)
             if (position == 0 || previousIsDifferentDate()) {
-                val dayHeaderWeekdayView = dayHeaderView.findViewById<TextView>(R.id.dayheader_weekday)
+                val dayHeaderWeekdayView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_weekday)
                 dayHeaderWeekdayView.text = lesson.start.toString(context.getString(R.string.weekday_format))
 
-                val dayHeaderDateView = dayHeaderView.findViewById<TextView>(R.id.dayheader_date)
+                val dayHeaderDateView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_date)
                 dayHeaderDateView.text = lesson.start.toString(context.getString(R.string.date_format))
-                dayHeaderView.visibility = View.VISIBLE
+                holder.dayHeader.visibility = View.VISIBLE
             } else {
-                dayHeaderView.visibility = View.GONE
+                holder.dayHeader.visibility = View.GONE
             }
+        }
 
-            // time and date
-            thisView.findViewById<TextView>(R.id.lesson_time).text =
-                    lesson.start.toString(context.resources.getString(R.string.time_format), null) +
-                    "-" + lesson.end.toString(context.resources.getString(R.string.time_format), null)
-            // room
-            thisView.findViewById<TextView>(R.id.lesson_room).text = lesson.room
-            // prof
-            thisView.findViewById<TextView>(R.id.lesson_prof).text = lesson.instructor
-            // title
-            thisView.findViewById<TextView>(R.id.lesson_title).text = lesson.title
-
-            return thisView
+        override fun getItemCount(): Int {
+            return lessons.size
         }
     }
 }

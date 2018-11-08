@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/lesson_dayheader"
-        layout="@layout/item_dayheader"
+        layout="@layout/view_lesson_dayheader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="gone"
