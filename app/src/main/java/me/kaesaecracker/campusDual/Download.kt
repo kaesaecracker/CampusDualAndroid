@@ -53,11 +53,11 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val schedule = mutableListOf<Schoolday>()
     for (jsonLesson in jsonSchedule) {
         val lesson = Lesson(
-                jsonLesson.title,
+                jsonLesson.title.trim(),
                 jsonLesson.start.toLong(),
                 jsonLesson.end.toLong(),
-                jsonLesson.room,
-                jsonLesson.instructor
+                jsonLesson.room.trim(),
+                jsonLesson.instructor.trim()
         )
 
         if (schedule.isEmpty() || schedule.last().date!!.dayOfYear != lesson.start.dayOfYear) {
