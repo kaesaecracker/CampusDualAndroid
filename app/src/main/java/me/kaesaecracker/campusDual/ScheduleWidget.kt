@@ -1,5 +1,6 @@
 package me.kaesaecracker.campusDual
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -29,7 +30,8 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 
             val rv = RemoteViews(context.packageName, R.layout.widget)
             setHeaderData(context, rv)
-            rv.setRemoteAdapter(R.id.widget_list, intent)
+            setOnClick(context, rv)
+            rv.setRemoteAdapter(R.id.widget_lessonList, intent)
 
             appWidgetManager.updateAppWidget(appWidgetId, rv)
         }
@@ -54,6 +56,12 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         widget.setTextViewText(R.id.widget_header_lessonCount, "${day.length} ${context.getString(R.string.widget_lessonCount)}")
         widget.setTextViewText(R.id.widget_header_fromTo, day.first.start.toString(context.getString(R.string.time_format)) +
                 "-" + day.last.end.toString(context.getString(R.string.time_format)))
+    }
+
+    fun setOnClick(context: Context, widget: RemoteViews) {
+        val launchActivity = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(context, 0, launchActivity, 0)
+        widget.setOnClickPendingIntent(R.id.widget_header, pendingIntent)
     }
 }
 
@@ -106,7 +114,7 @@ class ScheduleWidgetService : RemoteViewsService() {
         }
 
         override fun getViewTypeCount(): Int = 1
-        override fun hasStableIds(): Boolean = true
+        override fun hasStableIds(): Boolean = false
         override fun getLoadingView(): RemoteViews? = null
         override fun getItemId(position: Int): Long = days.getCurrentDay()?.lessons?.get(position)?.startEpoch
                 ?: -1L
