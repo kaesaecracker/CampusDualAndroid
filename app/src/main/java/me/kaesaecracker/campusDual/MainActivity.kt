@@ -15,7 +15,8 @@ import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.graphics.drawable.DrawableCompat
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
 
-        if (hasFocus) async {
+        if (hasFocus) GlobalScope.launch {
             setupBackgroundWorker()
             forceRefreshWidget()
         }
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_forceRefresh -> {
-                async {
+                GlobalScope.launch {
                     val success = downloadAndSaveToSettings(this@MainActivity.baseContext)
                     d("main", "Force sync: $success")
                     this@MainActivity.scheduleFragment?.loadFromSettings()

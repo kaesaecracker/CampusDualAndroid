@@ -13,7 +13,8 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ScheduleFragment : Fragment() {
 
@@ -41,7 +42,7 @@ class ScheduleFragment : Fragment() {
                 .registerOnSharedPreferenceChangeListener(preferenceListener)
 
         loadFromSettings()
-        async { downloadAndSaveToSettings(context!!) }
+        GlobalScope.launch { downloadAndSaveToSettings(context!!) }
     }
 
     fun loadFromSettings() {
