@@ -4,6 +4,7 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.util.Log
 import android.util.Log.d
+import android.util.Log.w
 import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
@@ -15,13 +16,15 @@ const val ScheduleSettingsKey: String = "pref_schedule_data"
 const val WidgetDataSettingsKey: String = "pref_widget_data"
 
 private class ScheduleDeserializer : ResponseDeserializable<List<JsonLesson>> {
-    override fun deserialize(content: String) = Gson().fromJson<List<JsonLesson>>(content, object : TypeToken<List<JsonLesson>>() {}.type)!!
+    override fun deserialize(content: String): List<JsonLesson> {
+        return Gson().fromJson<List<JsonLesson>>(content, object : TypeToken<List<JsonLesson>>() {}.type)
+    }
 }
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-    val userId = prefs.getString("pref_userId", "") ?: ""
-    val password = prefs.getString("pref_password", "") ?: ""
+    val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
+    val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
 
     Log.d("download", "refresh")
     val urlBase = context.resources.getString(R.string.backend_url)
@@ -36,19 +39,22 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
-            "hash" to password,
+            "hash" to hash,
             "start" to today.getUnixTimestamp(),
             "end" to inWeeks.getUnixTimestamp()
-    )).responseObject(ScheduleDeserializer())
-    Log.d("download", "got response")
+    )).responseString()
 
-    val (jsonSchedule, err) = result
-    if (err != null || jsonSchedule == null) {
-        Log.w("download", err)
+    val (jsonScheduleString, err) = result
+    if (err != null || jsonScheduleString == null) {
+        w("download", "result: err='$err', str='$jsonScheduleString'")
         return false
     }
 
-    d("download", "got schedule")
+    val jsonSchedule = parseJsonSchedule(jsonScheduleString)
+    if (jsonSchedule == null) {
+        w("download", "could not deserialize json schedule string '$jsonScheduleString'")
+        return false
+    }
 
     val schedule = mutableListOf<Schoolday>()
     for (jsonLesson in jsonSchedule) {
@@ -68,12 +74,10 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         }
     }
 
-
     val gsonFirstDay = dayToString(schedule.first())
     val gsonSchedule = scheduleToString(schedule) ?: return false
 
-    d("download", "items: ${schedule.size}, first: $gsonFirstDay")
-
+    d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
             .putString(WidgetDataSettingsKey, gsonFirstDay)
