@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.os.Bundle
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
+import me.kaesaecracker.campusDual.R
 
 class SettingsFragment : Fragment() {
     companion object {

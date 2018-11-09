@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import me.kaesaecracker.campusDual.R
 
 class ScheduleFragment : Fragment() {
 
@@ -101,9 +102,9 @@ class ScheduleFragment : Fragment() {
             override fun areItemsTheSame(oldItem: Lesson, newItem: Lesson) = oldItem.startEpoch == newItem.startEpoch
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleAdapter.ScheduleViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.view_lesson, parent, false) as ConstraintLayout
-            return ScheduleAdapter.ScheduleViewHolder(view)
+            return ScheduleViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {

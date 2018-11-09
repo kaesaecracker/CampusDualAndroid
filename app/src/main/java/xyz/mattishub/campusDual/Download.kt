@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.preference.PreferenceManager
@@ -9,6 +9,7 @@ import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
