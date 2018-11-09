@@ -31,4 +31,12 @@
     <string name="iconDescr_location">Room</string>
     <string name="forceRefreshBtn_hint">Force Refresh</string>
     <string name="action_playstore" translatable="false">Play Store</string>
+    <string name="settings_autosave">This screen saves automatically. If you accidentally changed something, you can click the button below to undo the changes.</string>
+    <string name="settings_undobutton">Undo Changes</string>
+    <string name="settings_logindata">Campus Dual Login</string>
+    <string name="settings_loginHelpText">Please type in your matriculation number (without \'s\') and your Campus Dual Hash. If you do not know what your hash is or how you get it click this link: https://mattishub.xyz/j/cdhash</string>
+    <string name="settings_tooShort">That seems too short</string>
+    <string name="settings_tooLong">That seems to long</string>
+    <string name="settings_correct">That seems correct</string>
+    <string name="settings_empty">Enter something</string>
 </resources>
