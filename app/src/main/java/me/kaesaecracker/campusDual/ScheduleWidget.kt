@@ -68,10 +68,10 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 class ScheduleWidgetService : RemoteViewsService() {
     override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
         Log.d("widget_service", "onGetViewFactory")
-        return WidgetRemoteViewsFactory(this.baseContext, intent)
+        return WidgetRemoteViewsFactory(this.baseContext)
     }
 
-    private class WidgetRemoteViewsFactory(val context: Context, intent: Intent) : RemoteViewsService.RemoteViewsFactory {
+    private class WidgetRemoteViewsFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
         private var days: List<Schoolday>? = null
         private var nonPassedLessons: List<Lesson>? = null
 

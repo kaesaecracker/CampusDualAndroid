@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
+    android:elevation="12dp"
     android:paddingBottom="4dp"
     android:theme="@android:style/ThemeOverlay.Material.Dark">
 
@@ -28,8 +29,7 @@
         android:lines="1"
         android:text="@string/sample_weekday"
         android:textAppearance="@android:style/TextAppearance.Material.Large"
-        android:textColor="@color/icons"
-        android:textSize="22sp"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toStartOf="@+id/dayheader_dateIcon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
