@@ -20,8 +20,6 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private var scheduleFragment: ScheduleFragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,12 +27,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (findViewById<FrameLayout>(R.id.main_container) != null) {
             if (savedInstanceState != null) return
-
-            scheduleFragment = ScheduleFragment()
-            scheduleFragment!!.arguments = intent.extras
-
             supportFragmentManager.beginTransaction()
-                    .add(R.id.main_container, scheduleFragment!!)
+                    .add(R.id.main_container, ScheduleFragment())
                     .commit()
         }
     }
@@ -69,19 +63,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_settings -> {
-                val intent = Intent(this, SettingsActivity::class.java).apply {}
-                startActivity(intent)
-                return true
+            R.id.action_settings -> if (supportFragmentManager.backStackEntryCount == 0)
+                supportFragmentManager
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                        .replace(R.id.main_container, SettingsFragment())
+                        .addToBackStack("settings")
+                        .commit()
+
+
+            R.id.action_forceRefresh -> GlobalScope.launch {
+                val success = downloadAndSaveToSettings(this@MainActivity.baseContext)
+                d("main", "Force sync: $success")
+
+                while (this@MainActivity.supportFragmentManager.backStackEntryCount > 0) {
+                    this@MainActivity.supportFragmentManager.popBackStack()
+                }
+
+                this@MainActivity.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.main_container, ScheduleFragment())
+                        .commit()
             }
 
-            R.id.action_forceRefresh -> {
-                GlobalScope.launch {
-                    val success = downloadAndSaveToSettings(this@MainActivity.baseContext)
-                    d("main", "Force sync: $success")
-                    this@MainActivity.scheduleFragment?.loadFromSettings()
-                }
-            }
 
             R.id.action_releases -> openChromeCustomTab(getString(R.string.releases_url))
             R.id.action_issues -> openChromeCustomTab(getString(R.string.issues_url))

@@ -4,9 +4,7 @@
     <string name="bugsbtn_hint">Fehler melden</string>
     <string name="releasebtn_hint">Updates</string>
     <string name="settings_matrikel">Matrikelnummer</string>
-    <string name="settings_matrikel_sub">(ohne s</string>
     <string name="settings_hash">Hash</string>
-    <string name="settings_hash_sub">Nicht das Passwort! Anleitung und Erklärung auf: https://mattishub.xyz/cdhash</string>
     <string name="widget_lessonCount">Stunde(n)</string>
     <string name="iconDescr_prof">Professor</string>
     <string name="iconDescr_time">Uhrzeit</string>
@@ -14,4 +12,8 @@
     <string name="iconDescr_location">Raum</string>
     <string name="app_name">Stundenplan BA</string>
     <string name="forceRefreshBtn_hint">Jetzt neu laden</string>
+    <string name="settings_tooShort">Das scheint zu kurz zu sein</string>
+    <string name="settings_tooLong">Das scheint zu lang zu sein</string>
+    <string name="settings_correct">Das scheint richtig zu sein</string>
+    <string name="settings_empty">Gib etwas ein</string>
 </resources>
