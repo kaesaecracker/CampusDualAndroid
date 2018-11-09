@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity.supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.main_container, ScheduleFragment())
-                        .commit()
+                        .commitAllowingStateLoss()
             }
 
 
