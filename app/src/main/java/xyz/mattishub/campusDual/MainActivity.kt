@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
@@ -18,6 +18,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.graphics.drawable.DrawableCompat
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import me.kaesaecracker.campusDual.R
 
 class MainActivity : AppCompatActivity() {
 

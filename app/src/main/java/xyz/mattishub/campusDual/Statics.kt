@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

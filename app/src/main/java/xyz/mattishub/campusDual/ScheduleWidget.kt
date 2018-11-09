@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -12,6 +12,7 @@ import android.util.Log.d
 import android.widget.AdapterView
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import me.kaesaecracker.campusDual.R
 
 class ScheduleWidgetProvider : AppWidgetProvider() {
 

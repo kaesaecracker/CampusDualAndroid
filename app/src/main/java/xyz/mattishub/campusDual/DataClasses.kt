@@ -1,4 +1,4 @@
-package me.kaesaecracker.campusDual
+package xyz.mattishub.campusDual
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
