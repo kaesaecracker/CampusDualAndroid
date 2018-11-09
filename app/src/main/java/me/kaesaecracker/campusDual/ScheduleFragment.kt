@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
@@ -60,6 +61,12 @@ class ScheduleFragment : Fragment() {
 
         loadFromSettings()
         GlobalScope.launch { downloadAndSaveToSettings(context!!) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        (activity as AppCompatActivity).title = getString(R.string.app_name)
     }
 
     fun loadFromSettings() {
