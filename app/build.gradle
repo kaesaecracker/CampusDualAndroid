@@ -9,7 +9,7 @@ android {
     compileSdkVersion 28
     // Auto version numbering
     def versionPropsFile = file('version.properties')
-    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr
+    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr, versionBeta
     if (!versionPropsFile.canRead()) {
         throw new FileNotFoundException("Could not read version.properties!")
     } else {
@@ -21,6 +21,7 @@ android {
         versionRevision = versionProps['VERSION_REVISION'].toInteger()
         versionBuild = versionProps['VERSION_BUILD'].toInteger()
         versionCodeNr = versionProps['VERSION_CODE'].toInteger()
+        versionBeta = versionProps['VERSION_BETA'].toInteger()
 
         // build number gets incremented every run
         versionBuild = versionBuild + 1
@@ -31,16 +32,18 @@ android {
             versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
         }
     }
-    lintOptions {
-        abortOnError false
-    }
     defaultConfig {
-        applicationId "me.kaesaecracker.campus_dual"
+        applicationId 'xyz.mattishub.campusDual'
         minSdkVersion 21
         targetSdkVersion 28
         versionCode versionCodeNr
-        versionName "$versionMajor.$versionMinor.$versionRevision.$versionBuild"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        def versionNameBetaPart = ""
+        if (versionBeta > -1) {
+            versionNameBetaPart += "-beta"
+            if (versionBeta > 0)
+                versionNameBetaPart += ".$versionBeta"
+        }
+        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart ($versionBuild)"
     }
     buildTypes {
         debug {
@@ -60,29 +63,24 @@ android {
     }
 }
 
-
 dependencies {
     // google and kotlin stuff
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
+    implementation 'android.arch.work:work-runtime-ktx:1.0.0-alpha10'
+    // jetpack
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
-
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // My libraries
     implementation 'me.eugeniomarletti:android-extras-delegates:1.0.5'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
-}
-
-apply plugin: 'com.google.gms.google-services'
-
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
+    implementation 'net.danlew:android.joda:2.10.1'
 }

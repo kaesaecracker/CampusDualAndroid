@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:id="@+id/main_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/main_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="me.kaesaecracker.campusDual.MainActivity">
-
-        <ListView
-            android:id="@+id/main_schedule"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
-        </ListView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</LinearLayout>
+    android:layout_height="match_parent"
+    tools:context="xyz.mattishub.campusDual.MainActivity"></FrameLayout>

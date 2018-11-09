@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/icons"
+    android:padding="4dp">
+
+    <TextView
+        android:id="@+id/widget_lesson_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:lines="1"
+        android:text="@string/sample_lesson_title"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/widget_lesson_timeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/widget_lesson_title"
+        android:layout_alignBottom="@id/widget_lesson_time"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/ic_access_time_black_24dp" />
+
+    <TextView
+        android:id="@+id/widget_lesson_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/widget_lesson_title"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="2dp"
+        android:layout_toEndOf="@+id/widget_lesson_timeIcon"
+        android:gravity="end"
+        android:lines="1"
+        android:text="@string/sample_time" />
+
+    <ImageView
+        android:id="@+id/widget_lesson_roomIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/widget_lesson_title"
+        android:layout_alignBottom="@+id/widget_lesson_room"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_location_on_black_24dp" />
+
+    <TextView
+        android:id="@+id/widget_lesson_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/widget_lesson_time"
+        android:layout_alignParentEnd="false"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="2dp"
+        android:layout_toStartOf="@id/widget_lesson_roomIcon"
+        android:lines="1"
+        android:text="@string/sample_lesson_room" />
+
+</RelativeLayout>
