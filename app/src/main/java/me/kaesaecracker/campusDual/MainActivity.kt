@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.util.Log.d
 import android.view.Menu
 import android.view.MenuItem
@@ -31,6 +32,34 @@ class MainActivity : AppCompatActivity() {
                     .add(R.id.main_container, ScheduleFragment())
                     .commit()
         }
+
+        // open settings if matric or hash not set
+        val pref = PreferenceManager.getDefaultSharedPreferences(baseContext)
+        val matric = pref.getString(SettingsFragment.setting_matric, "")
+        val hash = pref.getString(SettingsFragment.setting_hash, "")
+
+        if (matric.isNullOrBlank() || hash.isNullOrBlank()) {
+            // load from old settings keys if necessary
+            val oldUserId = pref.getString("pref_userId", "")
+            if (!oldUserId.isNullOrBlank()) {
+                pref.edit()
+                        .putString(SettingsFragment.setting_hash, oldUserId)
+                        .putString(SettingsFragment.setting_matric, pref.getString("pref_password", ""))
+                        .apply()
+            }
+
+            openSettings()
+        }
+    }
+
+    private fun openSettings() {
+        if (supportFragmentManager.backStackEntryCount == 0)
+            supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
+                    .replace(R.id.main_container, SettingsFragment())
+                    .addToBackStack("settings")
+                    .commit()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -63,14 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
-            R.id.action_settings -> if (supportFragmentManager.backStackEntryCount == 0)
-                supportFragmentManager
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-                        .replace(R.id.main_container, SettingsFragment())
-                        .addToBackStack("settings")
-                        .commit()
-
+            R.id.action_settings -> openSettings()
 
             R.id.action_forceRefresh -> GlobalScope.launch {
                 val success = downloadAndSaveToSettings(this@MainActivity.baseContext)
@@ -83,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 this@MainActivity.supportFragmentManager
                         .beginTransaction()
                         .replace(R.id.main_container, ScheduleFragment())
-                        .commit()
+                        .commitAllowingStateLoss()
             }
 
 

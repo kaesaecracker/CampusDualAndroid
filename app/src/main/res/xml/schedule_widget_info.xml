@@ -4,6 +4,7 @@
     android:initialLayout="@layout/widget"
     android:minWidth="110dp"
     android:minHeight="90dp"
+    android:previewImage="@drawable/widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="900000"
     android:widgetCategory="home_screen" /><!-- 15min update time so it refreshes in the first half of the 30min break -->
