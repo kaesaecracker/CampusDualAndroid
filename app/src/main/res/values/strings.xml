@@ -14,9 +14,7 @@
     <string name="time_format" translatable="false">HH:mm</string>
     <string name="backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
     <string name="settings_matrikel">Matriculation Number</string>
-    <string name="settings_matrikel_sub">(without s)</string>
     <string name="settings_hash">Hash</string>
-    <string name="settings_hash_sub">Not your password! Help: https://mattishub.xyz/j/cdhash</string>
     <string name="widget_lessonCount">Lesson(s)</string>
     <string name="weekday_format" translatable="false">EEEE</string>
     <string name="sample_weekday" translatable="false">Someday</string>

@@ -4,9 +4,7 @@
     <string name="bugsbtn_hint">Fehler melden</string>
     <string name="releasebtn_hint">Updates</string>
     <string name="settings_matrikel">Matrikelnummer</string>
-    <string name="settings_matrikel_sub">(ohne s</string>
     <string name="settings_hash">Hash</string>
-    <string name="settings_hash_sub">Nicht das Passwort! Anleitung und Erklärung auf: https://mattishub.xyz/cdhash</string>
     <string name="widget_lessonCount">Stunde(n)</string>
     <string name="iconDescr_prof">Professor</string>
     <string name="iconDescr_time">Uhrzeit</string>
