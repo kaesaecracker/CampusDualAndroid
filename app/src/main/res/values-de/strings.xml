@@ -14,6 +14,9 @@
     <string name="forceRefreshBtn_hint">Jetzt neu laden</string>
     <string name="settings_tooShort">Das scheint zu kurz zu sein</string>
     <string name="settings_tooLong">Das scheint zu lang zu sein</string>
-    <string name="settings_correct">Das scheint richtig zu sein</string>
+    <string name="settings_correct">Das scheint richtig zu sein. Gespeichert!</string>
     <string name="settings_empty">Gib etwas ein</string>
+    <string name="settings_loginHelpText">Bitte gib deine Matrikelnummer (ohne \'s\') und deinen Campus Dual-Hash ein. Wenn du nicht weißt, was der Hash ist oder wie du ihn bekommst, klicke auf diesen Link: https://mattishub.xyz/j/cdhash</string>
+    <string name="settings_loginHelpText">Bitte gib deine Matrikelnummer (ohne \'s\') und deinen Campus Dual-Hash ein. Wenn du nciht weißt, was der Hash ist oder wie du ihn bekommst klicke auf diesen Link:If you do not know what your hash is or how you get it click this link: https://mattishub.xyz/j/cdhash</string>
+    <string name="settings_logindata">Campus Dual Login</string>
 </resources>
