@@ -18,7 +18,7 @@
 
 # GSON specifics
 -keepattributes Signature
--keep,includedescriptorclasses class me.kaesaecracker.campusDual.JsonLesson  { *; }
+-keep,includedescriptorclasses class xyz.mattishub.campusDual.JsonLesson  { *; }
 -keep class kotlinx.coroutines.** { *; }
 -keep class org.joda.time.tz.data.ZoneInfoMap { *; }
 
