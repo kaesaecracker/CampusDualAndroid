@@ -42,7 +42,7 @@ class ScheduleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        d("schedule", "onCreateView")
+        mainActivity.supportActionBar?.show()
         return inflater.inflate(R.layout.fragment_schedule, container, false)
     }
 

@@ -30,10 +30,14 @@
     <fragment
         android:id="@+id/firstLaunchFragment"
         android:name="xyz.mattishub.campusDual.FirstLaunchFragment"
-        android:label="FirstLaunchFragment" >
+        android:label="@string/firstlaunch_title">
         <action
             android:id="@+id/action_firstLaunch_to_settings"
             app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left"
+            app:popEnterAnim="@anim/enter_from_left"
+            app:popExitAnim="@anim/exit_to_right"
             app:popUpTo="@+id/scheduleFragment" />
     </fragment>
 </navigation>

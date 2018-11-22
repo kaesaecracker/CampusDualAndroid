@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -110,11 +109,7 @@ class SettingsFragment : Fragment() {
             view.settings_backendEdit.text = Editable.Factory.getInstance().newEditable(defBackend)
         }
 
+        mainActivity.supportActionBar?.show()
         return view
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as AppCompatActivity).title = getString(R.string.title_activity_settings)
     }
 }
