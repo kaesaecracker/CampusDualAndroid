@@ -91,8 +91,4 @@ class SettingsFragment : Fragment() {
         super.onResume()
         (activity as AppCompatActivity).title = getString(R.string.title_activity_settings)
     }
-
-    fun onUndoButtinClick(v: View) {
-
-    }
 }

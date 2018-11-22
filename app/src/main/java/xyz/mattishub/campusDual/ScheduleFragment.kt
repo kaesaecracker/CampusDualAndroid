@@ -1,15 +1,15 @@
 package xyz.mattishub.campusDual
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.util.Log.d
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -142,11 +142,12 @@ class ScheduleFragment : Fragment() {
             ListAdapter<Lesson, ScheduleAdapter.ScheduleViewHolder>(LessonDiffCallback()) {
 
         class ScheduleViewHolder(view: ConstraintLayout) : RecyclerView.ViewHolder(view) {
-            val titleView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_title) }
-            val timeView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_time) }
-            val roomView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_room) }
-            val profView: TextView by lazy { view.findViewById<TextView>(R.id.lesson_prof) }
-            val dayHeader: ConstraintLayout by lazy { view.findViewById<ConstraintLayout>(R.id.lesson_dayheader) }
+            val titleView: TextView by lazy { view.lesson_title }
+            val timeFromView: TextView by lazy { view.lesson_timeFrom }
+            val timeToView: TextView by lazy { view.lesson_timeTo }
+            val roomView: TextView by lazy { view.lesson_room }
+            val profView: TextView by lazy { view.lesson_prof }
+            val dayHeader: ConstraintLayout by lazy { view.lesson_dayheader as ConstraintLayout }
         }
 
         class LessonDiffCallback : DiffUtil.ItemCallback<Lesson>() {
@@ -164,8 +165,8 @@ class ScheduleFragment : Fragment() {
             holder.titleView.text = lesson.title
             holder.profView.text = lesson.instructor
             holder.roomView.text = lesson.room
-            holder.timeView.text = lesson.start.toString(context.resources.getString(R.string.time_format), null) +
-                    "-" + lesson.end.toString(context.resources.getString(R.string.time_format), null)
+            holder.timeFromView.text = lesson.start.toString(context.resources.getString(R.string.time_format), null)
+            holder.timeToView.text = lesson.end.toString(context.resources.getString(R.string.time_format), null)
 
             val previousIsDifferentDate = fun(): Boolean {
                 val previous = getItem(position - 1).start

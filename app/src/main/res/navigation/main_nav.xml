@@ -29,7 +29,7 @@
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/firstLaunchFragment"
-        android:name="xyz.mattishub.campusDual.debug.FirstLaunchFragment"
+        android:name="xyz.mattishub.campusDual.FirstLaunchFragment"
         android:label="FirstLaunchFragment" >
         <action
             android:id="@+id/action_firstLaunch_to_settings"

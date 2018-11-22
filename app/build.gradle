@@ -11,33 +11,24 @@ android {
     compileSdkVersion 28
     // Auto version numbering
     def versionPropsFile = file('version.properties')
-    def versionMajor, versionMinor, versionRevision, versionBuild, versionCodeNr, versionBeta
     if (!versionPropsFile.canRead()) {
         throw new FileNotFoundException("Could not read version.properties!")
-    } else {
+    }
+
         Properties versionProps = new Properties()
         versionProps.load(new FileInputStream(versionPropsFile))
 
-        versionMajor = versionProps['VERSION_MAJOR'].toInteger()
-        versionMinor = versionProps['VERSION_MINOR'].toInteger()
-        versionRevision = versionProps['VERSION_REVISION'].toInteger()
-        versionBuild = versionProps['VERSION_BUILD'].toInteger()
-        versionCodeNr = versionProps['VERSION_CODE'].toInteger()
-        versionBeta = versionProps['VERSION_BETA'].toInteger()
+    def versionMajor = versionProps['VERSION_MAJOR'].toInteger()
+    def versionMinor = versionProps['VERSION_MINOR'].toInteger()
+    def versionRevision = versionProps['VERSION_REVISION'].toInteger()
+    def versionCodeNr = versionProps['VERSION_CODE'].toInteger()
+    def versionBeta = versionProps['VERSION_BETA'].toInteger()
 
-        // build number gets incremented every run
-        versionBuild = versionBuild + 1
-        if (!versionPropsFile.canWrite()) {
-            throw new FileNotFoundException("Could not write version.properties!")
-        } else {
-            versionProps['VERSION_BUILD'] = versionBuild.toString()
-            versionProps.store(new FileOutputStream(versionPropsFile), "writing new versions")
-        }
-    }
     defaultConfig {
         applicationId 'xyz.mattishub.campusDual'
         minSdkVersion 21
         targetSdkVersion 28
+
         versionCode versionCodeNr
         def versionNameBetaPart = ""
         if (versionBeta > -1) {
@@ -45,8 +36,9 @@ android {
             if (versionBeta > 0)
                 versionNameBetaPart += ".$versionBeta"
         }
-        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart ($versionBuild)"
+        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart"
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -59,6 +51,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
