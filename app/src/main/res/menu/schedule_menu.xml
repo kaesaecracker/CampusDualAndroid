@@ -9,12 +9,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_forceRefresh"
-        android:icon="@drawable/ic_bug_report_black_24dp"
-        android:title="@string/forceRefreshBtn_hint"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_issues"
         android:icon="@drawable/ic_bug_report_black_24dp"
         android:title="@string/bugsbtn_hint"
