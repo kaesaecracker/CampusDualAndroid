@@ -1,23 +1,13 @@
 package xyz.mattishub.campusDual
 
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.util.Log.d
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.FrameLayout
-import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -51,14 +41,13 @@ class MainActivity : AppCompatActivity() {
 
         if (hasFocus) GlobalScope.launch {
             setupBackgroundWorker()
-            forceRefreshWidget()
+            forceRefreshWidget(baseContext)
         }
     }
 
-    fun forceRefreshWidget() {
-        val appWidgetManager = AppWidgetManager.getInstance(baseContext)
-        val appWidgetIds = appWidgetManager.getAppWidgetIds(
-                ComponentName(baseContext, ScheduleWidgetProvider::class.java))
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_lessonList)
+    fun showMessage(stringId: Int, duration: Int = Snackbar.LENGTH_LONG) {
+        Snackbar.make(this.main_container, stringId, duration)
+                .show()
     }
+
 }

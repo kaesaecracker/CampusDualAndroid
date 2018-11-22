@@ -12,7 +12,7 @@
     <string name="releasebtn_hint">Releases</string>
     <string name="date_format" translatable="false">dd.MM.</string>
     <string name="time_format" translatable="false">HH:mm</string>
-    <string name="backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
+    <string name="default_backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
     <string name="settings_matrikel">Matriculation Number</string>
     <string name="settings_hash">Hash</string>
     <string name="widget_lessonCount">Lesson(s)</string>
@@ -39,4 +39,8 @@
     <string name="settings_tooLong">That seems to long</string>
     <string name="settings_correct">That seems correct. Saved!</string>
     <string name="settings_empty">Enter something</string>
+    <string name="settings_backendTitle">Backend</string>
+    <string name="settings_backendDescription">You can change the URL used for making requests. Click the button below to reset it to the default value.</string>
+    <string name="settings_backendHint">Backend URL</string>
+    <string name="settings_backendResetBtnContentDescr">Reset Backend URL</string>
 </resources>
