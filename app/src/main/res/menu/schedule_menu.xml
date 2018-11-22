@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@id/action_schedule_to_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/title_activity_settings"
         app:showAsAction="ifRoom" />
@@ -31,4 +31,7 @@
         android:icon="@drawable/ic_new_releases_black_24dp"
         android:title="@string/action_playstore"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_startFirstLaunch"
+        android:title="Open First Run Screen" />
 </menu>

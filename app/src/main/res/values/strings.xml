@@ -12,7 +12,7 @@
     <string name="releasebtn_hint">Releases</string>
     <string name="date_format" translatable="false">dd.MM.</string>
     <string name="time_format" translatable="false">HH:mm</string>
-    <string name="backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
+    <string name="default_backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
     <string name="settings_matrikel">Matriculation Number</string>
     <string name="settings_hash">Hash</string>
     <string name="widget_lessonCount">Lesson(s)</string>
@@ -31,12 +31,22 @@
     <string name="iconDescr_location">Room</string>
     <string name="forceRefreshBtn_hint">Force Refresh</string>
     <string name="action_playstore" translatable="false">Play Store</string>
-    <string name="settings_autosave">This screen saves automatically. If you accidentally changed something, you can click the button below to undo the changes.</string>
-    <string name="settings_undobutton">Undo Changes</string>
     <string name="settings_logindata">Campus Dual Login</string>
     <string name="settings_loginHelpText">Please type in your matriculation number (without \'s\') and your Campus Dual Hash. If you do not know what your hash is or how you get it click this link: https://mattishub.xyz/j/cdhash</string>
     <string name="settings_tooShort">That seems too short</string>
     <string name="settings_tooLong">That seems to long</string>
     <string name="settings_correct">That seems correct. Saved!</string>
     <string name="settings_empty">Enter something</string>
+    <string name="disclaimer">"This app is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Berufsakademie Sachsen, or any of its subsidiaries or its affiliates.\nThe official BA Dresden website can be found at https://www.ba-dresden.de/.\n\nThe information you enter into this app stay on your phone. There is no tracking library in this app and the network requests (which will contain your matriculation number and your hash) only go to the specified location.\n    "</string>
+    <string name="disclaimerTitle">Disclaimer</string>
+    <string name="settings_backendTitle">Backend</string>
+    <string name="settings_backendDescription">You can change the URL used for making requests. Click the button below to reset it to the default value.</string>
+    <string name="settings_backendHint">Backend URL</string>
+    <string name="schedule_refreshFailed">Refresh Failed. <br />Check your login info and the backend URL in settings.</string>
+    <string name="settings_backendResetBtnContentDescr">Reset Backend URL</string>
+    <string name="firstlaunch_hello">Hello</string>
+    <string name="firstlaunch_there">there.</string>
+    <string name="firstlaunch_text">It seems like it is the first time you have launched this app.</string>
+    <string name="firstlaunch_changeSettings" >You will have to change the login data in the settings for full functionality.\\n\\nPlease also read the following notice:</string>
+    <string name="firstlaunch_title" translatable="false">First Launch</string>
 </resources>

@@ -2,7 +2,6 @@ package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.util.Log
 import android.util.Log.d
 import android.util.Log.w
 import com.github.kittinunf.fuel.core.ResponseDeserializable
@@ -26,9 +25,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-
-    Log.d("download", "refresh")
-    val urlBase = context.resources.getString(R.string.backend_url)
+    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url)) ?: ""
 
     val today = DateTime(DateTimeZone.UTC)
             .withHourOfDay(0)
@@ -57,8 +54,22 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         return false
     }
 
+    val schedule = jsonSchedule.toSchedule()
+
+    val gsonFirstDay = dayToString(schedule.first())
+    val gsonSchedule = scheduleToString(schedule) ?: return false
+
+    d("download", "got ${schedule.size} items")
+    return PreferenceManager.getDefaultSharedPreferences(context)
+            .edit()
+            .putString(WidgetDataSettingsKey, gsonFirstDay)
+            .putString(ScheduleSettingsKey, gsonSchedule)
+            .commit()
+}
+
+private fun List<JsonLesson>.toSchedule() : List<Schoolday> {
     val schedule = mutableListOf<Schoolday>()
-    for (jsonLesson in jsonSchedule) {
+    for (jsonLesson in this) {
         val lesson = Lesson(
                 jsonLesson.title.trim(),
                 jsonLesson.start.toLong(),
@@ -75,13 +86,5 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         }
     }
 
-    val gsonFirstDay = dayToString(schedule.first())
-    val gsonSchedule = scheduleToString(schedule) ?: return false
-
-    d("download", "got ${schedule.size} items")
-    return PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(WidgetDataSettingsKey, gsonFirstDay)
-            .putString(ScheduleSettingsKey, gsonSchedule)
-            .commit()
+    return schedule
 }
