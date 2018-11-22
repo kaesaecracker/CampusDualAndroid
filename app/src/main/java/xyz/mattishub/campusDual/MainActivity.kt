@@ -18,18 +18,24 @@ class MainActivity : AppCompatActivity() {
     private val navController by lazy { findNavController(R.id.main_navHost) }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
 
+    val globalViewModel: GlobalViewModel by lazy {
+        ViewModelProviders
+                .of(this, GlobalViewModelFactory(baseContext))
+                .get(GlobalViewModel::class.java)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         // open settings if matric or hash not set
-        val pref = PreferenceManager.getDefaultSharedPreferences(baseContext)
-        val matric = pref.getString(SettingsFragment.setting_matric, "")
-        val hash = pref.getString(SettingsFragment.setting_hash, "")
+        val matric = globalViewModel.globalPrefs.getString(SettingsFragment.setting_matric, "")
+        val hash = globalViewModel.globalPrefs.getString(SettingsFragment.setting_hash, "")
 
         if (matric.isNullOrBlank() || hash.isNullOrBlank())
-            navController.navigate(R.id.action_schedule_to_settings)
+            navController.navigate(R.id.firstLaunchFragment)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -2,7 +2,6 @@ package xyz.mattishub.campusDual.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -75,7 +74,7 @@ class SettingsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = mainActivity.globalViewModel.globalPrefs
 
         fun saveToSettings(key: String): (String) -> Unit = {
             prefs.edit().putString(key, it).apply()

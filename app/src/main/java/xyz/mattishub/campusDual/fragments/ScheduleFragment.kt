@@ -3,10 +3,8 @@ package xyz.mattishub.campusDual.fragments
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log.d
 import android.view.*
 import android.widget.TextView
@@ -29,12 +27,6 @@ class ScheduleFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ScheduleAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-
-    private val preferenceListener = { _: SharedPreferences?, key: String? ->
-        d("schedule", "pref change: $key")
-        if (key == ScheduleSettingsKey)
-            loadFromSettings()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +57,11 @@ class ScheduleFragment : Fragment() {
         }
         recyclerView.adapter = viewAdapter
 
-        PreferenceManager.getDefaultSharedPreferences(context!!)
-                .registerOnSharedPreferenceChangeListener(preferenceListener)
-
-        loadFromSettings()
-        GlobalScope.launch { downloadAndSaveToSettings(context!!) }
+        mainActivity.globalViewModel.getSchooldays()
+                .observe(this, Observer<List<Schoolday>> { schooldays ->
+                    d("schedule", "got new items")
+                    viewAdapter.submitList(schooldays.toLessonList())
+                })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
@@ -119,23 +111,6 @@ class ScheduleFragment : Fragment() {
                 this@ScheduleFragment.loadFromSettings()
             else
                 this@ScheduleFragment.mainActivity.showMessage(R.string.schedule_refreshFailed)
-        }
-    }
-
-
-    fun loadFromSettings() {
-        d("schedule", "loading from settings")
-
-        val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")!!
-        val schedule = stringToSchedule(gsonString)
-        if (schedule == null) {
-            d("schedule", "could not deserialize schedule")
-            return
-        }
-
-        GlobalScope.launch(Dispatchers.Main) {
-            d("schedule", "submitting new data to viewAdapter")
-            viewAdapter.submitList(schedule.toLessonList())
         }
     }
 
