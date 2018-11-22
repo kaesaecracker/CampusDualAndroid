@@ -86,6 +86,9 @@ class ScheduleFragment : Fragment() {
         tintMenuIcon(this.context!!, menu, R.id.action_issues, android.R.color.white)
         tintMenuIcon(this.context!!, menu, R.id.action_releases, android.R.color.white)
 
+        if (BuildConfig.DEBUG) {
+            menu.findItem(R.id.action_startFirstLaunch).isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
