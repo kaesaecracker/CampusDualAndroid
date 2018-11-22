@@ -18,8 +18,11 @@
     <string name="settings_empty">Gib etwas ein</string>
     <string name="settings_loginHelpText">Bitte gib deine Matrikelnummer (ohne \'s\') und deinen Campus Dual-Hash ein. Wenn du nicht weißt, was der Hash ist oder wie du ihn bekommst, klicke auf diesen Link: https://mattishub.xyz/j/cdhash</string>
     <string name="settings_logindata">Campus Dual Login</string>
+    <string name="disclaimerTitle">Hinweis</string>
+    <string name="disclaimer">Diese App wird nicht von der Berufsakademie Sachsen betrieben oder in irgendeiner Form unterstützt. Die Benutzung erfolgt \"auf eigene Gefahr\". <br /> Die offizielle Website der BA Dresden findest du unter: https://www.ba-dresden.de/. <br /><br /> Die Informationen, die du in dieser App eingibst bleiben auf dem Gerät. Diese App enthält auch kein Tracking oder ähnliches. Die Netzwerkanfragen an die eingestellte URL enthalten deine Matrikelnummer und deinen Hash.</string>
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">Du kannst die URL für Anfragen ändern. Klicke auf den Knopf unten, um sie wieder auf den Standardwert zu setzen.</string>
     <string name="settings_backendHint">Backend URL</string>
+    <string name="schedule_refreshFailed">Aktualisieren Fehlgeschlagen. <br />Prüfe deine Logindaten und Backend-URL in den Einstellungen.</string>
     <string name="settings_backendResetBtnContentDescr">Backend URL zurücksetzen</string>
 </resources>
