@@ -1,4 +1,4 @@
-package xyz.mattishub.campusDual
+package xyz.mattishub.campusDual.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_first_launch.view.*
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.mainActivity
 
 class FirstLaunchFragment : Fragment() {
 

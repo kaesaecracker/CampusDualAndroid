@@ -1,4 +1,4 @@
-package xyz.mattishub.campusDual
+package xyz.mattishub.campusDual.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.*
 
 class ScheduleFragment : Fragment() {
 

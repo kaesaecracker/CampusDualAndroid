@@ -1,4 +1,4 @@
-package xyz.mattishub.campusDual
+package xyz.mattishub.campusDual.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.mainActivity
 
 class SettingsFragment : Fragment() {
     companion object {

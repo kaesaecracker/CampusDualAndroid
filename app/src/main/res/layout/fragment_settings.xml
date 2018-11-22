@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:isScrollContainer="true"
-        tools:context="xyz.mattishub.campusDual.SettingsFragment">
+        tools:context="xyz.mattishub.campusDual.fragments.SettingsFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/settings_disclaimerCard"
