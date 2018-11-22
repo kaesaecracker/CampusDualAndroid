@@ -5,6 +5,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: "androidx.navigation.safeargs"
+
 android {
     compileSdkVersion 28
     // Auto version numbering
@@ -72,6 +74,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.0.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1'
     implementation 'android.arch.work:work-runtime-ktx:1.0.0-alpha10'
+    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07"
+    implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07"
     // jetpack
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
@@ -83,4 +87,5 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'net.danlew:android.joda:2.10.1'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha07'
 }

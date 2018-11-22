@@ -12,10 +12,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.view_lesson.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,6 +33,11 @@ class ScheduleFragment : Fragment() {
         d("schedule", "pref change: $key")
         if (key == ScheduleSettingsKey)
             loadFromSettings()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -64,11 +71,56 @@ class ScheduleFragment : Fragment() {
         GlobalScope.launch { downloadAndSaveToSettings(context!!) }
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        inflater.inflate(R.menu.schedule_menu, menu)
+        if (menu == null) return
 
-        (activity as AppCompatActivity).title = getString(R.string.app_name)
+        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, android.R.color.white)
+        tintMenuIcon(this.context!!, menu, R.id.action_issues, android.R.color.white)
+        tintMenuIcon(this.context!!, menu, R.id.action_releases, android.R.color.white)
+        tintMenuIcon(this.context!!, menu, R.id.action_forceRefresh, android.R.color.white)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item == null) return false
+
+        when (item.itemId) {
+            R.id.action_schedule_to_settings ->
+                findNavController().navigate(ScheduleFragmentDirections.actionScheduleToSettings())
+            R.id.action_startFirstLaunch ->
+                findNavController().navigate(ScheduleFragmentDirections.actionScheduleToFirstLaunch())
+            R.id.action_forceRefresh ->
+                forceRefresh()
+            R.id.action_releases ->
+                openChromeCustomTab(getString(R.string.releases_url), context!!)
+            R.id.action_issues ->
+                openChromeCustomTab(getString(R.string.issues_url), context!!)
+            R.id.action_playstore ->
+                openPlayStore()
+            else -> return false
+        }
+
+        return true
+    }
+
+    private fun openPlayStore() {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context!!.packageName}")))
+        } catch (anfe: ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context!!.packageName}")))
+        }
+    }
+
+    private fun forceRefresh() {
+        GlobalScope.launch {
+            val success = downloadAndSaveToSettings(context!!)
+            if (success)
+                this@ScheduleFragment.loadFromSettings()
+            else
+                this@ScheduleFragment.mainActivity.showMessage(R.string.schedule_refreshFailed)
+        }
+    }
+
 
     fun loadFromSettings() {
         d("schedule", "loading from settings")
