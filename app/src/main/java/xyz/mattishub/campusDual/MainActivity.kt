@@ -1,8 +1,8 @@
 package xyz.mattishub.campusDual
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
 

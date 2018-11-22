@@ -3,6 +3,7 @@ package xyz.mattishub.campusDual
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -43,7 +44,7 @@ fun scheduleToString(schedule: List<Schoolday>): String? = gson.myJson<List<Scho
 fun stringToSchedule(str: String): List<Schoolday>? = gson.fromJson(str)
 fun stringToDay(str: String): Schoolday? = gson.fromJson<Schoolday>(str)
 
-fun parseJsonSchedule(str:String): List<JsonLesson>? = gson.fromJson(str)
+fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
 
 fun List<Schoolday>?.getCurrentDay(): Schoolday? {
     if (this == null) return null
@@ -104,3 +105,18 @@ fun forceRefreshWidget(context: Context) {
 
 val Fragment.mainActivity: MainActivity
     get() = this.activity as MainActivity
+
+fun SharedPreferences.Editor.put(pair: Pair<String, Any>): SharedPreferences.Editor {
+    val key = pair.first
+    val value = pair.second
+    when (value) {
+        is String -> putString(key, value)
+        is Int -> putInt(key, value)
+        is Boolean -> putBoolean(key, value)
+        is Long -> putLong(key, value)
+        is Float -> putFloat(key, value)
+        else -> error("Only primitive types can be stored in SharedPreferences")
+    }
+
+    return this
+}

@@ -63,8 +63,8 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putString(WidgetDataSettingsKey, gsonFirstDay)
-            .putString(ScheduleSettingsKey, gsonSchedule)
+            .put(WidgetDataSettingsKey to (gsonFirstDay ?: ""))
+            .put(ScheduleSettingsKey to gsonSchedule)
             .commit()
 }
 
