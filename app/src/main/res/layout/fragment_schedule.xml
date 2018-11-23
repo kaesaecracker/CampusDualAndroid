@@ -12,7 +12,7 @@
         tools:context="xyz.mattishub.campusDual.fragments.ScheduleFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/schedule_listView"
+            android:id="@+id/schedule_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarStyle="insideOverlay"

@@ -64,7 +64,7 @@ class ScheduleFragment : Fragment() {
 
         viewAdapter = ScheduleAdapter(context!!)
 
-        recyclerView = this.view!!.findViewById<RecyclerView>(R.id.schedule_listView).apply {
+        recyclerView = this.view!!.schedule_recyclerView.apply {
             setHasFixedSize(false)
             layoutManager = viewManager
             adapter = viewAdapter
