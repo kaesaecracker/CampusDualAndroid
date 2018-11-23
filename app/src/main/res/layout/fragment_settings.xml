@@ -203,7 +203,7 @@
                     android:id="@+id/settings_resetBackendBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:src="@drawable/ic_settings_backup_restore_black_24dp"
+                    android:src="@drawable/ic_settings_restore"
                     app:layout_constraintBottom_toBottomOf="@+id/settings_backendLayout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/settings_backendLayout"

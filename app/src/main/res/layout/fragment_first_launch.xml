@@ -71,7 +71,7 @@
         android:layout_marginTop="16dp"
         android:scaleX="3"
         android:scaleY="3"
-        android:src="@drawable/ic_newicon2_foreground"
+        android:src="@drawable/ic_app_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

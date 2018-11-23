@@ -55,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/lesson_room"
         app:layout_constraintStart_toStartOf="@+id/lesson_clockicon"
         app:layout_constraintTop_toTopOf="@+id/lesson_room"
-        app:srcCompat="@drawable/ic_location_on_black_24dp" />
+        app:srcCompat="@drawable/ic_pin" />
 
     <ImageView
         android:id="@+id/lesson_clockicon"
@@ -67,7 +67,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/lesson_timeFrom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lesson_timeFrom"
-        app:srcCompat="@drawable/ic_access_time_black_24dp" />
+        app:srcCompat="@drawable/ic_clock" />
 
     <TextView
         android:id="@+id/lesson_timeFrom"
