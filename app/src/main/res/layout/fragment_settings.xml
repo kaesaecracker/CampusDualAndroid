@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:isScrollContainer="true"
-        tools:context="xyz.mattishub.campusDual.SettingsFragment">
+        tools:context="xyz.mattishub.campusDual.fragments.SettingsFragment">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/settings_disclaimerCard"
@@ -109,7 +109,8 @@
                         android:inputType="number"
                         android:singleLine="true"
                         app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="50dp" />
+                        tools:layout_editor_absoluteY="50dp"
+                        tools:text="0000000" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -131,7 +132,8 @@
                         android:id="@+id/settings_hashEdit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textWebPassword" />
+                        android:inputType="textWebPassword"
+                        tools:text="00000" />
                 </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

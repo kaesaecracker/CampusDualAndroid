@@ -29,4 +29,5 @@
     <string name="firstlaunch_there">du!</string>
     <string name="firstlaunch_text">Sieht aus, als würdest du die App das erste Mal starten.</string>
     <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.\\n\\nBitte lies außerdem den folgenden Hinweis:</string>
+    <string name="schedule_refreshSucess">Aktualisieren abgeschlossen</string>
 </resources>

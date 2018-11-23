@@ -1,39 +1,32 @@
-package xyz.mattishub.campusDual
+package xyz.mattishub.campusDual.fragments
 
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.util.Log.d
 import android.view.*
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import kotlinx.android.synthetic.main.view_lesson.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import me.kaesaecracker.campusDual.BuildConfig
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.*
 
 class ScheduleFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: ScheduleAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
-
-    private val preferenceListener = { _: SharedPreferences?, key: String? ->
-        d("schedule", "pref change: $key")
-        if (key == ScheduleSettingsKey)
-            loadFromSettings()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +36,21 @@ class ScheduleFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         mainActivity.supportActionBar?.show()
-        return inflater.inflate(R.layout.fragment_schedule, container, false)
+        val view = inflater.inflate(R.layout.fragment_schedule, container, false)
+
+        view.schedule_swipeToRefresh.setOnRefreshListener {
+            view.schedule_swipeToRefresh.isRefreshing = true
+
+            mainActivity.globalViewModel.downloadSchedule { success ->
+                view.schedule_swipeToRefresh.isRefreshing = false
+                mainActivity.showMessage(
+                        if (success) R.string.schedule_refreshSucess
+                        else R.string.schedule_refreshFailed
+                )
+            }
+        }
+
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -64,11 +71,11 @@ class ScheduleFragment : Fragment() {
         }
         recyclerView.adapter = viewAdapter
 
-        PreferenceManager.getDefaultSharedPreferences(context!!)
-                .registerOnSharedPreferenceChangeListener(preferenceListener)
-
-        loadFromSettings()
-        GlobalScope.launch { downloadAndSaveToSettings(context!!) }
+        mainActivity.globalViewModel.getSchooldays()
+                .observe(this, Observer<List<Schoolday>> { schooldays ->
+                    d("schedule", "got new items")
+                    viewAdapter.submitList(schooldays.toLessonList())
+                })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
@@ -78,7 +85,10 @@ class ScheduleFragment : Fragment() {
         tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, android.R.color.white)
         tintMenuIcon(this.context!!, menu, R.id.action_issues, android.R.color.white)
         tintMenuIcon(this.context!!, menu, R.id.action_releases, android.R.color.white)
-        tintMenuIcon(this.context!!, menu, R.id.action_forceRefresh, android.R.color.white)
+
+        if (BuildConfig.DEBUG) {
+            menu.findItem(R.id.action_startFirstLaunch).isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -89,8 +99,6 @@ class ScheduleFragment : Fragment() {
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToSettings())
             R.id.action_startFirstLaunch ->
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToFirstLaunch())
-            R.id.action_forceRefresh ->
-                forceRefresh()
             R.id.action_releases ->
                 openChromeCustomTab(getString(R.string.releases_url), context!!)
             R.id.action_issues ->
@@ -108,33 +116,6 @@ class ScheduleFragment : Fragment() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${context!!.packageName}")))
         } catch (anfe: ActivityNotFoundException) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=${context!!.packageName}")))
-        }
-    }
-
-    private fun forceRefresh() {
-        GlobalScope.launch {
-            val success = downloadAndSaveToSettings(context!!)
-            if (success)
-                this@ScheduleFragment.loadFromSettings()
-            else
-                this@ScheduleFragment.mainActivity.showMessage(R.string.schedule_refreshFailed)
-        }
-    }
-
-
-    fun loadFromSettings() {
-        d("schedule", "loading from settings")
-
-        val gsonString = PreferenceManager.getDefaultSharedPreferences(context!!).getString(ScheduleSettingsKey, "")!!
-        val schedule = stringToSchedule(gsonString)
-        if (schedule == null) {
-            d("schedule", "could not deserialize schedule")
-            return
-        }
-
-        GlobalScope.launch(Dispatchers.Main) {
-            d("schedule", "submitting new data to viewAdapter")
-            viewAdapter.submitList(schedule.toLessonList())
         }
     }
 

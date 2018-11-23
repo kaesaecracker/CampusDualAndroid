@@ -1,8 +1,7 @@
-package xyz.mattishub.campusDual
+package xyz.mattishub.campusDual.fragments
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -13,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.mainActivity
 
 class SettingsFragment : Fragment() {
     companion object {
@@ -74,7 +74,7 @@ class SettingsFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val prefs = mainActivity.globalViewModel.globalPrefs
 
         fun saveToSettings(key: String): (String) -> Unit = {
             prefs.edit().putString(key, it).apply()

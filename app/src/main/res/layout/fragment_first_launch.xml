@@ -5,7 +5,7 @@
     android:id="@+id/firstlaunch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.mattishub.campusDual.FirstLaunchFragment">
+    tools:context="xyz.mattishub.campusDual.fragments.FirstLaunchFragment">
 
     <ScrollView
         android:id="@+id/firstlaunch_textScroller"

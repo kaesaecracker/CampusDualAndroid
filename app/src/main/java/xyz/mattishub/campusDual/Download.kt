@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken
 import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 const val ScheduleSettingsKey: String = "pref_schedule_data"
 const val WidgetDataSettingsKey: String = "pref_widget_data"
@@ -62,8 +63,8 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putString(WidgetDataSettingsKey, gsonFirstDay)
-            .putString(ScheduleSettingsKey, gsonSchedule)
+            .put(WidgetDataSettingsKey to (gsonFirstDay ?: ""))
+            .put(ScheduleSettingsKey to gsonSchedule)
             .commit()
 }
 
