@@ -40,6 +40,7 @@
         android:layout_marginEnd="8dp"
         android:lines="1"
         android:text="@string/sample_date"
+        android:textColor="@android:color/white"
         app:layout_constraintBaseline_toBaselineOf="@+id/dayheader_weekday"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

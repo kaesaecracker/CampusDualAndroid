@@ -45,7 +45,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/lesson_prof"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lesson_prof"
-        app:srcCompat="@drawable/ic_person_black_24dp" />
+        app:srcCompat="@drawable/ic_person" />
 
     <ImageView
         android:id="@+id/lesson_pinIcon"
