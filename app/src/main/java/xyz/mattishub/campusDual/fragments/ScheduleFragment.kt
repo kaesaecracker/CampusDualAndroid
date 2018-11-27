@@ -63,13 +63,11 @@ class ScheduleFragment : Fragment() {
         }
 
         viewAdapter = ScheduleAdapter(context!!)
-
         recyclerView = this.view!!.schedule_recyclerView.apply {
             setHasFixedSize(false)
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        recyclerView.adapter = viewAdapter
 
         mainActivity.globalViewModel.getSchooldays()
                 .observe(this, Observer<List<Schoolday>> { schooldays ->
@@ -84,7 +82,6 @@ class ScheduleFragment : Fragment() {
 
         tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, android.R.color.white)
         tintMenuIcon(this.context!!, menu, R.id.action_issues, android.R.color.white)
-        tintMenuIcon(this.context!!, menu, R.id.action_releases, android.R.color.white)
 
         if (BuildConfig.DEBUG) {
             menu.findItem(R.id.action_startFirstLaunch).isVisible = true

@@ -45,6 +45,7 @@ android {
             minifyEnabled false
             debuggable true
             useProguard false
+            pseudoLocalesEnabled true
         }
 
         release {

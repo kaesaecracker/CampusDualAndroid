@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.view.Menu
 import androidx.annotation.ColorRes
 import androidx.browser.customtabs.CustomTabsIntent
@@ -82,7 +81,6 @@ fun tintMenuIcon(context: Context, menu: Menu, id: Int, @ColorRes color: Int) {
 }
 
 fun openChromeCustomTab(url: String, context: Context) {
-    Log.d("log", "chrome custom tab $url")
     val builder = CustomTabsIntent.Builder()
 
     builder.setToolbarColor(context.resources.getColor(R.color.colorPrimary))

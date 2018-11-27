@@ -76,7 +76,6 @@
         android:layout_marginStart="4dp"
         android:lines="1"
         android:text="@string/sample_time"
-        android:textColor="@color/secondary_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/lesson_title"
         app:layout_constraintStart_toEndOf="@+id/lesson_clockicon" />
 
@@ -88,7 +87,6 @@
         android:lines="1"
         android:text="@string/sample_lesson_room"
         android:textAllCaps="true"
-        android:textColor="@color/secondary_text"
         app:layout_constraintBaseline_toBaselineOf="@+id/lesson_prof"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/lesson_timeFrom" />
@@ -102,7 +100,6 @@
         android:layout_marginEnd="8dp"
         android:lines="1"
         android:text="@string/sample_lesson_prof"
-        android:textColor="@color/secondary_text"
         app:layout_constraintEnd_toStartOf="@+id/lesson_pinIcon"
         app:layout_constraintStart_toEndOf="@+id/lesson_profIcon"
         app:layout_constraintTop_toBottomOf="@+id/lesson_title" />

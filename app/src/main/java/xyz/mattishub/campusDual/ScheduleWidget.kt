@@ -37,7 +37,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    fun setHeaderData(context: Context, widget: RemoteViews) {
+    private fun setHeaderData(context: Context, widget: RemoteViews) {
         val gsonString = PreferenceManager.getDefaultSharedPreferences(context).getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
         if (schedule == null) {
@@ -58,7 +58,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
                 "-" + day.last.end.toString(context.getString(R.string.time_format)))
     }
 
-    fun setOnClick(context: Context, widget: RemoteViews) {
+    private fun setOnClick(context: Context, widget: RemoteViews) {
         val launchActivity = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0, launchActivity, 0)
         widget.setOnClickPendingIntent(R.id.widget_header, pendingIntent)

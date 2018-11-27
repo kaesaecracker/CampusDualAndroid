@@ -15,12 +15,6 @@ import xyz.mattishub.campusDual.fragments.SettingsFragment
 const val ScheduleSettingsKey: String = "pref_schedule_data"
 const val LastRefreshSettingsKey: String = "pref_last_download"
 
-private class ScheduleDeserializer : ResponseDeserializable<List<JsonLesson>> {
-    override fun deserialize(content: String): List<JsonLesson> {
-        return Gson().fromJson<List<JsonLesson>>(content, object : TypeToken<List<JsonLesson>>() {}.type)
-    }
-}
-
 fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
@@ -65,7 +59,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .commit()
 }
 
-private fun List<JsonLesson>.toSchedule() : List<Schoolday> {
+private fun List<JsonLesson>.toSchedule(): List<Schoolday> {
     val schedule = mutableListOf<Schoolday>()
     for (jsonLesson in this) {
         val lesson = Lesson(
