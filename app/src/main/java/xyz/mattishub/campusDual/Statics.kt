@@ -38,11 +38,9 @@ fun List<Schoolday>.toLessonList(): MutableList<Lesson> {
 
 private val gson = GsonBuilder().create()
 
-fun dayToString(day: Schoolday): String? = gson.myJson<Schoolday>(day)
 fun scheduleToString(schedule: List<Schoolday>): String? = gson.myJson<List<Schoolday>>(schedule)
 
 fun stringToSchedule(str: String): List<Schoolday>? = gson.fromJson(str)
-fun stringToDay(str: String): Schoolday? = gson.fromJson<Schoolday>(str)
 
 fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
 

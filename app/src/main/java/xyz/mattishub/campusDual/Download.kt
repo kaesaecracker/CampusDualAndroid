@@ -14,7 +14,7 @@ import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 const val ScheduleSettingsKey: String = "pref_schedule_data"
-const val WidgetDataSettingsKey: String = "pref_widget_data"
+const val LastRefreshSettingsKey: String = "pref_last_download"
 
 private class ScheduleDeserializer : ResponseDeserializable<List<JsonLesson>> {
     override fun deserialize(content: String): List<JsonLesson> {
@@ -57,13 +57,11 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val schedule = jsonSchedule.toSchedule()
 
-    val gsonFirstDay = dayToString(schedule.first())
     val gsonSchedule = scheduleToString(schedule) ?: return false
 
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .put(WidgetDataSettingsKey to (gsonFirstDay ?: ""))
             .put(ScheduleSettingsKey to gsonSchedule)
             .commit()
 }
