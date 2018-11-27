@@ -8,10 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import me.kaesaecracker.campusDual.R
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {

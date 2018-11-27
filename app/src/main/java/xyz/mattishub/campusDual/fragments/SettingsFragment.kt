@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
-import me.kaesaecracker.campusDual.R
+import xyz.mattishub.campusDual.R
 import xyz.mattishub.campusDual.mainActivity
 
 class SettingsFragment : Fragment() {

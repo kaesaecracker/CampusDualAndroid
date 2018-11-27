@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 

@@ -8,7 +8,6 @@ import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
