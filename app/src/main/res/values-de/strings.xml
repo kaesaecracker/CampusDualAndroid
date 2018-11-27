@@ -2,7 +2,6 @@
 <resources>
     <string name="title_activity_settings">Einstellungen</string>
     <string name="bugsbtn_hint">Fehler melden</string>
-    <string name="releasebtn_hint">Updates</string>
     <string name="settings_matrikel">Matrikelnummer</string>
     <string name="settings_hash">Hash</string>
     <string name="widget_lessonCount">Stunde(n)</string>
@@ -23,11 +22,13 @@
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">Du kannst die URL für Anfragen ändern. Klicke auf den Knopf unten, um sie wieder auf den Standardwert zu setzen.</string>
     <string name="settings_backendHint">Backend URL</string>
-    <string name="schedule_refreshFailed">Aktualisieren Fehlgeschlagen. <br />Prüfe deine Logindaten und Backend-URL in den Einstellungen.</string>
+    <string name="schedule_refreshFailed">Aktualisieren Fehlgeschlagen. Versuche den Stundenplan neu herunter zu laden.<br />Prüfe deine Logindaten und Backend-URL in den Einstellungen.</string>
     <string name="settings_backendResetBtnContentDescr">Backend URL zurücksetzen</string>
     <string name="firstlaunch_hello">Hallo</string>
     <string name="firstlaunch_there">du!</string>
     <string name="firstlaunch_text">Sieht aus, als würdest du die App das erste Mal starten.</string>
     <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.\\n\\nBitte lies außerdem den folgenden Hinweis:</string>
     <string name="schedule_refreshSucess">Aktualisieren abgeschlossen</string>
+    <string name="schedule_lastRefresh">Letzter Download</string>
+    <string name="schedule_elementsLoaded">Elemente geladen</string>
 </resources>

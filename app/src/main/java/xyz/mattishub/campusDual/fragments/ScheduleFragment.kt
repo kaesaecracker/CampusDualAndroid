@@ -16,10 +16,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_schedule.*
 import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import kotlinx.android.synthetic.main.view_lesson.view.*
-import me.kaesaecracker.campusDual.BuildConfig
-import me.kaesaecracker.campusDual.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.joda.time.DateTime
 import xyz.mattishub.campusDual.*
 
 class ScheduleFragment : Fragment() {
@@ -41,12 +45,10 @@ class ScheduleFragment : Fragment() {
         view.schedule_swipeToRefresh.setOnRefreshListener {
             view.schedule_swipeToRefresh.isRefreshing = true
 
-            mainActivity.globalViewModel.downloadSchedule { success ->
-                view.schedule_swipeToRefresh.isRefreshing = false
-                mainActivity.showMessage(
-                        if (success) R.string.schedule_refreshSucess
-                        else R.string.schedule_refreshFailed
-                )
+            mainActivity.globalViewModel.downloadSchedule {
+                GlobalScope.launch(Dispatchers.Main) {
+                    view.schedule_swipeToRefresh.isRefreshing = false
+                }
             }
         }
 
@@ -71,8 +73,20 @@ class ScheduleFragment : Fragment() {
 
         mainActivity.globalViewModel.getSchooldays()
                 .observe(this, Observer<List<Schoolday>> { schooldays ->
-                    d("schedule", "got new items")
-                    viewAdapter.submitList(schooldays.toLessonList())
+                    if (schooldays == null) {
+                        this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
+                        return@Observer
+                    }
+
+                    val lessonList = schooldays.toLessonList()
+                    viewAdapter.submitList(lessonList)
+
+                    val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
+                    val lastRefreshDate = DateTime(lastRefreshMillis).toString(getString(R.string.format_datetime))
+                    val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
+                            lessonList.size + "  ---  " + getString(R.string.schedule_lastRefresh) +
+                            ": " + lastRefreshDate.toString()
+                    this@ScheduleFragment.showMessage(successMsg, Snackbar.LENGTH_INDEFINITE)
                 })
     }
 
@@ -96,8 +110,6 @@ class ScheduleFragment : Fragment() {
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToSettings())
             R.id.action_startFirstLaunch ->
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToFirstLaunch())
-            R.id.action_releases ->
-                openChromeCustomTab(getString(R.string.releases_url), context!!)
             R.id.action_issues ->
                 openChromeCustomTab(getString(R.string.issues_url), context!!)
             R.id.action_playstore ->
@@ -106,6 +118,19 @@ class ScheduleFragment : Fragment() {
         }
 
         return true
+    }
+
+
+    private fun showMessage(stringId: Int, duration: Int = Snackbar.LENGTH_LONG) {
+        d("mainActivity", "Show snackbar msg: [ID $stringId]")
+        Snackbar.make(this.schedule_coordinator, stringId, duration)
+                .show()
+    }
+
+    private fun showMessage(msg: String, duration: Int = Snackbar.LENGTH_LONG) {
+        d("mainActivity", "Show snackbar msg: '$msg'")
+        Snackbar.make(this.schedule_coordinator, msg, duration)
+                .show()
     }
 
     private fun openPlayStore() {

@@ -16,12 +16,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_releases"
-        android:icon="@drawable/ic_new_releases"
-        android:title="@string/releasebtn_hint"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/action_playstore"
         android:icon="@drawable/ic_new_releases"
         android:title="@string/action_playstore"

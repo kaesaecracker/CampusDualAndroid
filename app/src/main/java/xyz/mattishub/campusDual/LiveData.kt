@@ -43,13 +43,12 @@ class GlobalViewModel(val context: Context) : ViewModel() {
         return schooldays
     }
 
-    fun downloadSchedule(callback: ((Boolean) -> Unit)? = null) = GlobalScope.launch(Dispatchers.IO) {
+    fun downloadSchedule(callback: (() -> Unit)) = GlobalScope.launch(Dispatchers.IO) {
         if (downloadAndSaveToSettings(context)) {
             loadScheduleFromSettings()
-            callback?.invoke(true)
-        } else {
-            callback?.invoke(false)
         }
+
+        callback()
     }
 
     private fun loadScheduleFromSettings() = GlobalScope.launch(Dispatchers.IO) {
