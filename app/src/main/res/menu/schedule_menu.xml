@@ -1,34 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <item
         android:id="@id/action_schedule_to_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
+        android:icon="@drawable/ic_settings"
         android:title="@string/title_activity_settings"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_issues"
-        android:icon="@drawable/ic_bug_report_black_24dp"
+        android:icon="@drawable/ic_bug_report"
         android:title="@string/bugsbtn_hint"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_releases"
-        android:icon="@drawable/ic_new_releases_black_24dp"
-        android:title="@string/releasebtn_hint"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_playstore"
-        android:icon="@drawable/ic_new_releases_black_24dp"
+        android:icon="@drawable/ic_new_releases"
         android:title="@string/action_playstore"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_startFirstLaunch"
         android:title="Open First Run Screen"
         android:visible="false"
+        app:showAsAction="never"
         tools:ignore="HardcodedText" />
 </menu>

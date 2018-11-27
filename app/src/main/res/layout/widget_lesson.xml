@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/icons"
+    android:background="@color/colorIcons"
     android:padding="4dp">
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_below="@+id/widget_lesson_title"
         android:layout_alignBottom="@id/widget_lesson_time"
         android:layout_alignParentStart="true"
-        android:src="@drawable/ic_access_time_black_24dp"
+        android:src="@drawable/ic_clock"
         android:contentDescription="@string/iconDescr_time" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_below="@+id/widget_lesson_title"
         android:layout_alignBottom="@+id/widget_lesson_room"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_location_on_black_24dp"
+        android:src="@drawable/ic_pin"
         android:contentDescription="@string/iconDescr_location" />
 
     <TextView

@@ -8,19 +8,12 @@ import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 const val ScheduleSettingsKey: String = "pref_schedule_data"
-const val WidgetDataSettingsKey: String = "pref_widget_data"
-
-private class ScheduleDeserializer : ResponseDeserializable<List<JsonLesson>> {
-    override fun deserialize(content: String): List<JsonLesson> {
-        return Gson().fromJson<List<JsonLesson>>(content, object : TypeToken<List<JsonLesson>>() {}.type)
-    }
-}
+const val LastRefreshSettingsKey: String = "pref_last_download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -57,18 +50,18 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val schedule = jsonSchedule.toSchedule()
 
-    val gsonFirstDay = dayToString(schedule.first())
     val gsonSchedule = scheduleToString(schedule) ?: return false
+    val lastRefreshMillis = DateTime().millis
 
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .put(WidgetDataSettingsKey to (gsonFirstDay ?: ""))
             .put(ScheduleSettingsKey to gsonSchedule)
+            .put(LastRefreshSettingsKey to lastRefreshMillis)
             .commit()
 }
 
-private fun List<JsonLesson>.toSchedule() : List<Schoolday> {
+private fun List<JsonLesson>.toSchedule(): List<Schoolday> {
     val schedule = mutableListOf<Schoolday>()
     for (jsonLesson in this) {
         val lesson = Lesson(

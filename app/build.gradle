@@ -36,7 +36,7 @@ android {
             if (versionBeta > 0)
                 versionNameBetaPart += ".$versionBeta"
         }
-        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart"
+        versionName "$versionMajor.$versionMinor.$versionRevision$versionNameBetaPart ($versionCodeNr)"
     }
 
     buildTypes {
@@ -45,6 +45,7 @@ android {
             minifyEnabled false
             debuggable true
             useProguard false
+            pseudoLocalesEnabled true
         }
 
         release {

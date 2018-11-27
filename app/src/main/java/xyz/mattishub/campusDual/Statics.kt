@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.view.Menu
 import androidx.annotation.ColorRes
 import androidx.browser.customtabs.CustomTabsIntent
@@ -15,7 +14,6 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
@@ -38,11 +36,9 @@ fun List<Schoolday>.toLessonList(): MutableList<Lesson> {
 
 private val gson = GsonBuilder().create()
 
-fun dayToString(day: Schoolday): String? = gson.myJson<Schoolday>(day)
 fun scheduleToString(schedule: List<Schoolday>): String? = gson.myJson<List<Schoolday>>(schedule)
 
 fun stringToSchedule(str: String): List<Schoolday>? = gson.fromJson(str)
-fun stringToDay(str: String): Schoolday? = gson.fromJson<Schoolday>(str)
 
 fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
 
@@ -85,7 +81,6 @@ fun tintMenuIcon(context: Context, menu: Menu, id: Int, @ColorRes color: Int) {
 }
 
 fun openChromeCustomTab(url: String, context: Context) {
-    Log.d("log", "chrome custom tab $url")
     val builder = CustomTabsIntent.Builder()
 
     builder.setToolbarColor(context.resources.getColor(R.color.colorPrimary))

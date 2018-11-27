@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:elevation="8dp"
-    android:paddingBottom="4dp"
-    android:theme="@android:style/ThemeOverlay.Material.Dark">
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/dayheader_dateIcon"
@@ -14,9 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/iconDescr_date"
+        android:tint="@color/colorIconOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/dayheader_date"
         app:layout_constraintEnd_toStartOf="@+id/dayheader_date"
-        app:srcCompat="@drawable/ic_today_black_24dp" />
+        app:srcCompat="@drawable/ic_calendar" />
 
     <TextView
         android:id="@+id/dayheader_weekday"
@@ -40,7 +40,7 @@
         android:layout_marginEnd="8dp"
         android:lines="1"
         android:text="@string/sample_date"
-        android:textColor="@color/icons"
+        android:textColor="@android:color/white"
         app:layout_constraintBaseline_toBaselineOf="@+id/dayheader_weekday"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

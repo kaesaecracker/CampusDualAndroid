@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/widget_header"
-        android:divider="@color/divider"
+        android:divider="@color/colorIcons"
         android:dividerHeight="1dp"
         android:padding="@dimen/widget_margin" />
 

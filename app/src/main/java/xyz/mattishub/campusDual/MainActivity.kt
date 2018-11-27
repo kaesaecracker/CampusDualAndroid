@@ -7,11 +7,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import me.kaesaecracker.campusDual.R
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
@@ -50,11 +47,6 @@ class MainActivity : AppCompatActivity() {
             setupBackgroundWorker()
             forceRefreshWidget(baseContext)
         }
-    }
-
-    fun showMessage(stringId: Int, duration: Int = Snackbar.LENGTH_LONG) {
-        Snackbar.make(this.main_container, stringId, duration)
-                .show()
     }
 
 }

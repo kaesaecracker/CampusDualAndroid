@@ -59,19 +59,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
         android:elevation="8dp"
-        android:text="I understand. Take me to the settings."
+        android:text="@string/firstlaunch_confirmCaption"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/firstlaunch_balogo"
+        android:contentDescription="@string/firstlaunch_baLogoContentDescr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:scaleX="3"
         android:scaleY="3"
-        android:src="@drawable/ic_newicon2_foreground"
+        android:src="@drawable/ic_app_foreground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
