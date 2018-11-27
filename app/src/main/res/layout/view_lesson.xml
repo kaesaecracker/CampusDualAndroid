@@ -41,7 +41,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:contentDescription="@string/iconDescr_prof"
-        android:tint="@color/secondary_text"
+        android:tint="@color/colorIcons"
         app:layout_constraintBottom_toBottomOf="@+id/lesson_prof"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lesson_prof"
@@ -55,7 +55,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/lesson_room"
         app:layout_constraintStart_toStartOf="@+id/lesson_clockicon"
         app:layout_constraintTop_toTopOf="@+id/lesson_room"
-        app:srcCompat="@drawable/ic_pin" />
+        app:srcCompat="@drawable/ic_pin"
+        android:tint="@color/colorIcons" />
 
     <ImageView
         android:id="@+id/lesson_clockicon"
@@ -63,7 +64,7 @@
         android:layout_height="20dp"
         android:layout_marginEnd="100dp"
         android:contentDescription="@string/iconDescr_time"
-        android:tint="@color/secondary_text"
+        android:tint="@color/colorIcons"
         app:layout_constraintBottom_toBottomOf="@+id/lesson_timeFrom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/lesson_timeFrom"

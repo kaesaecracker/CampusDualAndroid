@@ -94,8 +94,8 @@ class ScheduleFragment : Fragment() {
         inflater.inflate(R.menu.schedule_menu, menu)
         if (menu == null) return
 
-        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, android.R.color.white)
-        tintMenuIcon(this.context!!, menu, R.id.action_issues, android.R.color.white)
+        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorIconOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorIconOnPrimary)
 
         if (BuildConfig.DEBUG) {
             menu.findItem(R.id.action_startFirstLaunch).isVisible = true
@@ -168,8 +168,8 @@ class ScheduleFragment : Fragment() {
             holder.titleView.text = lesson.title
             holder.profView.text = lesson.instructor
             holder.roomView.text = lesson.room
-            holder.timeFromView.text = lesson.start.toString(context.resources.getString(R.string.time_format), null)
-            holder.timeToView.text = lesson.end.toString(context.resources.getString(R.string.time_format), null)
+            holder.timeFromView.text = lesson.start.toString(context.resources.getString(R.string.format_time), null)
+            holder.timeToView.text = lesson.end.toString(context.resources.getString(R.string.format_time), null)
 
             val previousIsDifferentDate = fun(): Boolean {
                 val previous = getItem(position - 1).start
@@ -179,10 +179,10 @@ class ScheduleFragment : Fragment() {
 
             if (position == 0 || previousIsDifferentDate()) {
                 val dayHeaderWeekdayView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_weekday)
-                dayHeaderWeekdayView.text = lesson.start.toString(context.getString(R.string.weekday_format))
+                dayHeaderWeekdayView.text = lesson.start.toString(context.getString(R.string.format_weekday))
 
                 val dayHeaderDateView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_date)
-                dayHeaderDateView.text = lesson.start.toString(context.getString(R.string.date_format))
+                dayHeaderDateView.text = lesson.start.toString(context.getString(R.string.format_date))
                 holder.dayHeader.visibility = View.VISIBLE
             } else {
                 holder.dayHeader.visibility = View.GONE

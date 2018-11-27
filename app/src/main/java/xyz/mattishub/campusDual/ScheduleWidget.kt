@@ -51,11 +51,11 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             return
         }
 
-        widget.setTextViewText(R.id.widget_header_weekday, day.first.start.toString(context.getString(R.string.weekday_format)))
-        widget.setTextViewText(R.id.widget_header_date, day.first.start.toString(context.getString(R.string.date_format)))
+        widget.setTextViewText(R.id.widget_header_weekday, day.first.start.toString(context.getString(R.string.format_weekday)))
+        widget.setTextViewText(R.id.widget_header_date, day.first.start.toString(context.getString(R.string.format_date)))
         widget.setTextViewText(R.id.widget_header_lessonCount, "${day.length} ${context.getString(R.string.widget_lessonCount)}")
-        widget.setTextViewText(R.id.widget_header_fromTo, day.first.start.toString(context.getString(R.string.time_format)) +
-                "-" + day.last.end.toString(context.getString(R.string.time_format)))
+        widget.setTextViewText(R.id.widget_header_fromTo, day.first.start.toString(context.getString(R.string.format_time)) +
+                "-" + day.last.end.toString(context.getString(R.string.format_time)))
     }
 
     private fun setOnClick(context: Context, widget: RemoteViews) {
@@ -102,7 +102,7 @@ class ScheduleWidgetService : RemoteViewsService() {
 
             view.setTextViewText(R.id.widget_lesson_title, lesson.title)
             view.setTextViewText(R.id.widget_lesson_room, lesson.room)
-            view.setTextViewText(R.id.widget_lesson_time, lesson.start.toString(context.getString(R.string.time_format)))
+            view.setTextViewText(R.id.widget_lesson_time, lesson.start.toString(context.getString(R.string.format_time)))
 
             return view
         }

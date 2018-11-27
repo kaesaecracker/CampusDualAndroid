@@ -10,7 +10,6 @@
     <string name="iconDescr_date">Datum</string>
     <string name="iconDescr_location">Raum</string>
     <string name="app_name">Stundenplan BA</string>
-    <string name="forceRefreshBtn_hint">Jetzt neu laden</string>
     <string name="settings_tooShort">Das scheint zu kurz zu sein</string>
     <string name="settings_tooLong">Das scheint zu lang zu sein</string>
     <string name="settings_correct">Das scheint richtig zu sein. Gespeichert!</string>
@@ -28,7 +27,8 @@
     <string name="firstlaunch_there">du!</string>
     <string name="firstlaunch_text">Sieht aus, als würdest du die App das erste Mal starten.</string>
     <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.\\n\\nBitte lies außerdem den folgenden Hinweis:</string>
-    <string name="schedule_refreshSucess">Aktualisieren abgeschlossen</string>
+    <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
+    <string name="firstlaunch_confirmCaption">Verstanden - Einstellungen öffnen</string>
     <string name="schedule_lastRefresh">Letzter Download</string>
     <string name="schedule_elementsLoaded">Elemente geladen</string>
 </resources>

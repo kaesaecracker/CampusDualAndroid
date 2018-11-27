@@ -8,14 +8,13 @@
     <!-- SETTINGS -->
     <string name="title_activity_settings">Settings</string>
     <string name="bugsbtn_hint">Issue Tracker</string>
-    <string name="releasebtn_hint">Releases</string>
-    <string name="date_format" translatable="false">dd.MM.</string>
-    <string name="time_format" translatable="false">HH:mm</string>
+    <string name="format_date" translatable="false">dd.MM.</string>
+    <string name="format_time" translatable="false">HH:mm</string>
+    <string name="format_weekday" translatable="false">EEEE</string>
     <string name="default_backend_url" translatable="false">https://selfservice.campus-dual.de/room/json</string>
     <string name="settings_matrikel">Matriculation Number</string>
     <string name="settings_hash">Hash</string>
     <string name="widget_lessonCount">Lesson(s)</string>
-    <string name="weekday_format" translatable="false">EEEE</string>
     <string name="sample_weekday" translatable="false">Someday</string>
     <string name="sample_date" translatable="false">31.12.</string>
     <string name="sample_time" translatable="false">12:34</string>
@@ -45,8 +44,11 @@
     <string name="firstlaunch_hello">Hello</string>
     <string name="firstlaunch_there">there.</string>
     <string name="firstlaunch_text">It seems like it is the first time you have launched this app.</string>
-    <string name="firstlaunch_changeSettings" >You will have to change the login data in the settings for full functionality.\\n\\nPlease also read the following notice:</string>
+    <string name="firstlaunch_changeSettings">You will have to change the login data in the settings for full functionality.\\n\\nPlease also read the following notice:</string>
     <string name="firstlaunch_title" translatable="false">First Launch</string>
     <string name="schedule_elementsLoaded">Elements loaded</string>
+    <string name="format_datetime" translatable="false">dd.MM. HH:mm</string>
     <string name="schedule_lastRefresh">Last download</string>
+    <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
+    <string name="firstlaunch_confirmCaption">Understood - Open Settings</string>
 </resources>
