@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     val globalViewModel: GlobalViewModel by lazy {
         ViewModelProviders
-                .of(this, GlobalViewModelFactory(baseContext))
+                .of(this, GlobalViewModel.Factory(baseContext))
                 .get(GlobalViewModel::class.java)
     }
 
