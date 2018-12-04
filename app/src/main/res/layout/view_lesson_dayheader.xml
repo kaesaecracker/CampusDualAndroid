@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/iconDescr_date"
-        android:tint="@color/colorIconOnPrimary"
+        android:tint="@color/colorLightOnPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/dayheader_date"
         app:layout_constraintEnd_toStartOf="@+id/dayheader_date"
         app:srcCompat="@drawable/ic_calendar" />

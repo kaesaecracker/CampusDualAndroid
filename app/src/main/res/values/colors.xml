@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">@color/colorPrimaryDark</color>
     <color name="colorIcons">#BDBDBD</color>
-    <color name="colorIconOnPrimary">@android:color/white</color>
+    <color name="colorLightOnPrimary">@android:color/white</color>
+    <color name="colorWidgetBackground">@android:color/white</color>
 </resources>

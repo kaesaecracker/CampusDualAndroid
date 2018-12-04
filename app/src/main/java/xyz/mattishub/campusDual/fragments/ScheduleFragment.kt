@@ -94,8 +94,9 @@ class ScheduleFragment : Fragment() {
         inflater.inflate(R.menu.schedule_menu, menu)
         if (menu == null) return
 
-        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorIconOnPrimary)
-        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorIconOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorLightOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorLightOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_playstore, R.color.colorLightOnPrimary)
 
         if (BuildConfig.DEBUG) {
             menu.findItem(R.id.action_startFirstLaunch).isVisible = true

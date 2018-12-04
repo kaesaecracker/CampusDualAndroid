@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/widget_header"
         android:divider="@color/colorIcons"
-        android:dividerHeight="1dp"
-        android:padding="@dimen/widget_margin" />
+        android:dividerHeight="1dp"/>
 
 </RelativeLayout>
