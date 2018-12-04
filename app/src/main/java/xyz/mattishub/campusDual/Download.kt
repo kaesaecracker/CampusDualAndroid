@@ -10,7 +10,7 @@ import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
-const val LastRefreshSettingsKey: String = "pref_last_download"
+const val LastRefreshSettingsKey: String = "pref_last_download_v2"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
     fun jsonToInternal(jsonLessons: List<JsonLesson>): LessonList {
@@ -18,8 +18,8 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         for (jsonLesson in jsonLessons) {
             val lesson = Lesson(
                     jsonLesson.title.trim(),
-                    jsonLesson.start.toLong(),
-                    jsonLesson.end.toLong(),
+                    jsonLesson.start.toLongOrNull() ?: 0L,
+                    jsonLesson.end.toLongOrNull() ?: 0L,
                     jsonLesson.room.trim(),
                     jsonLesson.instructor.trim()
             )
