@@ -68,7 +68,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val schedule = jsonToInternal(jsonSchedule)
 
     val gsonSchedule = scheduleToString(schedule) ?: return false
-    val lastRefreshMillis = DateTime().millis
+    val lastRefreshMillis = DateTime(AppTimeZone).millis
 
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
