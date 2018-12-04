@@ -17,9 +17,9 @@
 
     <item
         android:id="@+id/action_playstore"
-        android:icon="@drawable/ic_new_releases"
+        android:icon="@drawable/ic_store"
         android:title="@string/action_playstore"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_startFirstLaunch"
         android:title="Open First Run Screen"

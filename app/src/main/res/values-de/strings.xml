@@ -31,4 +31,5 @@
     <string name="firstlaunch_confirmCaption">Verstanden - Einstellungen öffnen</string>
     <string name="schedule_lastRefresh">Letzter Download</string>
     <string name="schedule_elementsLoaded">Elemente geladen</string>
+    <string name="schedule_noCachedWaitForDownload">Keine Offlinedateien gefunden. Bitte warte, bis der Download abgeschlossen ist. Du kannst es erneut versuchen, indem du nach unten wischst.</string>
 </resources>

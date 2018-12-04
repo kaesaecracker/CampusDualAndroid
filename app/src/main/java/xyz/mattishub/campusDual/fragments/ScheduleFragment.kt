@@ -71,31 +71,41 @@ class ScheduleFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        mainActivity.globalViewModel.getSchooldays()
-                .observe(this, Observer<List<Schoolday>> { schooldays ->
-                    if (schooldays == null) {
-                        this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
-                        return@Observer
-                    }
+        var isFirstRefresh = true
+        mainActivity.globalViewModel.getSchooldays().observe(this, Observer<LessonList> {
+            if (it == null || it.size == 0) {
+                this@ScheduleFragment.showMessage(
+                        if (isFirstRefresh) R.string.schedule_noCachedWaitForDownload
+                        else R.string.schedule_refreshFailed,
+                        Snackbar.LENGTH_INDEFINITE
+                )
 
-                    val lessonList = schooldays.toLessonList()
-                    viewAdapter.submitList(lessonList)
+                if (isFirstRefresh) this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule {  }
+                return@Observer
+            }
 
-                    val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
-                    val lastRefreshDate = DateTime(lastRefreshMillis).toString(getString(R.string.format_datetime))
-                    val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
-                            lessonList.size + "  ---  " + getString(R.string.schedule_lastRefresh) +
-                            ": " + lastRefreshDate.toString()
-                    this@ScheduleFragment.showMessage(successMsg, Snackbar.LENGTH_INDEFINITE)
-                })
+            viewAdapter.submitList(it._list)
+
+            val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
+            val lastRefreshDate = DateTime(lastRefreshMillis, AppTimeZone).toString(getString(R.string.format_datetime))
+            val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
+                    it.size + "  –––  " + getString(R.string.schedule_lastRefresh) +
+                    ": " + lastRefreshDate.toString()
+            this@ScheduleFragment.showMessage(successMsg)
+
+            isFirstRefresh = false
+        })
+
+        mainActivity.globalViewModel.downloadSchedule { }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
         inflater.inflate(R.menu.schedule_menu, menu)
         if (menu == null) return
 
-        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorIconOnPrimary)
-        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorIconOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorLightOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorLightOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_playstore, R.color.colorLightOnPrimary)
 
         if (BuildConfig.DEBUG) {
             menu.findItem(R.id.action_startFirstLaunch).isVisible = true
@@ -171,13 +181,7 @@ class ScheduleFragment : Fragment() {
             holder.timeFromView.text = lesson.start.toString(context.resources.getString(R.string.format_time), null)
             holder.timeToView.text = lesson.end.toString(context.resources.getString(R.string.format_time), null)
 
-            val previousIsDifferentDate = fun(): Boolean {
-                val previous = getItem(position - 1).start
-                val current = lesson.start
-                return previous.dayOfYear != current.dayOfYear
-            }
-
-            if (position == 0 || previousIsDifferentDate()) {
+            if (lesson.isFirstOfDay) {
                 val dayHeaderWeekdayView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_weekday)
                 dayHeaderWeekdayView.text = lesson.start.toString(context.getString(R.string.format_weekday))
 

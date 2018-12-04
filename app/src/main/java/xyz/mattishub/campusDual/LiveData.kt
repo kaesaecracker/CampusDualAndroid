@@ -12,19 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class GlobalViewModelFactory(val context: Context) : ViewModelProvider.Factory {
-
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(Context::class.java)
-                .newInstance(context)
-    }
-
-}
-
 class GlobalViewModel(val context: Context) : ViewModel() {
     val globalPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    private lateinit var schooldays: MutableLiveData<List<Schoolday>>
+    private lateinit var schooldays: MutableLiveData<LessonList>
     private val prefListener = PrefListener(ScheduleSettingsKey) {
         d("livedata", "prefListener fired")
         loadScheduleFromSettings()
@@ -34,7 +25,7 @@ class GlobalViewModel(val context: Context) : ViewModel() {
         globalPrefs.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
-    fun getSchooldays(): LiveData<List<Schoolday>> {
+    fun getSchooldays(): LiveData<LessonList> {
         if (!this::schooldays.isInitialized) {
             schooldays = MutableLiveData()
             loadScheduleFromSettings()
@@ -55,6 +46,13 @@ class GlobalViewModel(val context: Context) : ViewModel() {
         val gsonString = globalPrefs.getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
         schooldays.postValue(schedule)
+    }
+
+    class Factory(val context: Context) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return modelClass.getConstructor(Context::class.java)
+                    .newInstance(context)
+        }
     }
 
     private class PrefListener(val onKey: String, val callback: (() -> Unit)) : SharedPreferences.OnSharedPreferenceChangeListener {
