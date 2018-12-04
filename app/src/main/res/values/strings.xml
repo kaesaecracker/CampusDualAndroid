@@ -46,4 +46,5 @@
     <string name="schedule_lastRefresh">Last download</string>
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
     <string name="firstlaunch_confirmCaption">Understood - Open Settings</string>
+    <string name="schedule_noCachedWaitForDownload">There is no offline data. Please wait for the download to complete. You can try again by swiping down.</string>
 </resources>

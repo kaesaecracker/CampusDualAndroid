@@ -71,9 +71,16 @@ class ScheduleFragment : Fragment() {
             adapter = viewAdapter
         }
 
+        var isFirstRefresh = true
         mainActivity.globalViewModel.getSchooldays().observe(this, Observer<LessonList> {
-            if (it == null) {
-                this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
+            if (it == null || it.size == 0) {
+                this@ScheduleFragment.showMessage(
+                        if (isFirstRefresh) R.string.schedule_noCachedWaitForDownload
+                        else R.string.schedule_refreshFailed,
+                        Snackbar.LENGTH_INDEFINITE
+                )
+
+                if (isFirstRefresh) this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule {  }
                 return@Observer
             }
 
@@ -82,10 +89,14 @@ class ScheduleFragment : Fragment() {
             val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
             val lastRefreshDate = DateTime(lastRefreshMillis, AppTimeZone).toString(getString(R.string.format_datetime))
             val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
-                    it.size + "  ---  " + getString(R.string.schedule_lastRefresh) +
+                    it.size + "  –––  " + getString(R.string.schedule_lastRefresh) +
                     ": " + lastRefreshDate.toString()
             this@ScheduleFragment.showMessage(successMsg)
+
+            isFirstRefresh = false
         })
+
+        mainActivity.globalViewModel.downloadSchedule { }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
