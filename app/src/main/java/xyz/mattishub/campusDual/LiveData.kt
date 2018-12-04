@@ -24,7 +24,7 @@ class GlobalViewModelFactory(val context: Context) : ViewModelProvider.Factory {
 class GlobalViewModel(val context: Context) : ViewModel() {
     val globalPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-    private lateinit var schooldays: MutableLiveData<List<Schoolday>>
+    private lateinit var schooldays: MutableLiveData<LessonList>
     private val prefListener = PrefListener(ScheduleSettingsKey) {
         d("livedata", "prefListener fired")
         loadScheduleFromSettings()
@@ -34,7 +34,7 @@ class GlobalViewModel(val context: Context) : ViewModel() {
         globalPrefs.registerOnSharedPreferenceChangeListener(prefListener)
     }
 
-    fun getSchooldays(): LiveData<List<Schoolday>> {
+    fun getSchooldays(): LiveData<LessonList> {
         if (!this::schooldays.isInitialized) {
             schooldays = MutableLiveData()
             loadScheduleFromSettings()

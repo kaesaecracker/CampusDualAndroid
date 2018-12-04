@@ -4,22 +4,39 @@ import android.content.Context
 import android.preference.PreferenceManager
 import android.util.Log.d
 import android.util.Log.w
-import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
-const val ScheduleSettingsKey: String = "pref_schedule_data"
+const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
 const val LastRefreshSettingsKey: String = "pref_last_download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
+    fun jsonToInternal(jsonLessons: List<JsonLesson>): LessonList {
+        val schedule = mutableListOf<Lesson>()
+        for (jsonLesson in jsonLessons) {
+            val lesson = Lesson(
+                    jsonLesson.title.trim(),
+                    jsonLesson.start.toLong(),
+                    jsonLesson.end.toLong(),
+                    jsonLesson.room.trim(),
+                    jsonLesson.instructor.trim()
+            )
+
+            lesson.isFirstOfDay = schedule.isEmpty()
+                    || schedule.last().start.dayOfYear != lesson.start.dayOfYear
+            schedule.add(lesson)
+        }
+
+        return LessonList(schedule)
+    }
+
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url)) ?: ""
+    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url))
+            ?: ""
 
     val today = DateTime(DateTimeZone.UTC)
             .withHourOfDay(0)
@@ -48,7 +65,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         return false
     }
 
-    val schedule = jsonSchedule.toSchedule()
+    val schedule = jsonToInternal(jsonSchedule)
 
     val gsonSchedule = scheduleToString(schedule) ?: return false
     val lastRefreshMillis = DateTime().millis
@@ -61,24 +78,3 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .commit()
 }
 
-private fun List<JsonLesson>.toSchedule(): List<Schoolday> {
-    val schedule = mutableListOf<Schoolday>()
-    for (jsonLesson in this) {
-        val lesson = Lesson(
-                jsonLesson.title.trim(),
-                jsonLesson.start.toLong(),
-                jsonLesson.end.toLong(),
-                jsonLesson.room.trim(),
-                jsonLesson.instructor.trim()
-        )
-
-        if (schedule.isEmpty() || schedule.last().date!!.dayOfYear != lesson.start.dayOfYear) {
-            val newSchoolday = Schoolday(jsonLesson.start.toLong(), mutableListOf(lesson))
-            schedule.add(newSchoolday)
-        } else {
-            schedule.last().lessons.add(lesson)
-        }
-    }
-
-    return schedule
-}

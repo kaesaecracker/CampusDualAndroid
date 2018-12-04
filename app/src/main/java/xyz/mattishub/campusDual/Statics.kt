@@ -25,44 +25,13 @@ fun DateTime.getUnixTimestamp() = this.millis / 1000
 private inline fun <reified T> Gson.myJson(o: Any) = this.toJson(o, object : TypeToken<T>() {}.type)
 private inline fun <reified T> Gson.fromJson(json: String) = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
 
-fun List<Schoolday>.toLessonList(): MutableList<Lesson> {
-    val list = mutableListOf<Lesson>()
-    for (day in this)
-        for (lesson in day.lessons)
-            list.add(lesson)
-
-    return list
-}
-
 private val gson = GsonBuilder().create()
 
-fun scheduleToString(schedule: List<Schoolday>): String? = gson.myJson<List<Schoolday>>(schedule)
+fun scheduleToString(schedule: LessonList): String? = gson.myJson<List<Lesson>>(schedule._list)
 
-fun stringToSchedule(str: String): List<Schoolday>? = gson.fromJson(str)
+fun stringToSchedule(str: String): LessonList? = LessonList(gson.fromJson<List<Lesson>>(str) ?: emptyList())
 
 fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
-
-fun List<Schoolday>?.getCurrentDay(): Schoolday? {
-    if (this == null) return null
-
-    val today = DateTime(AppTimeZone)
-    for (day in this) {
-        if (day.date!!.dayOfYear == today.dayOfYear || day.date!!.isAfterNow)
-            return day
-    }
-
-    return null
-}
-
-fun List<Lesson>.getNonPassedLessons(): List<Lesson> {
-    val list = mutableListOf<Lesson>()
-
-    for (lesson in this) {
-        if (lesson.end.isAfterNow) list.add(lesson)
-    }
-
-    return list
-}
 
 fun tintMenuIcon(context: Context, menu: Menu, id: Int, @ColorRes color: Int) {
     val item = menu.findItem(id)

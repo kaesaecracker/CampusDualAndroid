@@ -71,23 +71,21 @@ class ScheduleFragment : Fragment() {
             adapter = viewAdapter
         }
 
-        mainActivity.globalViewModel.getSchooldays()
-                .observe(this, Observer<List<Schoolday>> { schooldays ->
-                    if (schooldays == null) {
-                        this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
-                        return@Observer
-                    }
+        mainActivity.globalViewModel.getSchooldays().observe(this, Observer<LessonList> {
+            if (it == null) {
+                this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
+                return@Observer
+            }
 
-                    val lessonList = schooldays.toLessonList()
-                    viewAdapter.submitList(lessonList)
+            viewAdapter.submitList(it._list)
 
-                    val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
-                    val lastRefreshDate = DateTime(lastRefreshMillis).toString(getString(R.string.format_datetime))
-                    val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
-                            lessonList.size + "  ---  " + getString(R.string.schedule_lastRefresh) +
-                            ": " + lastRefreshDate.toString()
-                    this@ScheduleFragment.showMessage(successMsg, Snackbar.LENGTH_INDEFINITE)
-                })
+            val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
+            val lastRefreshDate = DateTime(lastRefreshMillis).toString(getString(R.string.format_datetime))
+            val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
+                    it.size + "  ---  " + getString(R.string.schedule_lastRefresh) +
+                    ": " + lastRefreshDate.toString()
+            this@ScheduleFragment.showMessage(successMsg)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
@@ -172,13 +170,7 @@ class ScheduleFragment : Fragment() {
             holder.timeFromView.text = lesson.start.toString(context.resources.getString(R.string.format_time), null)
             holder.timeToView.text = lesson.end.toString(context.resources.getString(R.string.format_time), null)
 
-            val previousIsDifferentDate = fun(): Boolean {
-                val previous = getItem(position - 1).start
-                val current = lesson.start
-                return previous.dayOfYear != current.dayOfYear
-            }
-
-            if (position == 0 || previousIsDifferentDate()) {
+            if (lesson.isFirstOfDay) {
                 val dayHeaderWeekdayView = holder.dayHeader.findViewById<TextView>(R.id.dayheader_weekday)
                 dayHeaderWeekdayView.text = lesson.start.toString(context.getString(R.string.format_weekday))
 
