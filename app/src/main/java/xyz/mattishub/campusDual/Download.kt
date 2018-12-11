@@ -11,7 +11,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 
 const val ScheduleSettingsKey: String = "pref_schedule_data"
 const val WidgetDataSettingsKey: String = "pref_widget_data"
@@ -30,13 +29,13 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     Log.d("download", "refresh")
     val urlBase = context.resources.getString(R.string.backend_url)
 
-    val today = DateTime(DateTimeZone.UTC)
+    val now = DateTime(AppTimeZone)
+    val today = now
             .withHourOfDay(0)
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-            .plusDays(12)
-    val inWeeks = today.plusWeeks(4)
+    val inWeeks = today.plusWeeks(6)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
@@ -75,8 +74,12 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         }
     }
 
-    val gsonFirstDay = dayToString(schedule.first())
-    val gsonSchedule = scheduleToString(schedule) ?: return false
+    val filteredSchedule = schedule.filter {
+        return@filter it.last.end.isAfterNow
+    }
+
+    val gsonFirstDay = dayToString(filteredSchedule.first())
+    val gsonSchedule = scheduleToString(filteredSchedule) ?: return false
 
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
