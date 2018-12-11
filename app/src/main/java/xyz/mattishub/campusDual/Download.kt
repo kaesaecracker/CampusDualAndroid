@@ -6,11 +6,12 @@ import android.util.Log.d
 import android.util.Log.w
 import com.github.kittinunf.fuel.httpGet
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
 const val LastRefreshSettingsKey: String = "pref_last_download_v2"
+
+private const val LogTag: String = "download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
     fun jsonToInternal(jsonLessons: List<JsonLesson>): LessonList {
@@ -38,12 +39,13 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url))
             ?: ""
 
-    val today = DateTime(DateTimeZone.UTC)
+    val now = DateTime(AppTimeZone)
+    val today = now
             .withHourOfDay(0)
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-    val inWeeks = today.plusWeeks(6)
+    val inWeeks = today.plusWeeks(5)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
@@ -54,25 +56,32 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val (jsonScheduleString, err) = result
     if (err != null || jsonScheduleString == null) {
-        w("download", "result: err='$err', str='$jsonScheduleString'")
+        w(LogTag, "result: err='$err', str='$jsonScheduleString'")
         return false
     }
 
     val jsonSchedule = parseJsonSchedule(jsonScheduleString)
     if (jsonSchedule == null) {
-        w("download", "could not deserialize json schedule string '$jsonScheduleString'")
+        w(LogTag, "could not deserialize json schedule string '$jsonScheduleString'")
+        return false
+    }
+    if (jsonSchedule.isEmpty()) {
+        w(LogTag, "got empty list! String: '$jsonScheduleString'")
         return false
     }
 
-    val schedule = jsonToInternal(jsonSchedule)
+    var schedule = jsonToInternal(jsonSchedule)
+    if (schedule.size == 0){
+        w(LogTag, "json was not empty, but lesson list is")
+        return false
+    }
+
+    schedule = schedule.whereDayNotInPast()
 
     val gsonSchedule = scheduleToString(schedule) ?: return false
     val lastRefreshMillis = DateTime(AppTimeZone).millis
 
-    val gsonFirstDay = dayToString(filteredSchedule.first())
-    val gsonSchedule = scheduleToString(filteredSchedule) ?: return false
-
-    d("download", "got ${schedule.size} items")
+    d(LogTag, "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
             .put(ScheduleSettingsKey to gsonSchedule)

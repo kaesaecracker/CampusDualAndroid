@@ -21,7 +21,6 @@ class FirstLaunchFragment : Fragment() {
             findNavController().navigate(FirstLaunchFragmentDirections.actionFirstLaunchToSettings())
         }
 
-        mainActivity.supportActionBar?.hide()
         return view
     }
 
