@@ -1,13 +1,4 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <style name="SettingsCard.View" parent="CardView">
         <item name="cardElevation">4dp</item>
         <item name="cardCornerRadius">8dp</item>
@@ -20,8 +11,8 @@
     </style>
 
     <style name="SettingsCard.Headline" parent="">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
-        <item name="android:textColor">?attr/colorPrimaryDark</item>
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+        <item name="android:textColor">?colorPrimaryDark</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -31,6 +22,22 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Schedule.Header" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?colorPrimaryDark</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <style name="Schedule.LessonText" parent="@style/TextAppearance.MaterialComponents.Body1">
+
+    </style>
+
+    <style name="Schedule.LessonTitle" parent="Schedule.LessonText">
+        <item name="android:color">?colorPrimary</item>
     </style>
 
 </resources>
