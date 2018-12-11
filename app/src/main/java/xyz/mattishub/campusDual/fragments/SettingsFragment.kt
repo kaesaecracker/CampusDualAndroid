@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,10 @@ class SettingsFragment : Fragment() {
         const val setting_matric = "setting_matric"
         const val setting_hash = "setting_hash"
         const val setting_backend = "setting_backend"
+        const val setting_theme = "setting_theme"
+        const val setting_theme_default = "default"
+        const val setting_theme_light = "light"
+        const val setting_theme_dark = "dark"
     }
 
     open class DefaultTextWatcher : TextWatcher {
@@ -107,6 +112,24 @@ class SettingsFragment : Fragment() {
                     .putString(setting_backend, defBackend)
                     .apply()
             view.settings_backendEdit.text = Editable.Factory.getInstance().newEditable(defBackend)
+        }
+
+        view.settings_themeCard_radioGroup.apply {
+            check(when (prefs.getString(setting_theme, setting_theme_default)) {
+                setting_theme_light -> R.id.settings_themeCard_radioGroup_light
+                setting_theme_dark -> R.id.settings_themeCard_radioGroup_dark
+                else -> R.id.settings_themeCard_radioGroup_default
+            })
+
+            setOnCheckedChangeListener { _, checkedId ->
+                prefs.edit()
+                        .putString(setting_theme, when (checkedId) {
+                            R.id.settings_themeCard_radioGroup_light -> setting_theme_light
+                            R.id.settings_themeCard_radioGroup_dark -> setting_theme_dark
+                            else -> setting_theme_default
+                        })
+                        .apply()
+            }
         }
 
         mainActivity.supportActionBar?.show()
