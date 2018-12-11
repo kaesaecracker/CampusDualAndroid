@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         currentTheme = globalViewModel.getTheme().value ?: SettingsFragment.setting_theme_default
         setTheme(when (currentTheme) {
             SettingsFragment.setting_theme_dark -> R.style.AppTheme_Dark
+            SettingsFragment.setting_theme_black -> R.style.AppTheme_Black
             SettingsFragment.setting_theme_light -> R.style.AppTheme_Light
             else -> R.style.AppTheme
         })

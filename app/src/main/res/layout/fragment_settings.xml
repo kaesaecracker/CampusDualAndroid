@@ -113,13 +113,13 @@
                 <TextView
                     android:id="@+id/settings_themeCard_headline"
                     style="@style/SettingsCard.Headline"
-                    android:text="Themes"
+                    android:text="@string/settings_themeCard_headline"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/settings_themeCard_explanation"
                     style="@style/SettingsCard.Explanation"
-                    android:text="Here you can change the color palette of the app. You might have to restart the app after changing the theme."
+                    android:text="@string/settings_themeCard_explanation"
                     app:layout_constraintTop_toBottomOf="@id/settings_themeCard_headline" />
 
                 <RadioGroup
@@ -134,23 +134,22 @@
                     <RadioButton
                         android:id="@+id/settings_themeCard_radioGroup_default"
                         style="SettingsCard.RadioGroupButton"
-                        android:text="System default" />
+                        android:text="@string/settings_theme_default" />
 
                     <RadioButton
                         android:id="@+id/settings_themeCard_radioGroup_light"
                         style="SettingsCard.RadioGroupButton"
-                        android:text="Light" />
+                        android:text="@string/settings_theme_light" />
 
                     <RadioButton
                         android:id="@+id/settings_themeCard_radioGroup_dark"
                         style="SettingsCard.RadioGroupButton"
-                        android:text="Dark" />
+                        android:text="@string/settings_theme_dark" />
 
                     <RadioButton
                         android:id="@+id/settings_themeCard_radioGroup_black"
                         style="SettingsCard.RadioGroupButton"
-                        android:text="Black"
-                        android:visibility="gone" /><!--TODO black theme-->
+                        android:text="@string/settings_theme_black" />
                 </RadioGroup>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

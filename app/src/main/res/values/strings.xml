@@ -47,4 +47,10 @@
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
     <string name="firstlaunch_confirmCaption">Understood - Open Settings</string>
     <string name="schedule_noCachedWaitForDownload">There is no offline data. Please wait for the download to complete. You can try again by swiping down.</string>
+    <string name="settings_theme_black">Black (Beta)</string>
+    <string name="settings_theme_dark">Night</string>
+    <string name="settings_theme_light">Day</string>
+    <string name="settings_theme_default">System default</string>
+    <string name="settings_themeCard_headline">Themes</string>
+    <string name="settings_themeCard_explanation">Here you can change the color palette of the app. You have to restart the app to apply the changes.</string>
 </resources>

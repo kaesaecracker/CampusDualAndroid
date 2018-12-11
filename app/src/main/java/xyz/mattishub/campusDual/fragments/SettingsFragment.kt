@@ -24,6 +24,7 @@ class SettingsFragment : Fragment() {
         const val setting_theme_default = "default"
         const val setting_theme_light = "light"
         const val setting_theme_dark = "dark"
+        const val setting_theme_black = "black"
     }
 
     open class DefaultTextWatcher : TextWatcher {
@@ -118,6 +119,7 @@ class SettingsFragment : Fragment() {
             check(when (prefs.getString(setting_theme, setting_theme_default)) {
                 setting_theme_light -> R.id.settings_themeCard_radioGroup_light
                 setting_theme_dark -> R.id.settings_themeCard_radioGroup_dark
+                setting_theme_black -> R.id.settings_themeCard_radioGroup_black
                 else -> R.id.settings_themeCard_radioGroup_default
             })
 
@@ -126,6 +128,7 @@ class SettingsFragment : Fragment() {
                         .putString(setting_theme, when (checkedId) {
                             R.id.settings_themeCard_radioGroup_light -> setting_theme_light
                             R.id.settings_themeCard_radioGroup_dark -> setting_theme_dark
+                            R.id.settings_themeCard_radioGroup_black -> setting_theme_black
                             else -> setting_theme_default
                         })
                         .apply()
