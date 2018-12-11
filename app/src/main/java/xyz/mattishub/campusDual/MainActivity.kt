@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     private val navController by lazy { findNavController(R.id.main_navHost) }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+    private var currentTheme = ""
 
     val globalViewModel: GlobalViewModel by lazy {
         ViewModelProviders
@@ -22,8 +23,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // set theme according to setting
+        currentTheme = globalViewModel.getTheme().value ?: SettingsFragment.setting_theme_default
+        setTheme(when (currentTheme) {
+            SettingsFragment.setting_theme_dark -> R.style.AppTheme_Dark
+            SettingsFragment.setting_theme_light -> R.style.AppTheme_Light
+            else -> R.style.AppTheme
+        })
+
+        // setup ui
         setContentView(R.layout.activity_main)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
 
         // open settings if matric or hash not set
         val matric = globalViewModel.globalPrefs.getString(SettingsFragment.setting_matric, "")

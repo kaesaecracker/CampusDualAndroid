@@ -11,18 +11,33 @@ import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 class GlobalViewModel(val context: Context) : ViewModel() {
     val globalPrefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     private lateinit var schooldays: MutableLiveData<LessonList>
-    private val prefListener = PrefListener(ScheduleSettingsKey) {
-        d("livedata", "prefListener fired")
+    private val schedulePrefListener = PrefListener(ScheduleSettingsKey) { _, _ ->
         loadScheduleFromSettings()
     }
 
+    private lateinit var theme: MutableLiveData<String>
+    private val themePrefListener = PrefListener(SettingsFragment.setting_theme) { _, _ ->
+        theme.postValue(globalPrefs.getString(SettingsFragment.setting_theme, SettingsFragment.setting_theme_default))
+    }
+
     init {
-        globalPrefs.registerOnSharedPreferenceChangeListener(prefListener)
+        globalPrefs.registerOnSharedPreferenceChangeListener(schedulePrefListener)
+        globalPrefs.registerOnSharedPreferenceChangeListener(themePrefListener)
+    }
+
+    fun getTheme(): LiveData<String> {
+        if (!this::theme.isInitialized) {
+            theme = MutableLiveData()
+            theme.value  = globalPrefs.getString(SettingsFragment.setting_theme, SettingsFragment.setting_theme_default)
+        }
+
+        return theme
     }
 
     fun getSchooldays(): LiveData<LessonList> {
@@ -55,10 +70,10 @@ class GlobalViewModel(val context: Context) : ViewModel() {
         }
     }
 
-    private class PrefListener(val onKey: String, val callback: (() -> Unit)) : SharedPreferences.OnSharedPreferenceChangeListener {
+    private class PrefListener(val onKey: String, val callback: ((SharedPreferences?, String?) -> Unit)) : SharedPreferences.OnSharedPreferenceChangeListener {
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             d("livedata", "pref $key changed")
-            if (key == onKey) callback()
+            if (key == onKey) callback(sharedPreferences, key)
         }
     }
 }
