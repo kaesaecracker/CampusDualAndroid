@@ -1,5 +1,6 @@
 package xyz.mattishub.campusDual
 
+import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -53,7 +54,7 @@ fun openChromeCustomTab(url: String, context: Context) {
     val builder = CustomTabsIntent.Builder()
 
     builder.setToolbarColor(context.resources.getColor(R.color.colorPrimary))
-    builder.setSecondaryToolbarColor(context.resources.getColor(R.color.colorAccent))
+    builder.setSecondaryToolbarColor(context.resources.getColor(R.color.colorPrimaryDark))
     builder.setShowTitle(true)
 
     val customTabsIntent = builder.build()

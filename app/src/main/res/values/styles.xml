@@ -1,27 +1,47 @@
 <resources>
-    <style name="SettingsCard.View" parent="CardView">
-        <item name="cardElevation">4dp</item>
-        <item name="cardCornerRadius">8dp</item>
+    <style name="SettingsCard.View" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">3dp</item>
+        <item name="cardCornerRadius">5dp</item>
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
-        <item name="android:layout_margin">12dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="SettingsCard.Layout" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="SettingsCard.Input" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+
+    <style name="SettingsCard.Text" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="SettingsCard.Headline" parent="">
+    <style name="SettingsCard.Headline" parent="SettingsCard.Text">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
         <item name="android:textColor">?colorPrimaryDark</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
-    <style name="SettingsCard.Explanation" parent="">
+    <style name="SettingsCard.Explanation" parent="SettingsCard.Text">
         <item name="android:autoLink">web</item>
         <item name="android:layout_marginTop">8dp</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="Schedule.Header" parent="">
