@@ -43,8 +43,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-            .plusDays(12)
-    val inWeeks = today.plusWeeks(4)
+    val inWeeks = today.plusWeeks(6)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
@@ -69,6 +68,9 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val gsonSchedule = scheduleToString(schedule) ?: return false
     val lastRefreshMillis = DateTime(AppTimeZone).millis
+
+    val gsonFirstDay = dayToString(filteredSchedule.first())
+    val gsonSchedule = scheduleToString(filteredSchedule) ?: return false
 
     d("download", "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
