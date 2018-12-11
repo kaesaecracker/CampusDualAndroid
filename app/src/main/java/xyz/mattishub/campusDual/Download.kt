@@ -51,7 +51,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             "userid" to userId,
             "hash" to hash,
             "start" to today.getUnixTimestamp(),
-            "end" to inWeeks.getUnixTimestamp(),
+            "end" to inWeeks.getUnixTimestamp()
     )).responseString()
 
     val (jsonScheduleString, err) = result

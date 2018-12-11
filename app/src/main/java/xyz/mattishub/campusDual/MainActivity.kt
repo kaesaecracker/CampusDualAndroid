@@ -7,8 +7,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
 class MainActivity : AppCompatActivity() {
@@ -35,17 +33,14 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.firstLaunchFragment)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    override fun onStart() {
+        super.onStart()
+        setupBackgroundWorker()
+        forceRefreshWidget(baseContext)
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-
-        if (hasFocus) GlobalScope.launch {
-            setupBackgroundWorker()
-            forceRefreshWidget(baseContext)
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
 }
