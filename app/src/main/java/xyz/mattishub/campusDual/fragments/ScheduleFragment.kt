@@ -59,11 +59,7 @@ class ScheduleFragment : Fragment() {
         d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
-        viewManager = LinearLayoutManager(context).apply {
-            isSmoothScrollbarEnabled = false
-            isItemPrefetchEnabled = true
-        }
-
+        viewManager = LinearLayoutManager(context)
         viewAdapter = ScheduleAdapter(context!!)
         recyclerView = this.view!!.schedule_recyclerView.apply {
             setHasFixedSize(false)
@@ -74,13 +70,14 @@ class ScheduleFragment : Fragment() {
         var isFirstRefresh = true
         mainActivity.globalViewModel.getSchooldays().observe(this, Observer<LessonList> {
             if (it == null || it.size == 0) {
-                this@ScheduleFragment.showMessage(
-                        if (isFirstRefresh) R.string.schedule_noCachedWaitForDownload
-                        else R.string.schedule_refreshFailed,
-                        Snackbar.LENGTH_INDEFINITE
-                )
+                if (isFirstRefresh) {
+                    this@ScheduleFragment.showMessage(R.string.schedule_noCachedWaitForDownload, Snackbar.LENGTH_INDEFINITE)
+                    this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule {  }
+                } else {
+                    this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
+                }
 
-                if (isFirstRefresh) this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule {  }
+                isFirstRefresh = false
                 return@Observer
             }
 
@@ -95,8 +92,6 @@ class ScheduleFragment : Fragment() {
 
             isFirstRefresh = false
         })
-
-        mainActivity.globalViewModel.downloadSchedule { }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
