@@ -14,7 +14,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/settings_disclaimerCard"
-            style="@style/SettingsCardView"
+            style="@style/SettingsCard.View"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -26,21 +26,15 @@
 
                 <TextView
                     android:id="@+id/settings_disclaimerTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="@string/disclaimerTitle"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="?attr/colorPrimaryDark"
+                    style="@style/SettingsCard.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:autoLink="web"
                     android:text="@string/disclaimer"
+                    style="@style/SettingsCard.Explanation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/settings_disclaimerTitle" />
@@ -49,7 +43,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/settings_loginDataCard"
-            style="@style/SettingsCardView"
+            style="@style/SettingsCard.View"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settings_disclaimerCard">
@@ -61,22 +55,16 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:text="@string/settings_logindata"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="?attr/colorPrimaryDark"
+                    style="@style/SettingsCard.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:autoLink="web"
                     android:text="@string/settings_loginHelpText"
+                    style="@style/SettingsCard.Explanation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -132,10 +120,9 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/settings_backendCard"
-            style="@style/SettingsCardView"
-            android:layout_marginBottom="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/settings_timespanCard"
+            style="@style/SettingsCard.View"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settings_loginDataCard">
@@ -145,13 +132,53 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
+
                 <TextView
-                    android:id="@+id/settings_backendTitle"
+                    android:id="@+id/textView4"
+                    style="@style/SettingsCard.Headline"
+                    android:text="Download Time Span"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    style="@style/SettingsCard.Explanation"
+                    android:text="You can change how far the schedule is downloaded here."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+                <Spinner
+                    android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:spinnerMode="dropdown"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6"
+                    tools:layout_editor_absoluteX="16dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/settings_backendCard"
+            style="@style/SettingsCard.View"
+            android:layout_marginBottom="18dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_timespanCard">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/settings_backendTitle"
                     android:text="@string/settings_backendTitle"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="?attr/colorPrimaryDark"
+                    style="@style/SettingsCard.Headline"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
