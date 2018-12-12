@@ -1,10 +1,10 @@
 package xyz.mattishub.campusDual.fragments
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,6 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import xyz.mattishub.campusDual.R
 import xyz.mattishub.campusDual.mainActivity
-import android.content.Intent
 
 
 class SettingsFragment : Fragment() {
@@ -124,7 +123,7 @@ class SettingsFragment : Fragment() {
                 setting_theme_light -> R.id.settings_themeCard_radioGroup_light
                 setting_theme_dark -> R.id.settings_themeCard_radioGroup_dark
                 setting_theme_black -> R.id.settings_themeCard_radioGroup_black
-                else -> R.id.settings_themeCard_radioGroup_default
+                else -> R.id.settings_themeCard_radioGroup_light
             })
 
             setOnCheckedChangeListener { _, checkedId ->
@@ -137,7 +136,7 @@ class SettingsFragment : Fragment() {
                         })
                         .apply()
 
-                showMessageWithAction(R.string.settings_theme_restartMessage, R.string.settings_theme_restartButton) {
+                showMessageWithAction(R.string.settings_theme_restartMessage, R.string.settings_theme_restartButton, Snackbar.LENGTH_INDEFINITE) {
                     mainActivity.finish()
                     startActivity(mainActivity
                             .baseContext
@@ -153,8 +152,8 @@ class SettingsFragment : Fragment() {
         return view
     }
 
-    private fun showMessageWithAction(@StringRes message: Int, @StringRes actionCaption: Int, callback: () -> Unit) {
-        Snackbar.make(this.view!!, message, Snackbar.LENGTH_LONG)
+    private fun showMessageWithAction(@StringRes message: Int, @StringRes actionCaption: Int, length: Int, callback: () -> Unit) {
+        Snackbar.make(this.view!!, message, length)
                 .setAction(actionCaption) {
                     callback()
                 }

@@ -2,7 +2,13 @@
 <resources>
     <color name="colorPrimary">#3f51b5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorIcons">#BDBDBD</color>
-    <color name="colorLightOnPrimary">@android:color/white</color>
+    <color name="colorAccent">@android:color/holo_purple</color>
+
+    <color name="colorWindowBackgroundDark" >@android:color/black</color>
+    <color name="colorWindowBackgroundBlack" >@android:color/black</color>
+
     <color name="colorWidgetBackground">@android:color/white</color>
+
+    <color name="colorLightOnPrimary">@android:color/white</color>
+    <color name="colorIcons">#BDBDBD</color>
 </resources>
