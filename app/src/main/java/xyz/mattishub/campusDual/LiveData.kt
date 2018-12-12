@@ -35,7 +35,7 @@ class GlobalViewModel(val context: Context) : ViewModel() {
     fun getTheme(): LiveData<String> {
         if (!this::theme.isInitialized) {
             theme = MutableLiveData()
-            theme.value  = globalPrefs.getString(SettingsFragment.setting_theme, SettingsFragment.setting_theme_default)
+            theme.value = globalPrefs.getString(SettingsFragment.setting_theme, SettingsFragment.setting_theme_default)
         }
 
         return theme

@@ -13,6 +13,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
+
 class MainActivity : AppCompatActivity() {
 
     private val navController by lazy { findNavController(R.id.main_navHost) }
@@ -33,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         // setup ui
         setContentView(R.layout.activity_main)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
 
         // open settings if matric or hash not set
         val matric = globalViewModel.globalPrefs.getString(SettingsFragment.setting_matric, "")

@@ -71,7 +71,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     }
 
     var schedule = jsonToInternal(jsonSchedule)
-    if (schedule.size == 0){
+    if (schedule.size == 0) {
         w(LogTag, "json was not empty, but lesson list is")
         return false
     }

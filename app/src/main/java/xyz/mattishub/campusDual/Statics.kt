@@ -1,6 +1,5 @@
 package xyz.mattishub.campusDual
 
-import android.annotation.SuppressLint
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
@@ -30,7 +29,8 @@ private val gson = GsonBuilder().create()
 
 fun scheduleToString(schedule: LessonList): String? = gson.myJson<List<Lesson>>(schedule._list)
 
-fun stringToSchedule(str: String): LessonList? = LessonList(gson.fromJson<List<Lesson>>(str) ?: emptyList())
+fun stringToSchedule(str: String): LessonList? = LessonList(gson.fromJson<List<Lesson>>(str)
+        ?: emptyList())
 
 fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
 

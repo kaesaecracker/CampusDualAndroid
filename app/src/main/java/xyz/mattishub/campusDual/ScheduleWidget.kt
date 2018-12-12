@@ -55,7 +55,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         widget.setTextViewText(R.id.widget_header_date, day[0].start.toString(context.getString(R.string.format_date)))
         widget.setTextViewText(R.id.widget_header_lessonCount, "${day.size} ${context.getString(R.string.widget_lessonCount)}")
         widget.setTextViewText(R.id.widget_header_fromTo, day[0].start.toString(context.getString(R.string.format_time)) +
-                "-" + day[day.size -1].end.toString(context.getString(R.string.format_time)))
+                "-" + day[day.size - 1].end.toString(context.getString(R.string.format_time)))
     }
 
     private fun setOnClick(context: Context, widget: RemoteViews) {
@@ -116,7 +116,8 @@ class ScheduleWidgetService : RemoteViewsService() {
         override fun getViewTypeCount(): Int = 1
         override fun hasStableIds(): Boolean = false
         override fun getLoadingView(): RemoteViews? = null
-        override fun getItemId(position: Int): Long = nonPassedLessons?.get(position)?.startEpoch ?: 0L
+        override fun getItemId(position: Int): Long = nonPassedLessons?.get(position)?.startEpoch
+                ?: 0L
 
         override fun onCreate() {
             d("widget_factory", "onCreate")
