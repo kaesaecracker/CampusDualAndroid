@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log.d
 import android.view.*
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +55,6 @@ class ScheduleFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
         viewManager = LinearLayoutManager(context)
@@ -72,7 +70,7 @@ class ScheduleFragment : Fragment() {
             if (it == null || it.size == 0) {
                 if (isFirstRefresh) {
                     this@ScheduleFragment.showMessage(R.string.schedule_noCachedWaitForDownload, Snackbar.LENGTH_INDEFINITE)
-                    this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule {  }
+                    this@ScheduleFragment.mainActivity.globalViewModel.downloadSchedule { }
                 } else {
                     this@ScheduleFragment.showMessage(R.string.schedule_refreshFailed, Snackbar.LENGTH_INDEFINITE)
                 }
@@ -81,7 +79,7 @@ class ScheduleFragment : Fragment() {
                 return@Observer
             }
 
-            viewAdapter.submitList(it._list)
+            viewAdapter.submitList(it.whereEndNotInPast()._list)
 
             val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
             val lastRefreshDate = DateTime(lastRefreshMillis, AppTimeZone).toString(getString(R.string.format_datetime))
@@ -99,8 +97,12 @@ class ScheduleFragment : Fragment() {
         if (menu == null) return
 
         tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorLightOnPrimary)
-        tintMenuIcon(this.context!!, menu, R.id.action_issues, R.color.colorLightOnPrimary)
-        tintMenuIcon(this.context!!, menu, R.id.action_playstore, R.color.colorLightOnPrimary)
+        tintMenuIcon(this.context!!, menu, R.id.action_links, R.color.colorLightOnPrimary)
+
+        val subMenuColor = android.R.color.black
+        tintMenuIcon(this.context!!, menu, R.id.action_issues, subMenuColor)
+        tintMenuIcon(this.context!!, menu, R.id.action_playstore, subMenuColor)
+        tintMenuIcon(this.context!!, menu, R.id.action_selfservice, subMenuColor)
 
         if (BuildConfig.DEBUG) {
             menu.findItem(R.id.action_startFirstLaunch).isVisible = true
@@ -116,7 +118,9 @@ class ScheduleFragment : Fragment() {
             R.id.action_startFirstLaunch ->
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToFirstLaunch())
             R.id.action_issues ->
-                openChromeCustomTab(getString(R.string.issues_url), context!!)
+                openChromeCustomTab(getString(R.string.url_issues), context!!)
+            R.id.action_selfservice ->
+                openChromeCustomTab(getString(R.string.url_selfservice), context!!)
             R.id.action_playstore ->
                 openPlayStore()
             else -> return false
@@ -127,13 +131,11 @@ class ScheduleFragment : Fragment() {
 
 
     private fun showMessage(stringId: Int, duration: Int = Snackbar.LENGTH_LONG) {
-        d("mainActivity", "Show snackbar msg: [ID $stringId]")
         Snackbar.make(this.schedule_coordinator, stringId, duration)
                 .show()
     }
 
     private fun showMessage(msg: String, duration: Int = Snackbar.LENGTH_LONG) {
-        d("mainActivity", "Show snackbar msg: '$msg'")
         Snackbar.make(this.schedule_coordinator, msg, duration)
                 .show()
     }

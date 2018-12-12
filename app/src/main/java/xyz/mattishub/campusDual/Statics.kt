@@ -29,7 +29,8 @@ private val gson = GsonBuilder().create()
 
 fun scheduleToString(schedule: LessonList): String? = gson.myJson<List<Lesson>>(schedule._list)
 
-fun stringToSchedule(str: String): LessonList? = LessonList(gson.fromJson<List<Lesson>>(str) ?: emptyList())
+fun stringToSchedule(str: String): LessonList? = LessonList(gson.fromJson<List<Lesson>>(str)
+        ?: emptyList())
 
 fun parseJsonSchedule(str: String): List<JsonLesson>? = gson.fromJson(str)
 
@@ -53,7 +54,7 @@ fun openChromeCustomTab(url: String, context: Context) {
     val builder = CustomTabsIntent.Builder()
 
     builder.setToolbarColor(context.resources.getColor(R.color.colorPrimary))
-    builder.setSecondaryToolbarColor(context.resources.getColor(R.color.colorAccent))
+    builder.setSecondaryToolbarColor(context.resources.getColor(R.color.colorPrimaryDark))
     builder.setShowTitle(true)
 
     val customTabsIntent = builder.build()

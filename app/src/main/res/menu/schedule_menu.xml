@@ -9,17 +9,33 @@
         android:title="@string/title_activity_settings"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_issues"
-        android:icon="@drawable/ic_bug_report"
-        android:title="@string/bugsbtn_hint"
-        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_playstore"
-        android:icon="@drawable/ic_store"
-        android:title="@string/action_playstore"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/action_links"
+        android:icon="@drawable/ic_link"
+        android:title="@string/action_links"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_issues"
+                android:icon="@drawable/ic_bug_report"
+                android:title="@string/bugsbtn_hint"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/action_playstore"
+                android:icon="@drawable/ic_store"
+                android:title="@string/action_playstore"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/action_selfservice"
+                android:icon="@drawable/ic_public"
+                android:title="@string/action_selfservice"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
+
     <item
         android:id="@+id/action_startFirstLaunch"
         android:title="Open First Run Screen"

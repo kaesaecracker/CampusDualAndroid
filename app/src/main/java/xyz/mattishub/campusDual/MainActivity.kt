@@ -9,6 +9,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 
+
 class MainActivity : AppCompatActivity() {
 
     private val navController by lazy { findNavController(R.id.main_navHost) }
@@ -21,6 +22,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // set theme
+        setTheme(R.style.AppTheme)
+
+        // setup ui
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -43,4 +48,17 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun setTheme(resid: Int) {
+        super.setTheme(resid)
+
+        when (globalViewModel.getTheme().value) {
+            SettingsFragment.setting_theme_black ->
+                theme.applyStyle(R.style.AppThemeOverlay_Black, true)
+            SettingsFragment.setting_theme_dark ->
+                theme.applyStyle(R.style.AppThemeOverlay_Dark, true)
+        }
+    }
 }
+
+
+

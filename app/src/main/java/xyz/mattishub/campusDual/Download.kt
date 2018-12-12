@@ -36,7 +36,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url))
+    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
             ?: ""
 
     val now = DateTime(AppTimeZone)
@@ -45,7 +45,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-    val inWeeks = today.plusWeeks(5)
+    val inWeeks = today.plusWeeks(20)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
@@ -71,7 +71,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     }
 
     var schedule = jsonToInternal(jsonSchedule)
-    if (schedule.size == 0){
+    if (schedule.size == 0) {
         w(LogTag, "json was not empty, but lesson list is")
         return false
     }

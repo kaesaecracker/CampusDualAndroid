@@ -116,7 +116,7 @@
         android:paddingEnd="8dp"
         android:text="@string/firstlaunch_there"
         android:textAppearance="@android:style/TextAppearance.Material.Display3"
-        android:textColor="@color/colorAccent"
+        android:textColor="?colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/firstlaunch_centerGuideline"
         app:layout_constraintTop_toTopOf="@+id/firstlaunch_hello" />

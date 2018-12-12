@@ -1,36 +1,131 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppThemeOverlay.Dark" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="lessonTitleStyle">@style/ScheduleLessonText.Title.Dark</item>
+        <item name="lessonTextStyle">@style/ScheduleLessonText.Dark</item>
+        <item name="lessonIconStyle">@style/ScheduleLessonIcon.Dark</item>
+        <item name="settingsHeadlineStyle">@style/SettingsCardText.Headline.Dark</item>
     </style>
 
-    <style name="SettingsCard.View" parent="CardView">
+    <style name="AppThemeOverlay.Black" parent="AppThemeOverlay.Dark">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="settingsLayoutStyle">@style/SettingsCardLayout.Black</item>
+        <item name="settingsDividerStyle">@style/SettingsDivider.Black</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+
+        <item name="lessonTitleStyle">@style/ScheduleLessonText.Title</item>
+        <item name="lessonTextStyle">@style/ScheduleLessonText</item>
+        <item name="lessonIconStyle">@style/ScheduleLessonIcon</item>
+        <item name="settingsHeadlineStyle">@style/SettingsCardText.Headline</item>
+        <item name="settingsLayoutStyle">@style/SettingsCardLayout</item>
+        <item name="settingsDividerStyle">@style/SettingsDivider</item>
+    </style>
+
+    <style name="CurrentAppTheme" parent="AppTheme" />
+
+    <style name="SettingsCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">4dp</item>
-        <item name="cardCornerRadius">8dp</item>
+        <item name="cardCornerRadius">5dp</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
-        <item name="android:layout_margin">12dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">8dp</item>
+
+        <item name="layout_constraintEnd_toEndOf">parent</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
+    </style>
+
+    <style name="SettingsCardLayout" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="SettingsCardLayout.Black">
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="SettingsCardInput" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+    </style>
+
+    <style name="SettingsCardText" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="SettingsCard.Headline" parent="">
-        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
-        <item name="android:textColor">?attr/colorPrimaryDark</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="SettingsCardText.Headline">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
+        <item name="android:textColor">?colorPrimaryDark</item>
+        <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
-    <style name="SettingsCard.Explanation" parent="">
+    <style name="SettingsCardText.Headline.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SettingsCardText.Explanation">
         <item name="android:autoLink">web</item>
         <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="SettingsDivider">
+        <item name="android:visibility">gone</item>
+
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="SettingsDivider.Black">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="ScheduleHeader" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:elevation">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:background">?colorPrimaryDark</item>
+    </style>
+
+    <style name="ScheduleLessonText" parent="@style/TextAppearance.MaterialComponents.Body1" />
+
+    <style name="ScheduleLessonText.Dark">
+        <item name="android:textColor">@android:color/darker_gray</item>
+    </style>
+
+    <style name="ScheduleLessonText.Title" parent="ScheduleLessonText">
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+
+    <style name="ScheduleLessonText.Title.Dark">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ScheduleLessonIcon" parent="">
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="ScheduleLessonIcon.Dark">
+        <item name="android:tint">@android:color/darker_gray</item>
     </style>
 
 </resources>
