@@ -1,24 +1,24 @@
 <resources>
 
+    <style name="AppThemeOverlay.Light" parent="ThemeOverlay.MaterialComponents.Light">
 
-    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    </style>
+
+    <style name="AppThemeOverlay.Dark" parent="ThemeOverlay.MaterialComponents.Dark">
+
+    </style>
+
+    <style name="AppThemeOverlay.Black" parent="AppThemeOverlay.Dark">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="AppTheme.Dark" parent="Theme.MaterialComponents">
-        <item name="colorPrimary">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">@color/colorPrimary</item>
-    </style>
-
-    <style name="AppTheme.Black" parent="AppTheme.Dark">
-        <item name="android:windowBackground">@android:color/black</item>
-    </style>
-    
-    <style name="AppTheme" parent="AppTheme.Light" />
-
+    <style name="CurrentAppTheme" parent="AppTheme" />
 
     <style name="SettingsCard.View" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">3dp</item>

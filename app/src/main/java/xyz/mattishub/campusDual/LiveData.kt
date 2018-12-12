@@ -23,6 +23,7 @@ class GlobalViewModel(val context: Context) : ViewModel() {
 
     private lateinit var theme: MutableLiveData<String>
     private val themePrefListener = PrefListener(SettingsFragment.setting_theme) { _, _ ->
+        getTheme() // ensure initialized
         theme.postValue(globalPrefs.getString(SettingsFragment.setting_theme, SettingsFragment.setting_theme_default))
     }
 

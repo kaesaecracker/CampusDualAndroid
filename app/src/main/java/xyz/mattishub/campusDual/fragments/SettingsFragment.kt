@@ -9,11 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import xyz.mattishub.campusDual.R
 import xyz.mattishub.campusDual.mainActivity
+import android.content.Intent
+
 
 class SettingsFragment : Fragment() {
     companion object {
@@ -132,10 +136,28 @@ class SettingsFragment : Fragment() {
                             else -> setting_theme_default
                         })
                         .apply()
+
+                showMessageWithAction(R.string.settings_theme_restartMessage, R.string.settings_theme_restartButton) {
+                    mainActivity.finish()
+                    startActivity(mainActivity
+                            .baseContext
+                            .packageManager!!
+                            .getLaunchIntentForPackage(context!!.packageName)!!
+                            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    )
+                }
             }
         }
 
         mainActivity.supportActionBar?.show()
         return view
+    }
+
+    private fun showMessageWithAction(@StringRes message: Int, @StringRes actionCaption: Int, callback: () -> Unit) {
+        Snackbar.make(this.view!!, message, Snackbar.LENGTH_LONG)
+                .setAction(actionCaption) {
+                    callback()
+                }
+                .show()
     }
 }

@@ -5,234 +5,240 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/settings_coordinator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:isScrollContainer="true"
-        android:paddingBottom="6dp"
-        tools:context="xyz.mattishub.campusDual.fragments.SettingsFragment">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_disclaimerCard"
-            style="@style/SettingsCard.View"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
-
-                <TextView
-                    android:id="@+id/settings_disclaimerTitle"
-                    style="@style/SettingsCard.Headline"
-                    android:text="@string/disclaimerTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    style="@style/SettingsCard.Explanation"
-                    android:text="@string/disclaimer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_disclaimerTitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_loginDataCard"
-            style="@style/SettingsCard.View"
-            app:layout_constraintTop_toBottomOf="@id/settings_disclaimerCard">
-
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    style="@style/SettingsCard.Headline"
-                    android:text="@string/settings_logindata"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    style="@style/SettingsCard.Explanation"
-                    android:text="@string/settings_loginHelpText"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/settings_matricNrLayout"
-                    style="@style/SettingsCard.Input"
-                    android:hint="@string/settings_matrikel"
-                    app:boxBackgroundMode="outline"
-                    app:counterMaxLength="7"
-                    app:errorEnabled="true"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/settings_matricNrEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:singleLine="true"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:layout_editor_absoluteY="50dp"
-                        tools:text="0000000" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/settings_hashLayout"
-                    style="@style/SettingsCard.Input"
-                    android:hint="@string/settings_hash"
-                    app:boxBackgroundMode="outline"
-                    app:counterMaxLength="32"
-                    app:errorEnabled="true"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_matricNrLayout"
-                    app:passwordToggleEnabled="true">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/settings_hashEdit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textWebPassword"
-                        tools:text="00000" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_themeCard"
-            style="@style/SettingsCard.View"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_loginDataCard">
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+            android:paddingBottom="6dp"
+            tools:context="xyz.mattishub.campusDual.fragments.SettingsFragment">
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/settings_disclaimerCard"
+                style="@style/SettingsCard.View"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/settings_themeCard_headline"
-                    style="@style/SettingsCard.Headline"
-                    android:text="@string/settings_themeCard_headline"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
 
-                <TextView
-                    android:id="@+id/settings_themeCard_explanation"
-                    style="@style/SettingsCard.Explanation"
-                    android:text="@string/settings_themeCard_explanation"
-                    app:layout_constraintTop_toBottomOf="@id/settings_themeCard_headline" />
+                    <TextView
+                        android:id="@+id/settings_disclaimerTitle"
+                        style="@style/SettingsCard.Headline"
+                        android:text="@string/disclaimerTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <RadioGroup
-                    android:id="@+id/settings_themeCard_radioGroup"
-                    style="@style/SettingsCard.Input"
+                    <TextView
+                        style="@style/SettingsCard.Explanation"
+                        android:text="@string/disclaimer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/settings_disclaimerTitle" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/settings_themeCard_explanation">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/settings_loginDataCard"
+                style="@style/SettingsCard.View"
+                app:layout_constraintTop_toBottomOf="@id/settings_disclaimerCard">
 
-                    <RadioButton
-                        android:id="@+id/settings_themeCard_radioGroup_default"
-                        style="SettingsCard.RadioGroupButton"
-                        android:text="@string/settings_theme_default" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
 
-                    <RadioButton
-                        android:id="@+id/settings_themeCard_radioGroup_light"
-                        style="SettingsCard.RadioGroupButton"
-                        android:text="@string/settings_theme_light" />
+                    <TextView
+                        android:id="@+id/textView3"
+                        style="@style/SettingsCard.Headline"
+                        android:text="@string/settings_logindata"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <RadioButton
-                        android:id="@+id/settings_themeCard_radioGroup_dark"
-                        style="SettingsCard.RadioGroupButton"
-                        android:text="@string/settings_theme_dark" />
+                    <TextView
+                        android:id="@+id/textView"
+                        style="@style/SettingsCard.Explanation"
+                        android:text="@string/settings_loginHelpText"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-                    <RadioButton
-                        android:id="@+id/settings_themeCard_radioGroup_black"
-                        style="SettingsCard.RadioGroupButton"
-                        android:text="@string/settings_theme_black" />
-                </RadioGroup>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/settings_matricNrLayout"
+                        style="@style/SettingsCard.Input"
+                        android:hint="@string/settings_matrikel"
+                        app:boxBackgroundMode="outline"
+                        app:counterMaxLength="7"
+                        app:errorEnabled="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/settings_matricNrEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="50dp"
+                            tools:text="0000000" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.card.MaterialCardView>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/settings_hashLayout"
+                        style="@style/SettingsCard.Input"
+                        android:hint="@string/settings_hash"
+                        app:boxBackgroundMode="outline"
+                        app:counterMaxLength="32"
+                        app:errorEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settings_matricNrLayout"
+                        app:passwordToggleEnabled="true">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_timespanCard"
-            style="@style/SettingsCard.View"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/settings_themeCard">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/settings_hashEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textWebPassword"
+                            tools:text="00000" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/settings_themeCard"
+                style="@style/SettingsCard.View"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_loginDataCard">
 
-                <TextView
-                    android:id="@+id/textView4"
-                    style="@style/SettingsCard.Headline"
-                    android:text="Download Time Span" />
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
 
-                <TextView
-                    android:id="@+id/textView6"
-                    style="@style/SettingsCard.Explanation"
-                    android:text="You can change how far the schedule is downloaded here."
-                    app:layout_constraintTop_toBottomOf="@id/textView4" />
+                    <TextView
+                        android:id="@+id/settings_themeCard_headline"
+                        style="@style/SettingsCard.Headline"
+                        android:text="@string/settings_themeCard_headline"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/settings_themeCard_explanation"
+                        style="@style/SettingsCard.Explanation"
+                        android:text="@string/settings_themeCard_explanation"
+                        app:layout_constraintTop_toBottomOf="@id/settings_themeCard_headline" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/settings_backendCard"
-            style="@style/SettingsCard.View"
-            android:layout_marginBottom="18dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settings_timespanCard">
+                    <RadioGroup
+                        android:id="@+id/settings_themeCard_radioGroup"
+                        style="@style/SettingsCard.Input"
 
-            <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/settings_themeCard_explanation">
 
-                <TextView
-                    android:id="@+id/settings_backendTitle"
-                    style="@style/SettingsCard.Headline"
-                    android:text="@string/settings_backendTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <RadioButton
+                            android:id="@+id/settings_themeCard_radioGroup_default"
+                            style="SettingsCard.RadioGroupButton"
+                            android:text="@string/settings_theme_default" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:autoLink="web"
-                    android:text="@string/settings_backendDescription"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/settings_backendTitle" />
+                        <RadioButton
+                            android:id="@+id/settings_themeCard_radioGroup_light"
+                            style="SettingsCard.RadioGroupButton"
+                            android:text="@string/settings_theme_light" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/settings_backendLayout"
-                    style="@style/SettingsCard.Input"
-                    android:hint="@string/settings_backendHint"
-                    app:layout_constraintTop_toBottomOf="@+id/textView2">
+                        <RadioButton
+                            android:id="@+id/settings_themeCard_radioGroup_dark"
+                            style="SettingsCard.RadioGroupButton"
+                            android:text="@string/settings_theme_dark" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/settings_backendEdit"
+                        <RadioButton
+                            android:id="@+id/settings_themeCard_radioGroup_black"
+                            style="SettingsCard.RadioGroupButton"
+                            android:text="@string/settings_theme_black" />
+                    </RadioGroup>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/settings_timespanCard"
+                style="@style/SettingsCard.View"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/settings_themeCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        style="@style/SettingsCard.Headline"
+                        android:text="Download Time Span" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        style="@style/SettingsCard.Explanation"
+                        android:text="You can change how far the schedule is downloaded here."
+                        app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/settings_backendCard"
+                style="@style/SettingsCard.View"
+                android:layout_marginBottom="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_timespanCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout style="@style/SettingsCard.Layout">
+
+                    <TextView
+                        android:id="@+id/settings_backendTitle"
+                        style="@style/SettingsCard.Headline"
+                        android:text="@string/settings_backendTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textNoSuggestions|textUri"
-                        android:singleLine="true" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginTop="8dp"
+                        android:autoLink="web"
+                        android:text="@string/settings_backendDescription"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/settings_backendTitle" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/settings_resetBackendBtn"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="@string/settings_backendResetBtnContentDescr"
-                    android:text="Reset"
-                    app:icon="@drawable/ic_settings_restore"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/settings_backendLayout" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/settings_backendLayout"
+                        style="@style/SettingsCard.Input"
+                        android:hint="@string/settings_backendHint"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/settings_backendEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textNoSuggestions|textUri"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/settings_resetBackendBtn"
+                        style="@style/Widget.MaterialComponents.Button.UnelevatedButton.Icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/settings_backendResetBtnContentDescr"
+                        android:text="Reset"
+                        app:icon="@drawable/ic_settings_restore"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/settings_backendLayout" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </ScrollView>

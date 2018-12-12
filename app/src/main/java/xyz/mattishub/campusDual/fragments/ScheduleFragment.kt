@@ -56,7 +56,6 @@ class ScheduleFragment : Fragment() {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        d("schedule", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
 
         viewManager = LinearLayoutManager(context)
@@ -127,13 +126,11 @@ class ScheduleFragment : Fragment() {
 
 
     private fun showMessage(stringId: Int, duration: Int = Snackbar.LENGTH_LONG) {
-        d("mainActivity", "Show snackbar msg: [ID $stringId]")
         Snackbar.make(this.schedule_coordinator, stringId, duration)
                 .show()
     }
 
     private fun showMessage(msg: String, duration: Int = Snackbar.LENGTH_LONG) {
-        d("mainActivity", "Show snackbar msg: '$msg'")
         Snackbar.make(this.schedule_coordinator, msg, duration)
                 .show()
     }

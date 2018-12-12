@@ -53,4 +53,6 @@
     <string name="settings_theme_default">System default</string>
     <string name="settings_themeCard_headline">Themes</string>
     <string name="settings_themeCard_explanation">Here you can change the color palette of the app. You have to restart the app to apply the changes.</string>
+    <string name="settings_theme_restartMessage">Restart the app to apply changes.</string>
+    <string name="settings_theme_restartButton">Resart</string>
 </resources>
