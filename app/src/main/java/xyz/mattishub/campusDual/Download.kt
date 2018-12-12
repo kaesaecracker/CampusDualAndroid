@@ -45,7 +45,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-    val inWeeks = today.plusWeeks(5)
+    val inWeeks = today.plusWeeks(20)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
