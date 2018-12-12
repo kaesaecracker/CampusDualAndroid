@@ -105,14 +105,14 @@ class SettingsFragment : Fragment() {
         }
 
         view.settings_backendEdit.apply {
-            setText(prefs.getString(setting_backend, getString(R.string.default_backend_url)))
+            setText(prefs.getString(setting_backend, getString(R.string.url_default_backend)))
             addTextChangedListener(
                     SaveSettingTextWatcher(setting_backend, prefs)
             )
         }
 
         view.settings_resetBackendBtn.setOnClickListener {
-            val defBackend = getString(R.string.default_backend_url)
+            val defBackend = getString(R.string.url_default_backend)
             prefs.edit()
                     .putString(setting_backend, defBackend)
                     .apply()

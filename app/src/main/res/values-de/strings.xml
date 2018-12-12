@@ -40,4 +40,6 @@
     <string name="settings_themeCard_explanation">Hier kannst du die Farbpalette der App einstellen. Du musst die App neu starten um die Änderungen zu übernehmen.</string>
     <string name="settings_theme_restartMessage">Starte die App neu um die Änderung zu übernehmen.</string>
     <string name="settings_theme_restartButton">Neu starten</string>
+    <string name="action_selfservice">Selfservice</string>
+    <string name="action_links">Links</string>
 </resources>

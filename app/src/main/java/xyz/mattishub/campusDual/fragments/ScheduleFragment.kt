@@ -115,7 +115,9 @@ class ScheduleFragment : Fragment() {
             R.id.action_startFirstLaunch ->
                 findNavController().navigate(ScheduleFragmentDirections.actionScheduleToFirstLaunch())
             R.id.action_issues ->
-                openChromeCustomTab(getString(R.string.issues_url), context!!)
+                openChromeCustomTab(getString(R.string.url_issues), context!!)
+            R.id.action_selfservice ->
+                openChromeCustomTab(getString(R.string.url_selfservice), context!!)
             R.id.action_playstore ->
                 openPlayStore()
             else -> return false

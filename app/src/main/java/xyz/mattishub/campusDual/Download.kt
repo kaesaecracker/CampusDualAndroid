@@ -36,7 +36,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.default_backend_url))
+    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
             ?: ""
 
     val now = DateTime(AppTimeZone)
