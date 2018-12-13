@@ -29,7 +29,7 @@
     <string name="settings_tooLong">That seems to long</string>
     <string name="settings_correct">That seems correct. Saved!</string>
     <string name="settings_empty">Enter something</string>
-    <string name="disclaimer">"This app is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Berufsakademie Sachsen, or any of its subsidiaries or its affiliates.\nThe official BA Dresden website can be found at https://www.ba-dresden.de/.\n\nThe information you enter into this app stay on your phone. There is no tracking library in this app and the network requests (which will contain your matriculation number and your hash) only go to the specified location.\n    "</string>
+    <string name="disclaimer">"This app is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Berufsakademie Sachsen, or any of its subsidiaries or its affiliates.\nThe official BA Dresden website can be found at https://www.ba-dresden.de.\n\nThe information you enter into this app stay on your phone. There is no tracking library in this app and the network requests (which will contain your matriculation number and your hash) only go to the specified location.\n    "</string>
     <string name="disclaimerTitle">Disclaimer</string>
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">You can change the URL used for making requests. Click the button below to reset it to the default value.</string>
@@ -57,5 +57,5 @@
     <string name="action_links">Links</string>
     <string name="settings_theme_restartMessage">Restart the app to apply changes.</string>
     <string name="settings_theme_restartButton">Resart</string>
-    <string name="url_selfservice" translatable="false">https://selfservice.campus-dual.de/</string>
+    <string name="url_selfservice" translatable="false">https://selfservice.campus-dual.de</string>
 </resources>
