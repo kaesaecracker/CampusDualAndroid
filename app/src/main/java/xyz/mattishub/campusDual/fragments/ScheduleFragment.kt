@@ -79,12 +79,12 @@ class ScheduleFragment : Fragment() {
                 return@Observer
             }
 
-            viewAdapter.submitList(it.whereEndNotInPast()._list)
+            viewAdapter.submitList(it.whereDayNotInPast()._list)
 
             val lastRefreshMillis = mainActivity.globalViewModel.globalPrefs.getLong(LastRefreshSettingsKey, 0)
             val lastRefreshDate = DateTime(lastRefreshMillis, AppTimeZone).toString(getString(R.string.format_datetime))
             val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
-                    it.size + "  –––  " + getString(R.string.schedule_lastRefresh) +
+                    it.size + " | " + getString(R.string.schedule_lastRefresh) +
                     ": " + lastRefreshDate.toString()
             this@ScheduleFragment.showMessage(successMsg)
 

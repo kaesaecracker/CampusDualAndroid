@@ -2,11 +2,14 @@ package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.util.Log.d
 import android.util.Log.w
 import com.github.kittinunf.fuel.httpGet
 import org.joda.time.DateTime
 import xyz.mattishub.campusDual.fragments.SettingsFragment
+import java.net.MalformedURLException
+import java.net.URL
 
 const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
 const val LastRefreshSettingsKey: String = "pref_last_download_v2"
@@ -36,8 +39,16 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-    val urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
+    var urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
             ?: ""
+    try {
+        val parsedUrl = URL(urlBase)
+    } catch (ex: MalformedURLException) {
+        w(LogTag, "URL in settings not valid, using default one")
+        val defaultBackend = context.getString(R.string.url_default_backend)
+        prefs.edit().putString(SettingsFragment.setting_backend, defaultBackend).apply()
+        urlBase = defaultBackend
+    }
 
     val now = DateTime(AppTimeZone)
     val today = now
