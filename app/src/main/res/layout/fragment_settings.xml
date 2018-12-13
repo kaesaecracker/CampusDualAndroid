@@ -196,7 +196,8 @@
             <View
                 android:id="@+id/divider4"
                 style="?attr/settingsDividerStyle"
-                app:layout_constraintTop_toBottomOf="@id/settings_timespanCard"/>
+                app:layout_constraintTop_toBottomOf="@id/settings_timespanCard"
+                android:visibility="gone"/>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_backendCard"
@@ -236,7 +237,7 @@
                             android:id="@+id/settings_backendEdit"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textNoSuggestions|textUri"
+                            android:inputType="textUri"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
