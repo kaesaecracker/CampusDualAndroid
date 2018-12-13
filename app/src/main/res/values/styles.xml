@@ -86,15 +86,16 @@
 
     <style name="SettingsDivider">
         <item name="android:visibility">gone</item>
-    </style>
-
-    <style name="SettingsDivider.Black">
-        <item name="android:visibility">visible</item>
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dp</item>
         <item name="android:background">?android:attr/listDivider</item>
         <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <style name="SettingsDivider.Black">
+        <item name="android:visibility">visible</item>
+
     </style>
 
     <style name="ScheduleHeader" parent="">
