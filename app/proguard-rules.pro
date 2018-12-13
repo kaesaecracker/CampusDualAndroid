@@ -10,7 +10,7 @@
 
 -keepattributes Signature
 
--keep,includedescriptorclasses class xyz.mattishub.campusDual.**  { public *; }
+-keep,includedescriptorclasses class xyz.mattishub.campusDual.**  { *; }
 
--keep class kotlinx.coroutines.** { public *; }
--keep class org.joda.time.tz.data.ZoneInfoMap { public *; }
+-keep class kotlinx.coroutines.** { *; }
+-keep class org.joda.time.tz.data.ZoneInfoMap { *; }
