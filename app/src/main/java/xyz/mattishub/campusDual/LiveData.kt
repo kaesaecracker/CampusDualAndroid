@@ -61,6 +61,8 @@ class GlobalViewModel(val context: Context) : ViewModel() {
     private fun loadScheduleFromSettings() = GlobalScope.launch(Dispatchers.IO) {
         val gsonString = globalPrefs.getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
+
+        getSchooldays() // ensure initialized
         schooldays.postValue(schedule)
     }
 
