@@ -44,7 +44,7 @@
             <View
                 android:id="@+id/divider"
                 style="?attr/settingsDividerStyle"
-                app:layout_constraintTop_toBottomOf="@id/settings_disclaimerCard"/>
+                app:layout_constraintTop_toBottomOf="@id/settings_disclaimerCard" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_loginDataCard"
@@ -119,8 +119,6 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_themeCard"
                 style="@style/SettingsCard"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 app:layout_constraintTop_toBottomOf="@id/divider2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -169,7 +167,7 @@
             <View
                 android:id="@+id/divider3"
                 style="?attr/settingsDividerStyle"
-                app:layout_constraintTop_toBottomOf="@id/settings_themeCard"/>
+                app:layout_constraintTop_toBottomOf="@id/settings_themeCard" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_timespanCard"
@@ -196,8 +194,8 @@
             <View
                 android:id="@+id/divider4"
                 style="?attr/settingsDividerStyle"
-                app:layout_constraintTop_toBottomOf="@id/settings_timespanCard"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/settings_timespanCard" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_backendCard"
