@@ -9,7 +9,7 @@ class RefreshScheduleWorker(val context: Context, workerParams: WorkerParameters
 
     override fun doWork(): Result {
         d("log", "doWork")
-        return if (downloadAndSaveToSettings(context)) Result.SUCCESS else Result.RETRY
+        return if (downloadAndSaveToSettings(context)) Result.success() else Result.retry()
     }
 
 }

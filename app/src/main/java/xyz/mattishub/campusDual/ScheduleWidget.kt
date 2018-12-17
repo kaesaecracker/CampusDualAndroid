@@ -12,7 +12,6 @@ import android.util.Log.d
 import android.widget.AdapterView
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
-import me.kaesaecracker.campusDual.R
 
 class ScheduleWidgetProvider : AppWidgetProvider() {
 
@@ -38,7 +37,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    fun setHeaderData(context: Context, widget: RemoteViews) {
+    private fun setHeaderData(context: Context, widget: RemoteViews) {
         val gsonString = PreferenceManager.getDefaultSharedPreferences(context).getString(ScheduleSettingsKey, "")!!
         val schedule = stringToSchedule(gsonString)
         if (schedule == null) {
@@ -46,20 +45,20 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
             return
         }
 
-        val day = schedule.getCurrentDay()
-        if (day == null) {
+        val day = schedule.getCurrentOrNextDay()
+        if (day.size == 0) {
             d("widget_provider", "could not set header data: current day not found")
             return
         }
 
-        widget.setTextViewText(R.id.widget_header_weekday, day.first.start.toString(context.getString(R.string.weekday_format)))
-        widget.setTextViewText(R.id.widget_header_date, day.first.start.toString(context.getString(R.string.date_format)))
-        widget.setTextViewText(R.id.widget_header_lessonCount, "${day.length} ${context.getString(R.string.widget_lessonCount)}")
-        widget.setTextViewText(R.id.widget_header_fromTo, day.first.start.toString(context.getString(R.string.time_format)) +
-                "-" + day.last.end.toString(context.getString(R.string.time_format)))
+        widget.setTextViewText(R.id.widget_header_weekday, day[0].start.toString(context.getString(R.string.format_weekday)))
+        widget.setTextViewText(R.id.widget_header_date, day[0].start.toString(context.getString(R.string.format_date)))
+        widget.setTextViewText(R.id.widget_header_lessonCount, "${day.size} ${context.getString(R.string.widget_lessonCount)}")
+        widget.setTextViewText(R.id.widget_header_fromTo, day[0].start.toString(context.getString(R.string.format_time)) +
+                "-" + day[day.size - 1].end.toString(context.getString(R.string.format_time)))
     }
 
-    fun setOnClick(context: Context, widget: RemoteViews) {
+    private fun setOnClick(context: Context, widget: RemoteViews) {
         val launchActivity = Intent(context, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 0, launchActivity, 0)
         widget.setOnClickPendingIntent(R.id.widget_header, pendingIntent)
@@ -73,8 +72,8 @@ class ScheduleWidgetService : RemoteViewsService() {
     }
 
     private class WidgetRemoteViewsFactory(val context: Context) : RemoteViewsService.RemoteViewsFactory {
-        private var days: List<Schoolday>? = null
-        private var nonPassedLessons: List<Lesson>? = null
+        private var days: LessonList? = null
+        private var nonPassedLessons: LessonList? = null
 
         override fun onDataSetChanged() {
             d("widget_factory", "onDataSetChanged")
@@ -103,22 +102,22 @@ class ScheduleWidgetService : RemoteViewsService() {
 
             view.setTextViewText(R.id.widget_lesson_title, lesson.title)
             view.setTextViewText(R.id.widget_lesson_room, lesson.room)
-            view.setTextViewText(R.id.widget_lesson_time, lesson.start.toString(context.getString(R.string.time_format)))
+            view.setTextViewText(R.id.widget_lesson_time, lesson.start.toString(context.getString(R.string.format_time)))
 
             return view
         }
 
         override fun getCount(): Int {
+            nonPassedLessons = days?.getCurrentOrNextDay()?.whereEndNotInPast()
             onDataSetChanged()
-            nonPassedLessons = days.getCurrentDay()?.lessons?.getNonPassedLessons()
             return nonPassedLessons?.size ?: 0
         }
 
         override fun getViewTypeCount(): Int = 1
         override fun hasStableIds(): Boolean = false
         override fun getLoadingView(): RemoteViews? = null
-        override fun getItemId(position: Int): Long = days.getCurrentDay()?.lessons?.get(position)?.startEpoch
-                ?: -1L
+        override fun getItemId(position: Int): Long = nonPassedLessons?.get(position)?.startEpoch
+                ?: 0L
 
         override fun onCreate() {
             d("widget_factory", "onCreate")

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="lessonTitleStyle" format="reference" />
+    <attr name="lessonTextStyle" format="reference" />
+    <attr name="lessonIconStyle" format="reference" />
+    <attr name="settingsHeadlineStyle" format="reference" />
+    <attr name="settingsLayoutStyle" format="reference" />
+    <attr name="settingsDividerStyle" format="reference" />
+</resources>

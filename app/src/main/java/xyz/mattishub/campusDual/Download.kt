@@ -2,32 +2,53 @@ package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.util.Log
+import android.provider.Settings
 import android.util.Log.d
 import android.util.Log.w
-import com.github.kittinunf.fuel.core.ResponseDeserializable
 import com.github.kittinunf.fuel.httpGet
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import me.kaesaecracker.campusDual.R
 import org.joda.time.DateTime
+import xyz.mattishub.campusDual.fragments.SettingsFragment
+import java.net.MalformedURLException
+import java.net.URL
 
-const val ScheduleSettingsKey: String = "pref_schedule_data"
-const val WidgetDataSettingsKey: String = "pref_widget_data"
+const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
+const val LastRefreshSettingsKey: String = "pref_last_download_v2"
 
-private class ScheduleDeserializer : ResponseDeserializable<List<JsonLesson>> {
-    override fun deserialize(content: String): List<JsonLesson> {
-        return Gson().fromJson<List<JsonLesson>>(content, object : TypeToken<List<JsonLesson>>() {}.type)
-    }
-}
+private const val LogTag: String = "download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
+    fun jsonToInternal(jsonLessons: List<JsonLesson>): LessonList {
+        val schedule = mutableListOf<Lesson>()
+        for (jsonLesson in jsonLessons) {
+            val lesson = Lesson(
+                    jsonLesson.title.trim(),
+                    jsonLesson.start.toLongOrNull() ?: 0L,
+                    jsonLesson.end.toLongOrNull() ?: 0L,
+                    jsonLesson.room.trim(),
+                    jsonLesson.instructor.trim()
+            )
+
+            lesson.isFirstOfDay = schedule.isEmpty()
+                    || schedule.last().start.dayOfYear != lesson.start.dayOfYear
+            schedule.add(lesson)
+        }
+
+        return LessonList(schedule)
+    }
+
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-
-    Log.d("download", "refresh")
-    val urlBase = context.resources.getString(R.string.backend_url)
+    var urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
+            ?: ""
+    try {
+        val parsedUrl = URL(urlBase)
+    } catch (ex: MalformedURLException) {
+        w(LogTag, "URL in settings not valid, using default one")
+        val defaultBackend = context.getString(R.string.url_default_backend)
+        prefs.edit().putString(SettingsFragment.setting_backend, defaultBackend).apply()
+        urlBase = defaultBackend
+    }
 
     val now = DateTime(AppTimeZone)
     val today = now
@@ -35,7 +56,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .withMinuteOfHour(0)
             .withSecondOfMinute(0)
             .withMillisOfSecond(0)
-    val inWeeks = today.plusWeeks(6)
+    val inWeeks = today.plusWeeks(20)
 
     val (_, _, result) = urlBase.httpGet(listOf(
             "userid" to userId,
@@ -46,45 +67,36 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
 
     val (jsonScheduleString, err) = result
     if (err != null || jsonScheduleString == null) {
-        w("download", "result: err='$err', str='$jsonScheduleString'")
+        w(LogTag, "result: err='$err', str='$jsonScheduleString'")
         return false
     }
 
     val jsonSchedule = parseJsonSchedule(jsonScheduleString)
     if (jsonSchedule == null) {
-        w("download", "could not deserialize json schedule string '$jsonScheduleString'")
+        w(LogTag, "could not deserialize json schedule string '$jsonScheduleString'")
+        return false
+    }
+    if (jsonSchedule.isEmpty()) {
+        w(LogTag, "got empty list! String: '$jsonScheduleString'")
         return false
     }
 
-    val schedule = mutableListOf<Schoolday>()
-    for (jsonLesson in jsonSchedule) {
-        val lesson = Lesson(
-                jsonLesson.title.trim(),
-                jsonLesson.start.toLong(),
-                jsonLesson.end.toLong(),
-                jsonLesson.room.trim(),
-                jsonLesson.instructor.trim()
-        )
-
-        if (schedule.isEmpty() || schedule.last().date!!.dayOfYear != lesson.start.dayOfYear) {
-            val newSchoolday = Schoolday(jsonLesson.start.toLong(), mutableListOf(lesson))
-            schedule.add(newSchoolday)
-        } else {
-            schedule.last().lessons.add(lesson)
-        }
+    var schedule = jsonToInternal(jsonSchedule)
+    if (schedule.size == 0) {
+        w(LogTag, "json was not empty, but lesson list is")
+        return false
     }
 
-    val filteredSchedule = schedule.filter {
-        return@filter it.last.end.isAfterNow
-    }
+    schedule = schedule.whereDayNotInPast()
 
-    val gsonFirstDay = dayToString(filteredSchedule.first())
-    val gsonSchedule = scheduleToString(filteredSchedule) ?: return false
+    val gsonSchedule = scheduleToString(schedule) ?: return false
+    val lastRefreshMillis = DateTime(AppTimeZone).millis
 
-    d("download", "got ${schedule.size} items")
+    d(LogTag, "got ${schedule.size} items")
     return PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putString(WidgetDataSettingsKey, gsonFirstDay)
-            .putString(ScheduleSettingsKey, gsonSchedule)
+            .put(ScheduleSettingsKey to gsonSchedule)
+            .put(LastRefreshSettingsKey to lastRefreshMillis)
             .commit()
 }
+

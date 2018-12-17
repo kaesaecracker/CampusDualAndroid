@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/firstlaunch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="xyz.mattishub.campusDual.fragments.FirstLaunchFragment">
+
+    <ScrollView
+        android:id="@+id/firstlaunch_textScroller"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="insideInset"
+        app:layout_constraintBottom_toTopOf="@+id/firstlaunch_confirm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstlaunch_text">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/firstlaunch_innerTextLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/firstlaunch_changeSettings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:singleLine="false"
+                android:text="@string/firstlaunch_changeSettings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/firstlaunch_disclaimer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:autoLink="web"
+                android:text="@string/disclaimer"
+                app:layout_constraintEnd_toEndOf="@+id/firstlaunch_changeSettings"
+                app:layout_constraintStart_toStartOf="@+id/firstlaunch_changeSettings"
+                app:layout_constraintTop_toBottomOf="@+id/firstlaunch_changeSettings" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/firstlaunch_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="24dp"
+        android:elevation="8dp"
+        android:text="@string/firstlaunch_confirmCaption"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/firstlaunch_balogo"
+        android:contentDescription="@string/firstlaunch_baLogoContentDescr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:src="@drawable/ic_app_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/firstlaunch_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/firstlaunch_text"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstlaunch_hello" />
+
+    <TextView
+        android:id="@+id/firstlaunch_hello"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="end"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/firstlaunch_hello"
+        android:textAppearance="@android:style/TextAppearance.Material.Display3"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/firstlaunch_centerGuideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstlaunch_balogo" />
+
+    <TextView
+        android:id="@+id/firstlaunch_there"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="start"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/firstlaunch_there"
+        android:textAppearance="@android:style/TextAppearance.Material.Display3"
+        android:textColor="?colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/firstlaunch_centerGuideline"
+        app:layout_constraintTop_toTopOf="@+id/firstlaunch_hello" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/firstlaunch_centerGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
