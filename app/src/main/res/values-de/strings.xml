@@ -29,8 +29,8 @@
     <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.\\n\\nBitte lies außerdem den folgenden Hinweis:</string>
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
     <string name="firstlaunch_confirmCaption">Verstanden - Einstellungen öffnen</string>
-    <string name="schedule_lastRefresh">Letzter Download</string>
-    <string name="schedule_elementsLoaded">Elemente geladen</string>
+    <string name="schedule_lastRefresh">Stand</string>
+    <string name="schedule_elementsLoaded">Stunden</string>
     <string name="schedule_noCachedWaitForDownload">Keine Offlinedateien gefunden. Bitte warte, bis der Download abgeschlossen ist. Du kannst es erneut versuchen, indem du nach unten wischst.</string>
     <string name="settings_theme_black">Schwarz (Beta)</string>
     <string name="settings_theme_dark">Nacht</string>
@@ -42,4 +42,5 @@
     <string name="settings_theme_restartButton">Neu starten</string>
     <string name="action_selfservice">Selfservice</string>
     <string name="action_links">Links</string>
+    <string name="settings_backendReset">Zurücksetzen</string>
 </resources>

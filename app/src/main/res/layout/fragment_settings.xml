@@ -81,6 +81,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:inputType="number"
+                            android:minHeight="48dp"
                             android:singleLine="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:layout_editor_absoluteY="50dp"
@@ -104,6 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textWebPassword"
+                            android:minHeight="48dp"
                             tools:text="00000" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -144,17 +146,17 @@
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_light"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_light" />
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_dark"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_dark" />
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_black"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_black" />
                     </RadioGroup>
 
@@ -234,6 +236,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
+                            android:minHeight="48dp"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -244,7 +247,7 @@
                         android:layout_height="0dp"
                         android:layout_marginTop="8dp"
                         android:contentDescription="@string/settings_backendResetBtnContentDescr"
-                        android:text="Reset"
+                        android:text="@string/settings_backendReset"
                         app:icon="@drawable/ic_settings_restore"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/settings_backendLayout" />
