@@ -41,7 +41,7 @@
     <string name="firstlaunch_text">It seems like it is the first time you have launched this app.</string>
     <string name="firstlaunch_changeSettings">You will have to change the login data in the settings for full functionality.\\n\\nPlease also read the following notice:</string>
     <string name="firstlaunch_title" translatable="false">First Launch</string>
-    <string name="schedule_elementsLoaded">Elements loaded</string>
+    <string name="schedule_elementsLoaded">Lessons</string>
     <string name="format_datetime" translatable="false">dd.MM. HH:mm</string>
     <string name="schedule_lastRefresh">Last download</string>
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
@@ -58,4 +58,5 @@
     <string name="settings_theme_restartMessage">Restart the app to apply changes.</string>
     <string name="settings_theme_restartButton">Resart</string>
     <string name="url_selfservice" translatable="false">https://selfservice.campus-dual.de</string>
+    <string name="settings_backendReset">Reset</string>
 </resources>

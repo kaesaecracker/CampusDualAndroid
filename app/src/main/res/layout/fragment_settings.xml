@@ -19,7 +19,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_disclaimerCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -33,7 +33,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/disclaimer"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_loginDataCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -61,7 +61,7 @@
 
                     <TextView
                         android:id="@+id/textView"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/settings_loginHelpText"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -81,6 +81,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:inputType="number"
+                            android:minHeight="48dp"
                             android:singleLine="true"
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:layout_editor_absoluteY="50dp"
@@ -104,6 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textWebPassword"
+                            android:minHeight="48dp"
                             tools:text="00000" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,7 +118,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_themeCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toBottomOf="@id/divider2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -129,7 +131,7 @@
 
                     <TextView
                         android:id="@+id/settings_themeCard_explanation"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/settings_themeCard_explanation"
                         app:layout_constraintTop_toBottomOf="@id/settings_themeCard_headline" />
 
@@ -144,17 +146,17 @@
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_light"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_light" />
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_dark"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_dark" />
 
                         <RadioButton
                             android:id="@+id/settings_themeCard_radioGroup_black"
-                            style="SettingsCard.RadioGroupButton"
+                            style="@style/SettingsCardRadioGroupButton"
                             android:text="@string/settings_theme_black" />
                     </RadioGroup>
 
@@ -169,7 +171,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_timespanCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/divider3">
 
@@ -182,7 +184,7 @@
 
                     <TextView
                         android:id="@+id/textView6"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="You can change how far the schedule is downloaded here."
                         app:layout_constraintTop_toBottomOf="@id/textView4" />
 
@@ -197,7 +199,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_backendCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 android:layout_marginBottom="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider4">
@@ -234,6 +236,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textUri"
+                            android:minHeight="48dp"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -244,7 +247,7 @@
                         android:layout_height="0dp"
                         android:layout_marginTop="8dp"
                         android:contentDescription="@string/settings_backendResetBtnContentDescr"
-                        android:text="Reset"
+                        android:text="@string/settings_backendReset"
                         app:icon="@drawable/ic_settings_restore"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/settings_backendLayout" />

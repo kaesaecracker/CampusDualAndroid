@@ -5,11 +5,17 @@ import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log.d
 import android.util.Log.w
+import com.github.kittinunf.fuel.core.FuelManager
 import com.github.kittinunf.fuel.httpGet
 import org.joda.time.DateTime
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 import java.net.MalformedURLException
 import java.net.URL
+import java.security.cert.X509Certificate
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 const val ScheduleSettingsKey: String = "pref_schedule_data_v2"
 const val LastRefreshSettingsKey: String = "pref_last_download_v2"
@@ -36,13 +42,27 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         return LessonList(schedule)
     }
 
+    FuelManager.instance.apply {
+        val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+            override fun getAcceptedIssuers(): Array<X509Certificate>? = null
+            override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) = Unit
+            override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) = Unit
+        })
+
+        socketFactory = SSLContext.getInstance("SSL").apply {
+            init(null, trustAllCerts, java.security.SecureRandom())
+        }.socketFactory
+
+        hostnameVerifier =  HostnameVerifier { _, _ -> true }
+    }
+
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
     var urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
             ?: ""
     try {
-        val parsedUrl = URL(urlBase)
+        URL(urlBase)
     } catch (ex: MalformedURLException) {
         w(LogTag, "URL in settings not valid, using default one")
         val defaultBackend = context.getString(R.string.url_default_backend)

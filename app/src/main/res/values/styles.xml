@@ -4,7 +4,8 @@
         <item name="lessonTitleStyle">@style/ScheduleLessonText.Title.Dark</item>
         <item name="lessonTextStyle">@style/ScheduleLessonText.Dark</item>
         <item name="lessonIconStyle">@style/ScheduleLessonIcon.Dark</item>
-        <item name="settingsHeadlineStyle">@style/SettingsCardText.Headline.Dark</item>
+        <item name="settingsHeadlineStyle">@style/SettingsCardTextViewStyle.Headline.Dark</item>
+        <item name="android:colorAccent">?colorPrimary</item>
     </style>
 
     <style name="AppThemeOverlay.Black" parent="AppThemeOverlay.Dark">
@@ -22,12 +23,17 @@
         <item name="lessonTitleStyle">@style/ScheduleLessonText.Title</item>
         <item name="lessonTextStyle">@style/ScheduleLessonText</item>
         <item name="lessonIconStyle">@style/ScheduleLessonIcon</item>
-        <item name="settingsHeadlineStyle">@style/SettingsCardText.Headline</item>
+        <item name="settingsHeadlineStyle">@style/SettingsCardTextViewStyle.Headline</item>
         <item name="settingsLayoutStyle">@style/SettingsCardLayout</item>
         <item name="settingsDividerStyle">@style/SettingsDivider</item>
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+        <item name="settingsCardStyle">@style/SettingsCard</item>
     </style>
 
     <style name="CurrentAppTheme" parent="AppTheme" />
+
+    <style name="AppTextViewStyle" parent="TextAppearance.MaterialComponents.Body2">
+    </style>
 
     <style name="SettingsCard" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">2dp</item>
@@ -44,6 +50,8 @@
 
         <item name="layout_constraintEnd_toEndOf">parent</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
+
+        <item name="android:textViewStyle">@style/SettingsCardTextViewStyle</item>
     </style>
 
     <style name="SettingsCardLayout" parent="">
@@ -60,27 +68,32 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">16dp</item>
+        <item name="android:minHeight">48dp </item>
     </style>
 
-    <style name="SettingsCardText" parent="">
+    <style name="SettingsCardRadioGroupButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        
+    </style>
+
+    <style name="SettingsCardTextViewStyle" parent="AppTextViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="layout_constraintStart_toStartOf">parent</item>
         <item name="layout_constraintEnd_toEndOf">parent</item>
     </style>
 
-    <style name="SettingsCardText.Headline">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
-        </item>
+    <style name="SettingsCardTextViewStyle.Headline">
         <item name="android:textColor">?colorPrimaryDark</item>
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
-    <style name="SettingsCardText.Headline.Dark">
+    <style name="SettingsCardTextViewStyle.Headline.Dark">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="SettingsCardText.Explanation">
+    <style name="SettingsCardTextViewStyle.Explanation">
         <item name="android:autoLink">web</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>

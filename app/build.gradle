@@ -63,7 +63,7 @@ android {
 
 dependencies {
     def ktxCoroutinesVer = "1.0.1"
-    def anxNavigationVer = "1.0.0-alpha08"
+    def anxNavigationVer = "1.0.0-rc01"
 
     // google and kotlin stuff
     implementation fileTree(include: ['*.jar'], dir: 'libs')
@@ -76,7 +76,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ktxCoroutinesVer"
 
     // background workers
-    implementation 'android.arch.work:work-runtime-ktx:1.0.0-alpha12'
+    implementation 'android.arch.work:work-runtime-ktx:1.0.0-rc02'
 
     // navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$anxNavigationVer"
@@ -84,7 +84,7 @@ dependencies {
 
     // jetpack
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
