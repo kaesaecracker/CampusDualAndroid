@@ -19,7 +19,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_disclaimerCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -33,7 +33,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/disclaimer"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_loginDataCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toBottomOf="@id/divider">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -61,7 +61,7 @@
 
                     <TextView
                         android:id="@+id/textView"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/settings_loginHelpText"
                         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -118,7 +118,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_themeCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 app:layout_constraintTop_toBottomOf="@id/divider2">
 
                 <androidx.constraintlayout.widget.ConstraintLayout style="?attr/settingsLayoutStyle">
@@ -131,7 +131,7 @@
 
                     <TextView
                         android:id="@+id/settings_themeCard_explanation"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="@string/settings_themeCard_explanation"
                         app:layout_constraintTop_toBottomOf="@id/settings_themeCard_headline" />
 
@@ -171,7 +171,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_timespanCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/divider3">
 
@@ -184,7 +184,7 @@
 
                     <TextView
                         android:id="@+id/textView6"
-                        style="@style/SettingsCardText.Explanation"
+                        style="@style/SettingsCardTextViewStyle.Explanation"
                         android:text="You can change how far the schedule is downloaded here."
                         app:layout_constraintTop_toBottomOf="@id/textView4" />
 
@@ -199,7 +199,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/settings_backendCard"
-                style="@style/SettingsCard"
+                style="?attr/settingsCardStyle"
                 android:layout_marginBottom="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider4">
