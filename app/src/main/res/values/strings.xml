@@ -34,7 +34,7 @@
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">You can change the URL used for making requests. Click the button below to reset it to the default value.</string>
     <string name="settings_backendHint">Backend URL</string>
-    <string name="schedule_refreshFailed">Refresh Failed. Try to force refresh.<br />Also check your login info and the backend URL in settings.</string>
+    <string name="schedule_refreshFailed">Refresh Failed. Swipe down to retry or check settings.</string>
     <string name="settings_backendResetBtnContentDescr">Reset Backend URL</string>
     <string name="firstlaunch_hello">Hello</string>
     <string name="firstlaunch_there">there.</string>
@@ -46,7 +46,7 @@
     <string name="schedule_lastRefresh">Last download</string>
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
     <string name="firstlaunch_confirmCaption">Understood - Open Settings</string>
-    <string name="schedule_noCachedWaitForDownload">There is no offline data. Please wait for the download to complete. You can try again by swiping down.</string>
+    <string name="schedule_noCachedWaitForDownload">There is no offline data. Swipe down to retry.</string>
     <string name="settings_theme_black">Black (Beta)</string>
     <string name="settings_theme_dark">Night</string>
     <string name="settings_theme_light">Day</string>
@@ -59,4 +59,9 @@
     <string name="settings_theme_restartButton">Resart</string>
     <string name="url_selfservice" translatable="false">https://selfservice.campus-dual.de</string>
     <string name="settings_backendReset">Reset</string>
+    <string name="settings_forceSecureConnectionEnabledExplanation">An invalid server certificate will result in a failed download</string>
+    <string name="settings_forceSecureConnectionDisabledExplanation">All certificates will be accepted, authentication errors ignored</string>
+    <string name="settings_forceSecureConnectionLabel">Force secure connection</string>
+    <string name="schedule_lastBackgroundFailed">The last background download failed!</string>
+    <string name="action_refresh">Refresh schedule</string>
 </resources>

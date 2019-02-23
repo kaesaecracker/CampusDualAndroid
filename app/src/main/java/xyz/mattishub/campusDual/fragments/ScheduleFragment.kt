@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.*
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +87,11 @@ class ScheduleFragment : Fragment() {
             val successMsg = context!!.getString(R.string.schedule_elementsLoaded) + ": " +
                     it.size + " | " + getString(R.string.schedule_lastRefresh) +
                     ": " + lastRefreshDate.toString()
-            this@ScheduleFragment.showMessage(successMsg)
+
+            val lastBackgroundStatus = PreferenceManager.getDefaultSharedPreferences(context).getString(setting_last_background_state, null)
+                    ?: "SUCCESS"
+            if (lastBackgroundStatus == "SUCCESS") this@ScheduleFragment.showMessage(successMsg)
+            else this@ScheduleFragment.showMessage(R.string.schedule_lastBackgroundFailed)
 
             isFirstRefresh = false
         })
@@ -96,6 +101,7 @@ class ScheduleFragment : Fragment() {
         inflater.inflate(R.menu.schedule_menu, menu)
         if (menu == null) return
 
+        tintMenuIcon(this.context!!, menu, R.id.action_refresh, R.color.colorLightOnPrimary)
         tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorLightOnPrimary)
         tintMenuIcon(this.context!!, menu, R.id.action_links, R.color.colorLightOnPrimary)
 
@@ -123,6 +129,8 @@ class ScheduleFragment : Fragment() {
                 openChromeCustomTab(getString(R.string.url_selfservice), context!!)
             R.id.action_playstore ->
                 openPlayStore()
+            R.id.action_refresh ->
+                mainActivity.globalViewModel.downloadSchedule {}
             else -> return false
         }
 

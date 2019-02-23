@@ -2,15 +2,15 @@ package xyz.mattishub.campusDual
 
 import android.content.Context
 import android.preference.PreferenceManager
-import android.provider.Settings
 import android.util.Log.d
 import android.util.Log.w
 import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.core.Method
 import org.joda.time.DateTime
 import xyz.mattishub.campusDual.fragments.SettingsFragment
 import java.net.MalformedURLException
 import java.net.URL
+import java.security.SecureRandom
 import java.security.cert.X509Certificate
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
@@ -23,6 +23,23 @@ const val LastRefreshSettingsKey: String = "pref_last_download_v2"
 private const val LogTag: String = "download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
+    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    prefs.edit().remove(setting_last_background_state).apply()
+
+    fun getBackendUrl(): String {
+        val urlFromSettings = prefs.getString(SettingsFragment.setting_backend, null)
+                ?: context.getString(R.string.url_default_backend)
+        return try {
+            URL(urlFromSettings)
+            urlFromSettings
+        } catch (ex: MalformedURLException) {
+            w(LogTag, "URL in settings not valid, using default one")
+            val defaultBackend = context.getString(R.string.url_default_backend)
+            prefs.edit().putString(SettingsFragment.setting_backend, defaultBackend).apply()
+            defaultBackend
+        }
+    }
+
     fun jsonToInternal(jsonLessons: List<JsonLesson>): LessonList {
         val schedule = mutableListOf<Lesson>()
         for (jsonLesson in jsonLessons) {
@@ -42,33 +59,30 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
         return LessonList(schedule)
     }
 
-    FuelManager.instance.apply {
-        val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
-            override fun getAcceptedIssuers(): Array<X509Certificate>? = null
-            override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) = Unit
-            override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) = Unit
-        })
+    fun getFuelInstance(): FuelManager {
+        val settingForceSecure = prefs.getBoolean(SettingsFragment.setting_force_secure, false)
+        val instance = FuelManager()
+        if (!settingForceSecure) instance.apply {
+            val trustAllCerts = arrayOf<TrustManager>(object : X509TrustManager {
+                override fun getAcceptedIssuers(): Array<X509Certificate>? = null
+                override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) = Unit
+                override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) = Unit
+            })
 
-        socketFactory = SSLContext.getInstance("SSL").apply {
-            init(null, trustAllCerts, java.security.SecureRandom())
-        }.socketFactory
+            socketFactory = SSLContext.getInstance("SSL").apply {
+                init(null, trustAllCerts, SecureRandom())
+            }.socketFactory
 
-        hostnameVerifier =  HostnameVerifier { _, _ -> true }
+            hostnameVerifier = HostnameVerifier { _, _ -> true }
+        }
+
+        return instance
     }
 
-    val prefs = PreferenceManager.getDefaultSharedPreferences(context)
     val userId = prefs.getString(SettingsFragment.setting_matric, "") ?: ""
     val hash = prefs.getString(SettingsFragment.setting_hash, "") ?: ""
-    var urlBase = prefs.getString(SettingsFragment.setting_backend, context.getString(R.string.url_default_backend))
-            ?: ""
-    try {
-        URL(urlBase)
-    } catch (ex: MalformedURLException) {
-        w(LogTag, "URL in settings not valid, using default one")
-        val defaultBackend = context.getString(R.string.url_default_backend)
-        prefs.edit().putString(SettingsFragment.setting_backend, defaultBackend).apply()
-        urlBase = defaultBackend
-    }
+    val urlBase = getBackendUrl()
+    val fuel = getFuelInstance()
 
     val now = DateTime(AppTimeZone)
     val today = now
@@ -78,7 +92,7 @@ fun downloadAndSaveToSettings(context: Context): Boolean {
             .withMillisOfSecond(0)
     val inWeeks = today.plusWeeks(20)
 
-    val (_, _, result) = urlBase.httpGet(listOf(
+    val (_, _, result) = fuel.request(Method.GET, urlBase, listOf(
             "userid" to userId,
             "hash" to hash,
             "start" to today.getUnixTimestamp(),
