@@ -43,4 +43,7 @@
     <string name="action_selfservice">Selfservice</string>
     <string name="action_links">Links</string>
     <string name="settings_backendReset">Zurücksetzen</string>
+    <string name="settings_forceSecureConnectionDisabledExplanation">Alle Zertifikate werden akzeptiert, Authentifizierungsfehler ingoriert</string>
+    <string name="settings_forceSecureConnectionEnabledExplanation">Ein ungültiges Server-Zertifikat führt zu einem fehlgeschlagenen Download</string>
+    <string name="settings_forceSecureConnectionLabel">Sichere Verbindung erzwingen</string>
 </resources>

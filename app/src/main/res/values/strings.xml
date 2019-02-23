@@ -59,4 +59,7 @@
     <string name="settings_theme_restartButton">Resart</string>
     <string name="url_selfservice" translatable="false">https://selfservice.campus-dual.de</string>
     <string name="settings_backendReset">Reset</string>
+    <string name="settings_forceSecureConnectionEnabledExplanation">An invalid server certificate will result in a failed download</string>
+    <string name="settings_forceSecureConnectionDisabledExplanation">All certificates will be accepted, authentication errors ignored</string>
+    <string name="settings_forceSecureConnectionLabel">Force secure connection</string>
 </resources>
