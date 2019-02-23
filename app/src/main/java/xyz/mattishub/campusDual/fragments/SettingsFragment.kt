@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class SettingsFragment : Fragment() {
         const val setting_theme_light = "light"
         const val setting_theme_dark = "dark"
         const val setting_theme_black = "black"
+        const val setting_force_secure = "setting_force_secure"
     }
 
     open class DefaultTextWatcher : TextWatcher {
@@ -145,6 +147,25 @@ class SettingsFragment : Fragment() {
                             .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     )
                 }
+            }
+        }
+
+        fun refreshForceSecureConnectionExplanation(isEnabled: Boolean) {
+            view.settings_forceSecureConnectionText.text = if (isEnabled)
+                getString(R.string.settings_forceSecureConnectionEnabledExplanation)
+            else
+                getString(R.string.settings_forceSecureConnectionDisabledExplanation)
+        }
+
+        val settingForceSecure = prefs.getBoolean(setting_force_secure, false)
+        refreshForceSecureConnectionExplanation(settingForceSecure)
+        view.settings_forceSecureConnectionSwitch.apply {
+            isChecked = settingForceSecure
+            setOnCheckedChangeListener { _, isChecked ->
+                prefs.edit()
+                        .putBoolean(setting_force_secure, isChecked)
+                        .apply()
+                refreshForceSecureConnectionExplanation(isChecked)
             }
         }
 
