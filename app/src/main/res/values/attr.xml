@@ -6,5 +6,4 @@
     <attr name="settingsHeadlineStyle" format="reference" />
     <attr name="settingsLayoutStyle" format="reference" />
     <attr name="settingsDividerStyle" format="reference" />
-    <attr name="settingsCardStyle" format="reference" />
 </resources>
