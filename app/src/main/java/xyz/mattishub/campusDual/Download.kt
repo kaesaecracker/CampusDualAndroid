@@ -24,6 +24,7 @@ private const val LogTag: String = "download"
 
 fun downloadAndSaveToSettings(context: Context): Boolean {
     val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+    prefs.edit().remove(setting_last_background_state).apply()
 
     fun getBackendUrl(): String {
         val urlFromSettings = prefs.getString(SettingsFragment.setting_backend, null)
