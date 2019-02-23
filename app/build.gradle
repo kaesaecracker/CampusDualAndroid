@@ -93,4 +93,9 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'net.danlew:android.joda:2.10.1'
+
+    // leak canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
 }
