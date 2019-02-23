@@ -96,6 +96,7 @@ class ScheduleFragment : Fragment() {
         inflater.inflate(R.menu.schedule_menu, menu)
         if (menu == null) return
 
+        tintMenuIcon(this.context!!, menu, R.id.action_refresh, R.color.colorLightOnPrimary)
         tintMenuIcon(this.context!!, menu, R.id.action_schedule_to_settings, R.color.colorLightOnPrimary)
         tintMenuIcon(this.context!!, menu, R.id.action_links, R.color.colorLightOnPrimary)
 
@@ -123,6 +124,8 @@ class ScheduleFragment : Fragment() {
                 openChromeCustomTab(getString(R.string.url_selfservice), context!!)
             R.id.action_playstore ->
                 openPlayStore()
+            R.id.action_refresh ->
+                mainActivity.globalViewModel.downloadSchedule {}
             else -> return false
         }
 

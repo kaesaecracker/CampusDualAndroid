@@ -21,7 +21,7 @@
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">Du kannst die URL für Anfragen ändern. Klicke auf den Knopf unten, um sie wieder auf den Standardwert zu setzen.</string>
     <string name="settings_backendHint">Backend URL</string>
-    <string name="schedule_refreshFailed">Aktualisieren Fehlgeschlagen. Versuche den Stundenplan neu herunter zu laden.<br />Prüfe deine Logindaten und Backend-URL in den Einstellungen.</string>
+    <string name="schedule_refreshFailed">Aktualisieren Fehlgeschlagen. Einstellungen prüfen und erneut versuchen.</string>
     <string name="settings_backendResetBtnContentDescr">Backend URL zurücksetzen</string>
     <string name="firstlaunch_hello">Hallo</string>
     <string name="firstlaunch_there">du!</string>
@@ -31,7 +31,7 @@
     <string name="firstlaunch_confirmCaption">Verstanden - Einstellungen öffnen</string>
     <string name="schedule_lastRefresh">Stand</string>
     <string name="schedule_elementsLoaded">Stunden</string>
-    <string name="schedule_noCachedWaitForDownload">Keine Offlinedateien gefunden. Bitte warte, bis der Download abgeschlossen ist. Du kannst es erneut versuchen, indem du nach unten wischst.</string>
+    <string name="schedule_noCachedWaitForDownload">Keine Offlinedateien gefunden - Einstellungen prüfen</string>
     <string name="settings_theme_black">Schwarz (Beta)</string>
     <string name="settings_theme_dark">Nacht</string>
     <string name="settings_theme_light">Tag</string>
