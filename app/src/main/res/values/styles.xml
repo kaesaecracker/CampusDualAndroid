@@ -25,6 +25,12 @@
         <item name="settingsHeadlineStyle">@style/SettingsCardText.Headline</item>
         <item name="settingsLayoutStyle">@style/SettingsCardLayout</item>
         <item name="settingsDividerStyle">@style/SettingsDivider</item>
+
+        <item name="widgetStyle">@style/ScheduleWidget</item>
+        <item name="widgetHeaderStyle">@style/ScheduleWidgetHeader</item>
+        <item name="widgetHeaderTextStyle">@style/ScheduleWidgetHeaderText</item>
+        <item name="widgetLessonTextStyle">@style/ScheduleWidgetLessonText</item>
+        <item name="widgetLessonIconStyle">@style/ScheduleWidgetLessonIcon</item>
     </style>
 
     <style name="CurrentAppTheme" parent="AppTheme" />
@@ -60,13 +66,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">16dp</item>
-        <item name="android:minHeight">48dp </item>
+        <item name="android:minHeight">48dp</item>
     </style>
 
     <style name="SettingsCardRadioGroupButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>
-        
+
     </style>
 
     <style name="SettingsCardText" parent="">
@@ -135,6 +141,30 @@
 
     <style name="ScheduleLessonIcon.Dark">
         <item name="android:tint">@android:color/darker_gray</item>
+    </style>
+
+    <style name="ScheduleWidget" parent="">
+        <item name="android:divider">@color/colorIcons</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="ScheduleWidgetHeader" parent="">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="ScheduleWidgetHeaderText" parent="">
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/colorLightOnPrimary</item>
+    </style>
+
+    <style name="ScheduleWidgetLessonText" parent="@style/ScheduleLessonText">
+        <item name="android:lines">1</item>
+        <item name="android:textSize">13.5sp</item>
+    </style>
+
+    <style name="ScheduleWidgetLessonIcon" parent="@style/ScheduleLessonIcon">
+
     </style>
 
 </resources>

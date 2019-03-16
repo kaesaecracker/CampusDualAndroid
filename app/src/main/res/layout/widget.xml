@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@style/CurrentAppTheme">
 
     <include
         layout="@layout/widget_header"
@@ -9,10 +10,9 @@
 
     <ListView
         android:id="@+id/widget_lessonList"
+        style="?attr/widgetStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/widget_header"
-        android:divider="@color/colorIcons"
-        android:dividerHeight="1dp"/>
+        android:layout_below="@id/widget_header" />
 
 </RelativeLayout>

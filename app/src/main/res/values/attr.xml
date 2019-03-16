@@ -6,4 +6,9 @@
     <attr name="settingsHeadlineStyle" format="reference" />
     <attr name="settingsLayoutStyle" format="reference" />
     <attr name="settingsDividerStyle" format="reference" />
+    <attr name="widgetStyle" format="reference" />
+    <attr name="widgetHeaderStyle" format="reference" />
+    <attr name="widgetHeaderTextStyle" format="reference" />
+    <attr name="widgetLessonTextStyle" format="reference" />
+    <attr name="widgetLessonIconStyle" format="reference" />
 </resources>
