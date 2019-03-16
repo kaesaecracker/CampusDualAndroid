@@ -64,4 +64,5 @@
     <string name="settings_forceSecureConnectionLabel">Force secure connection</string>
     <string name="schedule_lastBackgroundFailed">The last background download failed!</string>
     <string name="action_refresh">Refresh schedule</string>
+    <string name="widget_not_available">Wiget not available on Android Lollipop</string>
 </resources>

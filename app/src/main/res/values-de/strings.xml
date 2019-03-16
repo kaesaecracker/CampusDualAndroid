@@ -46,4 +46,5 @@
     <string name="settings_forceSecureConnectionDisabledExplanation">Alle Zertifikate werden akzeptiert, Authentifizierungsfehler ingoriert</string>
     <string name="settings_forceSecureConnectionEnabledExplanation">Ein ungültiges Server-Zertifikat führt zu einem fehlgeschlagenen Download</string>
     <string name="settings_forceSecureConnectionLabel">Sichere Verbindung erzwingen</string>
+    <string name="widget_not_available">Widget nicht verfügbar in Android Lollipop</string>
 </resources>
