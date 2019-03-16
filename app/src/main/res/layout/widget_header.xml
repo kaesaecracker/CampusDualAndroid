@@ -1,52 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_header"
+    style="?attr/widgetHeaderStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignWithParentIfMissing="false"
     android:layout_alignParentStart="true"
-    android:background="@color/colorPrimary"
-    android:padding="8dp">
+    android:theme="@style/CurrentAppTheme">
 
     <TextView
         android:id="@+id/widget_header_weekday"
+        style="?attr/widgetHeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:lines="1"
         android:text="@string/sample_weekday"
-        android:textColor="@color/colorLightOnPrimary"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/widget_header_date"
+        style="?attr/widgetHeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/widget_header_weekday"
         android:layout_alignParentStart="true"
-        android:lines="1"
-        android:text="@string/sample_date"
-        android:textColor="@color/colorLightOnPrimary" />
+        android:text="@string/sample_date" />
 
     <TextView
         android:id="@+id/widget_header_lessonCount"
+        style="?attr/widgetHeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@id/widget_header_weekday"
         android:gravity="end"
-        android:lines="1"
-        android:text="@string/sample_lessons"
-        android:textColor="@color/colorLightOnPrimary" />
+        android:text="@string/sample_lessons" />
 
     <TextView
         android:id="@+id/widget_header_fromTo"
+        style="?attr/widgetHeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/widget_header_lessonCount"
         android:layout_alignParentEnd="true"
-        android:lines="1"
-        android:text="@string/sample_timespan"
-        android:textColor="@color/colorLightOnPrimary" />
+        android:text="@string/sample_timespan" />
 </RelativeLayout>

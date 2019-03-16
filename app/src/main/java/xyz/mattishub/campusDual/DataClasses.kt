@@ -22,9 +22,9 @@ data class Lesson(var title: String = "",
                   val room: String,
                   val instructor: String) {
     val start: DateTime
-        get() = DateTime(startEpoch * 1000, DateTimeZone.forOffsetHours(+1))
+        get() = DateTime(startEpoch * 1000, AppTimeZone)
     val end: DateTime
-        get() = DateTime(endEpoch * 1000, DateTimeZone.forOffsetHours(+1))
+        get() = DateTime(endEpoch * 1000, AppTimeZone)
 
     var isFirstOfDay = false
 }

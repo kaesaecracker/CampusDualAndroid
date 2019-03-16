@@ -63,7 +63,7 @@ android {
 
 dependencies {
     def ktxCoroutinesVer = "1.0.1"
-    def anxNavigationVer = "1.0.0-rc01"
+    def anxNavigationVer = "1.0.0"
     def fuelVer = "2.0.1"
 
     // google and kotlin stuff
@@ -77,7 +77,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ktxCoroutinesVer"
 
     // background workers
-    implementation 'android.arch.work:work-runtime-ktx:1.0.0-rc02'
+    implementation 'android.arch.work:work-runtime-ktx:1.0.0'
 
     // navigation
     implementation "android.arch.navigation:navigation-fragment-ktx:$anxNavigationVer"
@@ -94,7 +94,7 @@ dependencies {
     implementation "com.github.kittinunf.fuel:fuel:$fuelVer"
     implementation "com.github.kittinunf.fuel:fuel-android:$fuelVer"
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'net.danlew:android.joda:2.10.1'
+    implementation 'joda-time:joda-time:2.10.1'
 
     // leak canary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
