@@ -17,7 +17,7 @@
     <string name="settings_loginHelpText">Bitte gib deine Matrikelnummer (ohne \'s\') und deinen Campus Dual-Hash ein. Wenn du nicht weißt, was der Hash ist oder wie du ihn bekommst, klicke auf diesen Link: https://mattishub.xyz/j/cdhash</string>
     <string name="settings_logindata">Campus Dual Login</string>
     <string name="disclaimerTitle">Hinweis</string>
-    <string name="disclaimer">Diese App wird nicht von der Berufsakademie Sachsen betrieben oder in irgendeiner Form unterstützt. Die Benutzung erfolgt \"auf eigene Gefahr\". <br /> Die offizielle Website der BA Dresden findest du unter: https://www.ba-dresden.de. <br /><br /> Die Informationen, die du in dieser App eingibst bleiben auf dem Gerät. Diese App enthält auch kein Tracking oder ähnliches. Die Netzwerkanfragen an die eingestellte URL enthalten deine Matrikelnummer und deinen Hash.</string>
+    <string name="disclaimer">Diese App wird nicht von der Berufsakademie Sachsen betrieben oder in irgendeiner Form unterstützt. Die Benutzung erfolgt \"auf eigene Gefahr\". \nDie offizielle Website der BA Dresden findest du unter: https://www.ba-dresden.de. <br /><br /> Die Informationen, die du in dieser App eingibst bleiben auf dem Gerät. Diese App enthält auch kein Tracking oder ähnliches. Die Netzwerkanfragen an die eingestellte URL enthalten deine Matrikelnummer und deinen Hash.</string>
     <string name="settings_backendTitle">Backend</string>
     <string name="settings_backendDescription">Du kannst die URL für Anfragen ändern. Klicke auf den Knopf unten, um sie wieder auf den Standardwert zu setzen.</string>
     <string name="settings_backendHint">Backend URL</string>
@@ -26,7 +26,7 @@
     <string name="firstlaunch_hello">Hallo</string>
     <string name="firstlaunch_there">du!</string>
     <string name="firstlaunch_text">Sieht aus, als würdest du die App das erste Mal starten.</string>
-    <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.\\n\\nBitte lies außerdem den folgenden Hinweis:</string>
+    <string name="firstlaunch_changeSettings">Um die App nutzen zu können musst du in den Einstellungen Login-Daten eintragen.<br /> Bitte lies außerdem den folgenden Hinweis:</string>
     <string name="firstlaunch_baLogoContentDescr">BA Logo</string>
     <string name="firstlaunch_confirmCaption">Verstanden - Einstellungen öffnen</string>
     <string name="schedule_lastRefresh">Stand</string>
@@ -46,5 +46,7 @@
     <string name="settings_forceSecureConnectionDisabledExplanation">Alle Zertifikate werden akzeptiert, Authentifizierungsfehler ingoriert</string>
     <string name="settings_forceSecureConnectionEnabledExplanation">Ein ungültiges Server-Zertifikat führt zu einem fehlgeschlagenen Download</string>
     <string name="settings_forceSecureConnectionLabel">Sichere Verbindung erzwingen</string>
+    <string name="action_refresh">Plan aktualisieren</string>
+    <string name="schedule_lastBackgroundFailed">Der letzte Hintergrund-Download ist fehlgeschlagen!</string>
     <string name="widget_not_available">Widget nicht verfügbar in Android Lollipop</string>
 </resources>

@@ -39,7 +39,7 @@
     <string name="firstlaunch_hello">Hello</string>
     <string name="firstlaunch_there">there.</string>
     <string name="firstlaunch_text">It seems like it is the first time you have launched this app.</string>
-    <string name="firstlaunch_changeSettings">You will have to change the login data in the settings for full functionality.\\n\\nPlease also read the following notice:</string>
+    <string name="firstlaunch_changeSettings">You will have to change the login data in the settings for full functionality.\n\nPlease also read the following notice:</string>
     <string name="firstlaunch_title" translatable="false">First Launch</string>
     <string name="schedule_elementsLoaded">Lessons</string>
     <string name="format_datetime" translatable="false">dd.MM. HH:mm</string>
