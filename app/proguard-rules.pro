@@ -14,3 +14,4 @@
 
 -keep class kotlinx.coroutines.** { *; }
 -keep class org.joda.time.tz.data.ZoneInfoMap { *; }
+-keeppackagenames org.joda.time.ts.data

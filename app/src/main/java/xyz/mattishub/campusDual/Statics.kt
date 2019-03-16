@@ -17,8 +17,7 @@ import com.google.gson.reflect.TypeToken
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 
-
-val AppTimeZone: DateTimeZone = DateTimeZone.forOffsetHours(+1)
+val AppTimeZone: DateTimeZone = DateTimeZone.forID("Europe/Berlin")
 
 fun DateTime.getUnixTimestamp() = this.millis / 1000
 
@@ -74,7 +73,7 @@ val Fragment.mainActivity: MainActivity
 fun SharedPreferences.Editor.put(pair: Pair<String, Any>): SharedPreferences.Editor {
     val key = pair.first
     val value = pair.second
-    when (value) {
+    return when (value) {
         is String -> putString(key, value)
         is Int -> putInt(key, value)
         is Boolean -> putBoolean(key, value)
@@ -82,6 +81,4 @@ fun SharedPreferences.Editor.put(pair: Pair<String, Any>): SharedPreferences.Edi
         is Float -> putFloat(key, value)
         else -> error("Only primitive types can be stored in SharedPreferences")
     }
-
-    return this
 }
